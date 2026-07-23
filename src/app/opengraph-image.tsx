@@ -15,7 +15,7 @@ export default async function OpengraphImage() {
           alignItems: "center",
           justifyContent: "center",
           backgroundImage:
-            "radial-gradient(60% 50% at 50% 20%, rgba(95,168,211,0.35), transparent), radial-gradient(80% 60% at 80% 90%, rgba(193,80,46,0.28), transparent), linear-gradient(180deg, #071A2C 0%, #0E2A44 55%, #071A2C 100%)",
+            "radial-gradient(60% 50% at 50% 20%, rgba(95,168,211,0.20), transparent), radial-gradient(80% 60% at 80% 90%, rgba(193,80,46,0.14), transparent), linear-gradient(180deg, #ffffff 0%, #f7f5f1 55%, #ffffff 100%)",
           padding: "80px",
         }}
       >
@@ -26,9 +26,9 @@ export default async function OpengraphImage() {
             gap: 16,
             padding: "10px 28px",
             borderRadius: 999,
-            background: "rgba(245,239,230,0.1)",
-            border: "1px solid rgba(245,239,230,0.25)",
-            color: "#F5EFE6",
+            background: "rgba(7,26,44,0.05)",
+            border: "1px solid rgba(7,26,44,0.14)",
+            color: "#071A2C",
             fontSize: 28,
             letterSpacing: 2,
             textTransform: "uppercase",
@@ -41,7 +41,7 @@ export default async function OpengraphImage() {
             marginTop: 40,
             fontSize: 108,
             fontWeight: 800,
-            color: "#F5EFE6",
+            color: "#071A2C",
             display: "flex",
           }}
         >
@@ -51,7 +51,7 @@ export default async function OpengraphImage() {
           style={{
             marginTop: 24,
             fontSize: 40,
-            color: "#C1502E",
+            color: "#A83E22",
             fontWeight: 600,
             display: "flex",
             textAlign: "center",

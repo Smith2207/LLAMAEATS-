@@ -13,7 +13,7 @@
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-display);
 
-  /* Titicaca de noche: azules profundos + acento terracota */
+  /* Lago Titicaca: azules profundos + acento terracota, sobre superficies claras */
   --color-titicaca-950: #071a2c;
   --color-titicaca-900: #0e2a44;
   --color-titicaca-800: #133b5c;
@@ -68,58 +68,62 @@
 }
 
 /*
-  LlamaEats es una estética fija ("lago Titicaca de noche"), no un tema
-  claro/oscuro alternable: :root y .dark comparten la misma paleta nocturna.
+  LlamaEats es una estética fija ("lago Titicaca de día", minimalista sobre
+  blanco), no un tema claro/oscuro alternable: :root y .dark comparten la
+  misma paleta clara. Todos los pares texto/fondo de este bloque están
+  validados con la skill `dataviz` (contraste WCAG + separación CVD para los
+  colores de charts) — ver comentarios puntuales.
 */
 :root,
 .dark {
-  --background: #071a2c;
-  --foreground: #f5efe6;
-  --card: #0e2a44;
-  --card-foreground: #f5efe6;
-  --popover: #0e2a44;
-  --popover-foreground: #f5efe6;
-  /* Terracota-600, no terracota-500: como fondo sólido de botón necesita
-     ~4.5:1 de contraste contra el texto sand-100 que lleva encima (medido y
-     validado con la skill `dataviz`; terracota-500 solo llegaba a 4.12:1). */
+  --background: #ffffff;
+  --foreground: #071a2c;
+  --card: #f7f5f1;
+  --card-foreground: #071a2c;
+  --popover: #ffffff;
+  --popover-foreground: #071a2c;
+  /* Terracota-600: como texto sobre blanco da 6.22:1 y como fondo de botón
+     con texto blanco encima también 6.22:1 — un solo tono cubre los dos
+     roles sin necesitar variantes distintas (a diferencia del tema oscuro
+     anterior, donde sí hacía falta separar fondo/texto). */
   --primary: #a83e22;
-  --primary-foreground: #f5efe6;
-  --secondary: #133b5c;
-  --secondary-foreground: #f5efe6;
-  --muted: #133b5c;
-  --muted-foreground: #9fb3c8;
-  --accent: #1b4965;
-  --accent-foreground: #f5efe6;
-  --destructive: #e5484d;
+  --primary-foreground: #ffffff;
+  --secondary: #eef2f6;
+  --secondary-foreground: #0e2a44;
+  --muted: #f1efea;
+  --muted-foreground: #5b7183;
+  --accent: #e4ecf2;
+  --accent-foreground: #0e2a44;
+  --destructive: #dc2626;
   /* Verde de estado reservado (confirmado/en curso/verificado) — distinto de
      los tonos categóricos de los charts, siempre con ícono o etiqueta al
      lado, nunca solo por color (regla de la skill `dataviz`). */
-  --success: #34d399;
-  --success-foreground: #052e1f;
-  --border: rgba(245, 239, 230, 0.12);
-  --input: rgba(245, 239, 230, 0.16);
-  --ring: #5fa8d3;
-  /* Paleta categórica validada (contraste + CVD) contra la superficie oscura
-     de las tarjetas — ver `dataviz` skill. blue=reservas, terracota=ingresos,
-     aqua=ocupación, red=cancelaciones. */
+  --success: #047857;
+  --success-foreground: #ffffff;
+  --border: rgba(7, 26, 44, 0.12);
+  --input: rgba(7, 26, 44, 0.16);
+  --ring: #275f80;
+  /* Paleta categórica — blue=reservas, terracota=ingresos, aqua=ocupación,
+     red=cancelaciones. Re-validada con la skill `dataviz` contra la nueva
+     superficie clara de las tarjetas (#f7f5f1): sigue en PASS. */
   --chart-1: #3987e5;
   --chart-2: #d95926;
   --chart-3: #199e70;
   --chart-4: #e66767;
   --chart-5: #9085e9;
   --radius: 0.75rem;
-  --sidebar: #0e2a44;
-  --sidebar-foreground: #f5efe6;
-  --sidebar-primary: #c1502e;
-  --sidebar-primary-foreground: #f5efe6;
-  --sidebar-accent: #1b4965;
-  --sidebar-accent-foreground: #f5efe6;
-  --sidebar-border: rgba(245, 239, 230, 0.12);
-  --sidebar-ring: #5fa8d3;
+  --sidebar: #f7f5f1;
+  --sidebar-foreground: #071a2c;
+  --sidebar-primary: #a83e22;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #e4ecf2;
+  --sidebar-accent-foreground: #0e2a44;
+  --sidebar-border: rgba(7, 26, 44, 0.12);
+  --sidebar-ring: #275f80;
 
-  /* Glassmorphism sutil */
-  --glass-bg: rgba(245, 239, 230, 0.06);
-  --glass-border: rgba(245, 239, 230, 0.14);
+  /* Glassmorphism sutil, ahora sobre superficies claras */
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --glass-border: rgba(7, 26, 44, 0.08);
 }
 
 @layer base {
@@ -150,9 +154,9 @@
     background-image: linear-gradient(
       100deg,
       transparent 20%,
-      rgba(245, 239, 230, 0.08) 40%,
-      rgba(245, 239, 230, 0.16) 50%,
-      rgba(245, 239, 230, 0.08) 60%,
+      rgba(255, 255, 255, 0.4) 40%,
+      rgba(255, 255, 255, 0.7) 50%,
+      rgba(255, 255, 255, 0.4) 60%,
       transparent 80%
     );
     background-size: 200% 100%;

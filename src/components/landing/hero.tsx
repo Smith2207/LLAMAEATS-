@@ -25,11 +25,10 @@ export function Hero({
             className="absolute inset-0"
             style={{
               background:
-                "radial-gradient(60% 50% at 50% 20%, rgba(95,168,211,0.25), transparent), radial-gradient(80% 60% at 80% 90%, rgba(193,80,46,0.18), transparent), linear-gradient(180deg, #071A2C 0%, #0E2A44 55%, #071A2C 100%)",
+                "radial-gradient(60% 50% at 50% 20%, rgba(95,168,211,0.16), transparent), radial-gradient(80% 60% at 80% 90%, rgba(193,80,46,0.10), transparent), linear-gradient(180deg, #ffffff 0%, #f7f5f1 55%, #ffffff 100%)",
             }}
           />
         </ScrollParallax>
-        <div className="absolute inset-0 bg-[radial-gradient(1px_1px_at_20%_30%,#F5EFE6_1px,transparent_0),radial-gradient(1px_1px_at_70%_15%,#F5EFE6_1px,transparent_0),radial-gradient(1px_1px_at_40%_60%,#F5EFE6_1px,transparent_0),radial-gradient(1px_1px_at_85%_70%,#F5EFE6_1px,transparent_0)] opacity-30" />
       </div>
 
       <div className="mx-auto flex max-w-3xl flex-col items-center gap-6 px-4 text-center">
