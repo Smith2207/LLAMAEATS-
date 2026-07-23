@@ -19,10 +19,31 @@ const manrope = Manrope({
   weight: ["400", "500", "600", "700"],
 });
 
+const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+const title = "LlamaEats — Reserva tu mesa en Puno";
+const description =
+  "¿Cansado de hacer fila para comer en Puno? LlamaEats te asegura tu mesa en minutos.";
+
 export const metadata: Metadata = {
-  title: "LlamaEats — Reserva tu mesa en Puno",
-  description:
-    "¿Cansado de hacer fila para comer en Puno? LlamaEats te asegura tu mesa en minutos.",
+  metadataBase: new URL(appUrl),
+  title: {
+    default: title,
+    template: "%s — LlamaEats",
+  },
+  description,
+  openGraph: {
+    title,
+    description,
+    url: appUrl,
+    siteName: "LlamaEats",
+    locale: "es_PE",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+  },
 };
 
 export default function RootLayout({

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { requireRole } from "@/lib/auth/session";
 import { getRestaurantsByStatus } from "@/lib/restaurants/queries";
 import { RestaurantApprovalCard } from "@/components/dashboard-admin/restaurant-approval-card";
@@ -26,17 +27,17 @@ export default async function AdminRestaurantesPage({
 
       <div className="mt-4 flex gap-2">
         {STATUSES.map((s) => (
-          <a
+          <Link
             key={s.value}
             href={`/admin/restaurantes?status=${s.value}`}
-            className={`rounded-full border px-3 py-1.5 text-sm ${
+            className={`rounded-full border px-3 py-1.5 text-sm transition-colors ${
               activeStatus === s.value
                 ? "border-primary bg-primary/10 text-primary"
                 : "border-border text-muted-foreground hover:border-primary/50"
             }`}
           >
             {s.label}
-          </a>
+          </Link>
         ))}
       </div>
 

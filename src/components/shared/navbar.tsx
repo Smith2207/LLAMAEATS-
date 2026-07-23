@@ -23,9 +23,10 @@ export async function Navbar({ hidePanelLink = false }: { hidePanelLink?: boolea
           LlamaEats
         </Link>
 
-        <div className="hidden items-center gap-6 text-sm font-medium text-muted-foreground sm:flex">
+        <div className="flex items-center gap-6 text-sm font-medium text-muted-foreground">
           <Link href="/buscar" className="hover:text-foreground">
-            Buscar restaurantes
+            Buscar
+            <span className="hidden sm:inline"> restaurantes</span>
           </Link>
         </div>
 
