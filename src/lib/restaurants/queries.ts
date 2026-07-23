@@ -95,7 +95,7 @@ export async function getRestaurantsByStatus(status?: RestaurantStatus) {
 export async function getRestaurantById(id: string) {
   return db.query.restaurants.findFirst({
     where: eq(restaurants.id, id),
-    with: { owner: true, reviewer: true, firstApprover: true, tables: true },
+    with: { owner: true, reviewer: true, firstApprover: true, presencialVisitByAdmin: true, tables: true },
   });
 }
 

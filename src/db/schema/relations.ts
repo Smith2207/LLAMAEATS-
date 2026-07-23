@@ -37,6 +37,11 @@ export const restaurantsRelations = relations(restaurants, ({ one, many }) => ({
     references: [users.id],
     relationName: "restaurant_first_approver",
   }),
+  presencialVisitByAdmin: one(users, {
+    fields: [restaurants.presencialVisitByAdminId],
+    references: [users.id],
+    relationName: "restaurant_presencial_visit_admin",
+  }),
   tables: many(tables),
   reservations: many(reservations),
   reviews: many(reviews),

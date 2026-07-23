@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import {
+  checkDocumentExpirations,
   expireObservedApplications,
   graduateTrials,
   pauseInactiveRestaurants,
@@ -12,12 +13,13 @@ export async function GET(req: Request) {
     return new NextResponse("Unauthorized", { status: 401 });
   }
 
-  const [expired, graduated, rucCheck, pausedForInactivity] = await Promise.all([
+  const [expired, graduated, rucCheck, pausedForInactivity, documentCheck] = await Promise.all([
     expireObservedApplications(),
     graduateTrials(),
     recheckRucStatus(),
     pauseInactiveRestaurants(),
+    checkDocumentExpirations(),
   ]);
 
-  return NextResponse.json({ expired, graduated, rucCheck, pausedForInactivity });
+  return NextResponse.json({ expired, graduated, rucCheck, pausedForInactivity, documentCheck });
 }

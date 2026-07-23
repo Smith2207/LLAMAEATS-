@@ -1,10 +1,13 @@
 import { notFound } from "next/navigation";
-import { CheckCircle2, ShieldAlert } from "lucide-react";
+import { CheckCircle2, FileCheck, MapPin, ShieldAlert } from "lucide-react";
 import { requireRole } from "@/lib/auth/session";
 import { getRestaurantById } from "@/lib/restaurants/queries";
 import { ModerationActions } from "@/components/dashboard-admin/moderation-actions";
+import { PresencialVisitForm } from "@/components/dashboard-admin/presencial-visit-form";
 import { Badge } from "@/components/ui/badge";
 import { RESTAURANT_CATEGORIES, RESTAURANT_STATUS_LABELS, RISK_LEVEL_LABELS } from "@/lib/constants";
+
+const today = () => new Date().toISOString().slice(0, 10);
 
 export default async function AdminRestaurantDetailPage({
   params,
@@ -140,6 +143,65 @@ export default async function AdminRestaurantDetailPage({
           {restaurant.maxTrialReservations} reservas simultáneas.
         </p>
       )}
+
+      <div className="mt-6 rounded-xl border border-border/60 bg-card p-4">
+        <p className="text-sm font-medium text-foreground">Licencia y certificado sanitario</p>
+        <div className="mt-2 space-y-1 text-sm">
+          {restaurant.municipalLicenseUrl ? (
+            <p
+              className={`flex items-center gap-1.5 ${
+                restaurant.municipalLicenseExpiresAt && restaurant.municipalLicenseExpiresAt < today()
+                  ? "text-destructive"
+                  : "text-success"
+              }`}
+            >
+              <FileCheck className="size-4 shrink-0" />
+              Licencia {restaurant.municipalLicenseNumber} — vence {restaurant.municipalLicenseExpiresAt}
+            </p>
+          ) : (
+            <p className="flex items-center gap-1.5 text-muted-foreground">
+              <ShieldAlert className="size-4 shrink-0" />
+              Sin licencia municipal cargada.
+            </p>
+          )}
+          {restaurant.healthCertificateUrl ? (
+            <p
+              className={`flex items-center gap-1.5 ${
+                restaurant.healthCertificateExpiresAt && restaurant.healthCertificateExpiresAt < today()
+                  ? "text-destructive"
+                  : "text-success"
+              }`}
+            >
+              <FileCheck className="size-4 shrink-0" />
+              Certificado sanitario — vence {restaurant.healthCertificateExpiresAt}
+            </p>
+          ) : (
+            <p className="flex items-center gap-1.5 text-muted-foreground">
+              <ShieldAlert className="size-4 shrink-0" />
+              Sin certificado sanitario cargado.
+            </p>
+          )}
+        </div>
+      </div>
+
+      <div className="mt-6 rounded-xl border border-border/60 bg-card p-4">
+        <p className="text-sm font-medium text-foreground">Verificación presencial</p>
+        {restaurant.presencialVisitAt ? (
+          <p className="mt-2 flex items-start gap-1.5 text-sm text-success">
+            <MapPin className="mt-0.5 size-4 shrink-0" />
+            <span>
+              Visitado el {restaurant.presencialVisitAt.toISOString().slice(0, 10)} por{" "}
+              {restaurant.presencialVisitByAdmin?.name ?? restaurant.presencialVisitByAdmin?.email}
+              {restaurant.presencialVisitNote && `: ${restaurant.presencialVisitNote}`}
+            </span>
+          </p>
+        ) : (
+          <p className="mt-2 text-sm text-muted-foreground">Sin visita presencial registrada.</p>
+        )}
+        <div className="mt-3">
+          <PresencialVisitForm restaurantId={restaurant.id} />
+        </div>
+      </div>
 
       <div className="mt-8">
         <ModerationActions

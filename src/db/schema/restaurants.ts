@@ -73,6 +73,24 @@ export const restaurants = pgTable("restaurants", {
   lastRucCheckAt: timestamp("last_ruc_check_at", { mode: "date", withTimezone: true }),
   pausedReason: text("paused_reason"),
 
+  // --- Licencia municipal y certificado sanitario (§3.2, §3.5) ---
+  // Se monitorea el vencimiento de ambos: aviso único dentro de los 30 días
+  // previos (documentExpiryWarnedAt evita reenviar el correo cada vez que
+  // corre el cron) y suspensión automática al vencer.
+  municipalLicenseUrl: text("municipal_license_url"),
+  municipalLicenseNumber: text("municipal_license_number"),
+  municipalLicenseExpiresAt: date("municipal_license_expires_at", { mode: "string" }),
+  healthCertificateUrl: text("health_certificate_url"),
+  healthCertificateExpiresAt: date("health_certificate_expires_at", { mode: "string" }),
+  documentExpiryWarnedAt: timestamp("document_expiry_warned_at", { mode: "date", withTimezone: true }),
+
+  // --- Verificación presencial opcional (§3.4) ---
+  presencialVisitAt: timestamp("presencial_visit_at", { mode: "date", withTimezone: true }),
+  presencialVisitNote: text("presencial_visit_note"),
+  presencialVisitByAdminId: text("presencial_visit_by_admin_id").references(() => users.id, {
+    onDelete: "set null",
+  }),
+
   createdAt: timestamp("created_at", { mode: "date", withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { mode: "date", withTimezone: true }),
 });

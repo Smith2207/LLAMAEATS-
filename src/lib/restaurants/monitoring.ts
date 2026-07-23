@@ -2,6 +2,7 @@ import { and, eq, inArray, isNull, lt, or, sql } from "drizzle-orm";
 import { db } from "@/db";
 import { reservations, restaurants } from "@/db/schema";
 import { lookupRuc } from "@/lib/ruc/lookup";
+import { sendDocumentExpiryWarningEmail } from "@/lib/email/send";
 
 /** observada con plazo vencido y sin reenvío → caducada (§3.4). */
 export async function expireObservedApplications() {
@@ -99,4 +100,78 @@ export async function pauseInactiveRestaurants() {
     .returning({ id: restaurants.id });
 
   return paused.length;
+}
+
+/**
+ * Vencimiento de licencia municipal y certificado sanitario (§3.2, §3.5):
+ * suspende automáticamente al vencer, y manda un aviso único (no uno por
+ * día) cuando falta un mes o menos — documentExpiryWarnedAt evita repetirlo
+ * hasta que el local suba un documento nuevo.
+ */
+export async function checkDocumentExpirations() {
+  const today = new Date().toISOString().slice(0, 10);
+  const in30Days = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+
+  const candidates = await db.query.restaurants.findMany({
+    where: inArray(restaurants.status, ["aprobada", "activa"]),
+    columns: {
+      id: true,
+      name: true,
+      municipalLicenseExpiresAt: true,
+      healthCertificateExpiresAt: true,
+      documentExpiryWarnedAt: true,
+    },
+    with: { owner: { columns: { email: true } } },
+  });
+
+  let suspended = 0;
+  let warned = 0;
+
+  for (const r of candidates) {
+    const expiredDocs = [
+      r.municipalLicenseExpiresAt && r.municipalLicenseExpiresAt < today ? "Licencia municipal" : null,
+      r.healthCertificateExpiresAt && r.healthCertificateExpiresAt < today ? "Certificado sanitario" : null,
+    ].filter((x): x is string => Boolean(x));
+
+    if (expiredDocs.length > 0) {
+      await db
+        .update(restaurants)
+        .set({
+          status: "suspendida",
+          pausedReason: `${expiredDocs.join(" y ")} vencido(a) (revisión automática)`,
+          updatedAt: new Date(),
+        })
+        .where(eq(restaurants.id, r.id));
+      suspended++;
+      continue;
+    }
+
+    const expiringSoon = [
+      r.municipalLicenseExpiresAt && r.municipalLicenseExpiresAt <= in30Days
+        ? { label: "Licencia municipal", expiresAt: r.municipalLicenseExpiresAt }
+        : null,
+      r.healthCertificateExpiresAt && r.healthCertificateExpiresAt <= in30Days
+        ? { label: "Certificado sanitario", expiresAt: r.healthCertificateExpiresAt }
+        : null,
+    ].filter((x): x is { label: string; expiresAt: string } => Boolean(x));
+
+    if (expiringSoon.length > 0 && !r.documentExpiryWarnedAt && r.owner?.email) {
+      try {
+        await sendDocumentExpiryWarningEmail({
+          to: r.owner.email,
+          restaurantName: r.name,
+          documents: expiringSoon,
+        });
+        warned++;
+      } catch (err) {
+        console.error("No se pudo enviar el aviso de vencimiento de documentos", err);
+      }
+      await db
+        .update(restaurants)
+        .set({ documentExpiryWarnedAt: new Date() })
+        .where(eq(restaurants.id, r.id));
+    }
+  }
+
+  return { suspended, warned };
 }
