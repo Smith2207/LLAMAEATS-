@@ -95,7 +95,7 @@ async function main() {
     openTime: "12:00",
     closeTime: "22:00",
     ownerId: owner.id,
-    status: "aprobado",
+    status: "activa",
   });
   const penaKantuta = await upsertRestaurant({
     name: "Peña Kantuta",
@@ -107,7 +107,7 @@ async function main() {
     openTime: "19:00",
     closeTime: "23:30",
     ownerId: fillerOwner2.id,
-    status: "aprobado",
+    status: "activa",
   });
   const chacraPunena = await upsertRestaurant({
     name: "La Chacra Puneña",
@@ -119,7 +119,7 @@ async function main() {
     openTime: "12:00",
     closeTime: "22:00",
     ownerId: fillerOwner3.id,
-    status: "aprobado",
+    status: "activa",
   });
   const saboresAltiplano = await upsertRestaurant({
     name: "Sabores del Altiplano",
@@ -131,7 +131,7 @@ async function main() {
     openTime: "12:00",
     closeTime: "21:00",
     ownerId: fillerOwner4.id,
-    status: "pendiente",
+    status: "enviada",
   });
 
   console.log("Sembrando mesas...");

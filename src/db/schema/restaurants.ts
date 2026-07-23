@@ -9,7 +9,12 @@ import {
   timestamp,
   uniqueIndex,
 } from "drizzle-orm/pg-core";
-import { restaurantCategoryEnum, restaurantStatusEnum, scheduleExceptionTypeEnum } from "./enums";
+import {
+  restaurantCategoryEnum,
+  restaurantStatusEnum,
+  riskLevelEnum,
+  scheduleExceptionTypeEnum,
+} from "./enums";
 import { users } from "./auth";
 
 export const restaurants = pgTable("restaurants", {
@@ -44,7 +49,30 @@ export const restaurants = pgTable("restaurants", {
   ownerId: text("owner_id")
     .notNull()
     .references(() => users.id, { onDelete: "restrict" }),
-  status: restaurantStatusEnum("status").notNull().default("pendiente"),
+  status: restaurantStatusEnum("status").notNull().default("enviada"),
+
+  // --- Riesgo automático (§3.3), calculado en cada envío/reenvío ---
+  riskLevel: riskLevelEnum("risk_level"),
+  riskSignals: jsonb("risk_signals").$type<string[]>().notNull().default([]),
+
+  // --- Verificación humana (§3.4) ---
+  reviewerId: text("reviewer_id").references(() => users.id, { onDelete: "set null" }),
+  reviewLockedAt: timestamp("review_locked_at", { mode: "date", withTimezone: true }),
+  observationNote: text("observation_note"),
+  observationDeadline: timestamp("observation_deadline", { mode: "date", withTimezone: true }),
+  // Aprobación en dos pasos cuando el riesgo es medio/alto: el primer admin
+  // que aprueba queda registrado aquí; un SEGUNDO admin distinto debe
+  // confirmar para que el estado pase realmente a "aprobada".
+  firstApproverId: text("first_approver_id").references(() => users.id, { onDelete: "set null" }),
+
+  // --- Período de prueba (§3.4) ---
+  trialEndsAt: timestamp("trial_ends_at", { mode: "date", withTimezone: true }),
+  maxTrialReservations: integer("max_trial_reservations").notNull().default(5),
+
+  // --- Vigilancia continua (§3.5) ---
+  lastRucCheckAt: timestamp("last_ruc_check_at", { mode: "date", withTimezone: true }),
+  pausedReason: text("paused_reason"),
+
   createdAt: timestamp("created_at", { mode: "date", withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { mode: "date", withTimezone: true }),
 });

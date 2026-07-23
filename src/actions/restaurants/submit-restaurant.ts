@@ -7,6 +7,7 @@ import { roleActionClient } from "@/lib/actions/safe-action";
 import { submitRestaurantSchema } from "@/lib/validations/restaurant";
 import { slugify } from "@/lib/utils";
 import { lookupRuc } from "@/lib/ruc/lookup";
+import { assessRestaurantRisk } from "@/lib/restaurants/risk";
 
 export const submitRestaurantForApprovalAction = roleActionClient("restaurante")
   .inputSchema(submitRestaurantSchema)
@@ -26,6 +27,15 @@ export const submitRestaurantForApprovalAction = roleActionClient("restaurante")
     // si no, el admin lo revisa a mano con el documento adjunto.
     const rucInfo = await lookupRuc(parsedInput.ruc);
 
+    const risk = await assessRestaurantRisk({
+      name: parsedInput.name,
+      address: parsedInput.address,
+      district: parsedInput.district,
+      rucVerifiedAt: rucInfo ? new Date() : null,
+      sunatEstado: rucInfo?.estado ?? null,
+      sunatCondicion: rucInfo?.condicion ?? null,
+    });
+
     await db.insert(restaurants).values({
       name: parsedInput.name,
       slug,
@@ -41,7 +51,9 @@ export const submitRestaurantForApprovalAction = roleActionClient("restaurante")
       openTime: parsedInput.openTime,
       closeTime: parsedInput.closeTime,
       ownerId: ctx.user.id,
-      status: "pendiente",
+      status: "enviada",
+      riskLevel: risk.level,
+      riskSignals: risk.signals,
     });
 
     revalidatePath("/restaurante");

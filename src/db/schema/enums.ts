@@ -12,11 +12,28 @@ export const restaurantCategoryEnum = pgEnum("restaurant_category", [
   "comida_tipica",
 ]);
 
+// Máquina de estados de afiliación (§3 del spec de arquitectura). No incluye
+// "borrador": el alta hoy es un formulario de un solo paso sin autoguardado,
+// así que ninguna fila llega a existir antes de "enviada" — agregar un
+// estado que nada produce ni consume sería un estado fantasma.
+// Transiciones: enviada → en_revision → {observada | aprobada | rechazada}
+// observada → {enviada (reenvío) | caducada (venció el plazo)}
+// aprobada → activa (graduada tras el período de prueba) → {pausada | suspendida}
+// pausada/suspendida → activa (reactivación) | dada_de_baja
 export const restaurantStatusEnum = pgEnum("restaurant_status", [
-  "pendiente",
-  "aprobado",
-  "rechazado",
+  "enviada",
+  "en_revision",
+  "observada",
+  "aprobada",
+  "activa",
+  "pausada",
+  "suspendida",
+  "rechazada",
+  "caducada",
+  "dada_de_baja",
 ]);
+
+export const riskLevelEnum = pgEnum("risk_level", ["bajo", "medio", "alto"]);
 
 // Máquina de estados del ciclo de vida de una reserva. "pendiente_pago"
 // cubre tanto la retención inicial de la mesa como la espera del pago (en

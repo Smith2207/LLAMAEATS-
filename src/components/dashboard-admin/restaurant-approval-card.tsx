@@ -2,7 +2,7 @@ import Link from "next/link";
 import { CheckCircle2, ShieldAlert } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { RESTAURANT_CATEGORIES, RESTAURANT_STATUS_LABELS } from "@/lib/constants";
+import { RESTAURANT_CATEGORIES, RESTAURANT_STATUS_LABELS, RISK_LEVEL_LABELS } from "@/lib/constants";
 
 export type RestaurantModerationItem = {
   id: string;
@@ -12,13 +12,27 @@ export type RestaurantModerationItem = {
   status: string;
   ruc: string | null;
   rucVerifiedAt: Date | null;
+  riskLevel: string | null;
   owner: { name: string | null; email: string } | null;
 };
 
 const STATUS_VARIANT: Record<string, string> = {
-  pendiente: "border-primary/40 bg-primary/10 text-terracota-400",
-  aprobado: "border-success/40 bg-success/10 text-success",
-  rechazado: "border-destructive/40 bg-destructive/10 text-destructive",
+  enviada: "border-primary/40 bg-primary/10 text-terracota-400",
+  en_revision: "border-primary/40 bg-primary/10 text-terracota-400",
+  observada: "border-primary/40 bg-primary/10 text-terracota-400",
+  aprobada: "border-success/40 bg-success/10 text-success",
+  activa: "border-success/40 bg-success/10 text-success",
+  pausada: "border-border text-muted-foreground",
+  suspendida: "border-destructive/40 bg-destructive/10 text-destructive",
+  rechazada: "border-destructive/40 bg-destructive/10 text-destructive",
+  caducada: "border-destructive/40 bg-destructive/10 text-destructive",
+  dada_de_baja: "border-border text-muted-foreground",
+};
+
+const RISK_VARIANT: Record<string, string> = {
+  bajo: "border-success/40 bg-success/10 text-success",
+  medio: "border-primary/40 bg-primary/10 text-terracota-400",
+  alto: "border-destructive/40 bg-destructive/10 text-destructive",
 };
 
 export function RestaurantApprovalCard({ restaurant }: { restaurant: RestaurantModerationItem }) {
@@ -33,7 +47,7 @@ export function RestaurantApprovalCard({ restaurant }: { restaurant: RestaurantM
         <p className="text-xs text-muted-foreground">
           {categoryLabel} · {restaurant.district} · {restaurant.owner?.name ?? restaurant.owner?.email}
         </p>
-        <p className="mt-1 flex items-center gap-1 text-xs">
+        <div className="mt-1 flex flex-wrap items-center gap-2 text-xs">
           {restaurant.rucVerifiedAt ? (
             <span className="flex items-center gap-1 text-success">
               <CheckCircle2 className="size-3.5" />
@@ -45,11 +59,16 @@ export function RestaurantApprovalCard({ restaurant }: { restaurant: RestaurantM
               {restaurant.ruc ? "RUC sin verificar" : "Sin RUC"}
             </span>
           )}
-        </p>
+          {restaurant.riskLevel && (
+            <Badge variant="outline" className={RISK_VARIANT[restaurant.riskLevel]}>
+              {RISK_LEVEL_LABELS[restaurant.riskLevel]}
+            </Badge>
+          )}
+        </div>
       </div>
       <div className="flex items-center gap-2">
         <Badge variant="outline" className={STATUS_VARIANT[restaurant.status]}>
-          {RESTAURANT_STATUS_LABELS[restaurant.status]}
+          {RESTAURANT_STATUS_LABELS[restaurant.status] ?? restaurant.status}
         </Badge>
         <Button asChild size="sm" variant="outline">
           <Link href={`/admin/restaurantes/${restaurant.id}`}>Revisar</Link>

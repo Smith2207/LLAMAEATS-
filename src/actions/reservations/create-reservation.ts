@@ -1,6 +1,6 @@
 "use server";
 
-import { and, eq } from "drizzle-orm";
+import { and, count, eq, inArray } from "drizzle-orm";
 import { db } from "@/db";
 import { reservations, restaurants, tables } from "@/db/schema";
 import { authActionClient } from "@/lib/actions/safe-action";
@@ -17,9 +17,32 @@ export const createReservationAction = authActionClient
   .inputSchema(createReservationSchema)
   .action(async ({ parsedInput, ctx }) => {
     const restaurant = await db.query.restaurants.findFirst({
-      where: and(eq(restaurants.id, parsedInput.restaurantId), eq(restaurants.status, "aprobado")),
+      where: and(
+        eq(restaurants.id, parsedInput.restaurantId),
+        inArray(restaurants.status, ["aprobada", "activa"]),
+      ),
     });
     if (!restaurant) throw new Error("Restaurante no encontrado.");
+
+    // Período de prueba (§3.4): mientras el restaurante está "aprobada" (los
+    // primeros 30 días), se limita cuántas reservas simultáneas puede tener
+    // para acotar el riesgo antes de que se gradúe a "activa".
+    if (restaurant.status === "aprobada") {
+      const [{ value: activeCount }] = await db
+        .select({ value: count() })
+        .from(reservations)
+        .where(
+          and(
+            eq(reservations.restaurantId, restaurant.id),
+            inArray(reservations.status, ["pendiente_pago", "confirmada", "en_curso"]),
+          ),
+        );
+      if (activeCount >= restaurant.maxTrialReservations) {
+        throw new Error(
+          "Este restaurante está en período de prueba y alcanzó su límite de reservas simultáneas. Intenta más tarde.",
+        );
+      }
+    }
 
     const effectiveHours = await getEffectiveHours(
       restaurant.id,

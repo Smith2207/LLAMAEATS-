@@ -5,9 +5,16 @@ import { RestaurantApprovalCard } from "@/components/dashboard-admin/restaurant-
 import { EmptyState } from "@/components/search/empty-state";
 
 const STATUSES = [
-  { value: "pendiente", label: "Pendientes" },
-  { value: "aprobado", label: "Aprobados" },
-  { value: "rechazado", label: "Rechazados" },
+  { value: "enviada", label: "Bandeja (enviadas)" },
+  { value: "en_revision", label: "En revisión" },
+  { value: "observada", label: "Observadas" },
+  { value: "aprobada", label: "En prueba" },
+  { value: "activa", label: "Activas" },
+  { value: "pausada", label: "Pausadas" },
+  { value: "suspendida", label: "Suspendidas" },
+  { value: "rechazada", label: "Rechazadas" },
+  { value: "caducada", label: "Caducadas" },
+  { value: "dada_de_baja", label: "Dadas de baja" },
 ] as const;
 
 export default async function AdminRestaurantesPage({
@@ -17,7 +24,7 @@ export default async function AdminRestaurantesPage({
 }) {
   await requireRole("admin");
   const { status } = await searchParams;
-  const activeStatus = STATUSES.find((s) => s.value === status)?.value ?? "pendiente";
+  const activeStatus = STATUSES.find((s) => s.value === status)?.value ?? "enviada";
 
   const restaurants = await getRestaurantsByStatus(activeStatus);
 
@@ -25,7 +32,7 @@ export default async function AdminRestaurantesPage({
     <main className="mx-auto max-w-4xl px-4 py-10">
       <h1 className="font-display text-2xl font-bold text-foreground">Restaurantes</h1>
 
-      <div className="mt-4 flex gap-2">
+      <div className="mt-4 flex flex-wrap gap-2">
         {STATUSES.map((s) => (
           <Link
             key={s.value}

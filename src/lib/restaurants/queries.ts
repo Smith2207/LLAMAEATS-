@@ -1,9 +1,16 @@
 import { cache } from "react";
-import { and, avg, count, desc, eq } from "drizzle-orm";
+import { and, avg, count, desc, eq, inArray } from "drizzle-orm";
 import { db } from "@/db";
 import { restaurants, reviews } from "@/db/schema";
+import type { restaurantStatusEnum } from "@/db/schema/enums";
 import type { RestaurantCategory } from "@/lib/constants";
+
+type RestaurantStatus = (typeof restaurantStatusEnum.enumValues)[number];
 import { hasAvailableTable } from "@/lib/reservations/availability";
+
+// Un restaurante recibe reservas en "aprobada" (dentro del período de
+// prueba) y en "activa" (ya graduado) — ambos son públicos y reservables.
+const BOOKABLE_STATUSES = ["aprobada", "activa"] as const;
 
 export type SearchFilters = {
   category?: RestaurantCategory;
@@ -14,7 +21,7 @@ export type SearchFilters = {
 };
 
 export async function searchRestaurants(filters: SearchFilters) {
-  const conditions = [eq(restaurants.status, "aprobado")];
+  const conditions = [inArray(restaurants.status, BOOKABLE_STATUSES)];
   if (filters.category) conditions.push(eq(restaurants.category, filters.category));
   if (filters.district) conditions.push(eq(restaurants.district, filters.district));
 
@@ -33,6 +40,7 @@ export async function searchRestaurants(filters: SearchFilters) {
           date: filters.date!,
           timeSlot: filters.timeSlot!,
           guests: filters.guests!,
+          turnoverBufferMinutes: r.turnoverBufferMinutes,
         }),
       ),
     );
@@ -46,7 +54,7 @@ export async function searchRestaurants(filters: SearchFilters) {
 // slug en el mismo request — sin memoizar, sería una consulta duplicada.
 export const getRestaurantBySlug = cache(async (slug: string) => {
   const restaurant = await db.query.restaurants.findFirst({
-    where: and(eq(restaurants.slug, slug), eq(restaurants.status, "aprobado")),
+    where: and(eq(restaurants.slug, slug), inArray(restaurants.status, BOOKABLE_STATUSES)),
     with: {
       tables: { where: (t, { eq }) => eq(t.isActive, true) },
     },
@@ -72,11 +80,11 @@ export async function getApprovedRestaurantsCount() {
   const [row] = await db
     .select({ count: count() })
     .from(restaurants)
-    .where(eq(restaurants.status, "aprobado"));
+    .where(inArray(restaurants.status, BOOKABLE_STATUSES));
   return row?.count ?? 0;
 }
 
-export async function getRestaurantsByStatus(status?: "pendiente" | "aprobado" | "rechazado") {
+export async function getRestaurantsByStatus(status?: RestaurantStatus) {
   return db.query.restaurants.findMany({
     where: status ? eq(restaurants.status, status) : undefined,
     orderBy: [desc(restaurants.createdAt)],
@@ -87,13 +95,13 @@ export async function getRestaurantsByStatus(status?: "pendiente" | "aprobado" |
 export async function getRestaurantById(id: string) {
   return db.query.restaurants.findFirst({
     where: eq(restaurants.id, id),
-    with: { owner: true, tables: true },
+    with: { owner: true, reviewer: true, firstApprover: true, tables: true },
   });
 }
 
 export async function getFeaturedRestaurants(limit = 8) {
   const rows = await db.query.restaurants.findMany({
-    where: eq(restaurants.status, "aprobado"),
+    where: inArray(restaurants.status, BOOKABLE_STATUSES),
     orderBy: [desc(restaurants.createdAt)],
     limit,
   });

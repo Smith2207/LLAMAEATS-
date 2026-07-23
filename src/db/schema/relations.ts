@@ -8,7 +8,7 @@ import { reviews } from "./reviews";
 export const usersRelations = relations(users, ({ many }) => ({
   accounts: many(accounts),
   sessions: many(sessions),
-  restaurants: many(restaurants),
+  restaurants: many(restaurants, { relationName: "restaurant_owner" }),
   reservations: many(reservations),
   reviews: many(reviews),
 }));
@@ -22,7 +22,21 @@ export const sessionsRelations = relations(sessions, ({ one }) => ({
 }));
 
 export const restaurantsRelations = relations(restaurants, ({ one, many }) => ({
-  owner: one(users, { fields: [restaurants.ownerId], references: [users.id] }),
+  owner: one(users, {
+    fields: [restaurants.ownerId],
+    references: [users.id],
+    relationName: "restaurant_owner",
+  }),
+  reviewer: one(users, {
+    fields: [restaurants.reviewerId],
+    references: [users.id],
+    relationName: "restaurant_reviewer",
+  }),
+  firstApprover: one(users, {
+    fields: [restaurants.firstApproverId],
+    references: [users.id],
+    relationName: "restaurant_first_approver",
+  }),
   tables: many(tables),
   reservations: many(reservations),
   reviews: many(reviews),

@@ -17,6 +17,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { submitRestaurantForApprovalAction } from "@/actions/restaurants/submit-restaurant";
+import { resubmitApplicationAction } from "@/actions/restaurants/resubmit-application";
 import { submitRestaurantSchema } from "@/lib/validations/restaurant";
 import { PUNO_DISTRICTS, RESTAURANT_CATEGORIES } from "@/lib/constants";
 import { RucField } from "@/components/dashboard-restaurante/ruc-field";
@@ -24,8 +25,14 @@ import type { z } from "zod";
 
 type FormValues = z.infer<typeof submitRestaurantSchema>;
 
-/** Formulario de alta inicial (envía a revisión del admin). */
-export function RestaurantForm() {
+/** Formulario de alta inicial, o de reenvío cuando la solicitud fue observada/rechazada/caducada. */
+export function RestaurantForm({
+  mode = "submit",
+  defaultValues,
+}: {
+  mode?: "submit" | "resubmit";
+  defaultValues?: FormValues;
+}) {
   const router = useRouter();
   const {
     control,
@@ -33,7 +40,7 @@ export function RestaurantForm() {
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(submitRestaurantSchema),
-    defaultValues: {
+    defaultValues: defaultValues ?? {
       name: "",
       description: "",
       address: "",
@@ -45,9 +52,13 @@ export function RestaurantForm() {
     },
   });
 
-  const { execute, isExecuting } = useAction(submitRestaurantForApprovalAction, {
+  const action = mode === "resubmit" ? resubmitApplicationAction : submitRestaurantForApprovalAction;
+
+  const { execute, isExecuting } = useAction(action, {
     onSuccess() {
-      toast.success("Solicitud enviada. Un admin la revisará pronto.");
+      toast.success(
+        mode === "resubmit" ? "Solicitud reenviada. Un admin la revisará." : "Solicitud enviada. Un admin la revisará pronto.",
+      );
       router.refresh();
     },
     onError({ error }) {
@@ -162,7 +173,7 @@ export function RestaurantForm() {
         </div>
 
         <Button type="submit" disabled={isExecuting} className="w-fit">
-          {isExecuting ? "Enviando..." : "Enviar para aprobación"}
+          {isExecuting ? "Enviando..." : mode === "resubmit" ? "Reenviar solicitud" : "Enviar para aprobación"}
         </Button>
       </FieldGroup>
     </form>

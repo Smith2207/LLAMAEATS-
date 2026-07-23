@@ -37,9 +37,22 @@ export const RESERVATION_STATUS_LABELS: Record<string, string> = {
 };
 
 export const RESTAURANT_STATUS_LABELS: Record<string, string> = {
-  pendiente: "En revisión",
-  aprobado: "Aprobado",
-  rechazado: "Rechazado",
+  enviada: "Enviada, en cola",
+  en_revision: "En revisión",
+  observada: "Observada",
+  aprobada: "Aprobada (en prueba)",
+  activa: "Activa",
+  pausada: "Pausada",
+  suspendida: "Suspendida",
+  rechazada: "Rechazada",
+  caducada: "Caducada",
+  dada_de_baja: "Dada de baja",
+};
+
+export const RISK_LEVEL_LABELS: Record<string, string> = {
+  bajo: "Riesgo bajo",
+  medio: "Riesgo medio",
+  alto: "Riesgo alto",
 };
 
 // Horarios típicos ofrecidos en el filtro de búsqueda (bloques de 90 min).
