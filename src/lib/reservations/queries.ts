@@ -1,4 +1,4 @@
-import { and, desc, eq } from "drizzle-orm";
+import { and, count, desc, eq, ne } from "drizzle-orm";
 import { db } from "@/db";
 import { reservations } from "@/db/schema";
 
@@ -33,7 +33,37 @@ export async function getRestaurantReservationsForDate(restaurantId: string, dat
     orderBy: [reservations.timeSlot],
     with: {
       table: { columns: { number: true, zone: true } },
-      user: { columns: { name: true, phone: true, email: true } },
+      user: { columns: { id: true, name: true, phone: true, email: true } },
     },
   });
+}
+
+/**
+ * Ficha del comensal para el anfitrión (§7): visitas y no-shows previos en
+ * ESTE restaurante, para calibrar el riesgo antes de sentar al grupo.
+ * Excluye la reserva actual del conteo.
+ */
+export async function getCustomerVisitHistory(
+  userId: string,
+  restaurantId: string,
+  excludeReservationId?: string,
+) {
+  const base = [
+    eq(reservations.userId, userId),
+    eq(reservations.restaurantId, restaurantId),
+    ...(excludeReservationId ? [ne(reservations.id, excludeReservationId)] : []),
+  ];
+
+  const [[completed], [noShows]] = await Promise.all([
+    db
+      .select({ value: count() })
+      .from(reservations)
+      .where(and(...base, eq(reservations.status, "completada"))),
+    db
+      .select({ value: count() })
+      .from(reservations)
+      .where(and(...base, eq(reservations.status, "no_asistio"))),
+  ]);
+
+  return { completedVisits: completed?.value ?? 0, noShows: noShows?.value ?? 0 };
 }

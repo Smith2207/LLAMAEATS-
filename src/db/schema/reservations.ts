@@ -42,6 +42,14 @@ export const reservations = pgTable(
     arrivedAt: timestamp("arrived_at", { mode: "date", withTimezone: true }),
     // Máximo 2 reprogramaciones por reserva (§4.5).
     rescheduleCount: integer("reschedule_count").notNull().default(0),
+    // Si no es null, esta reserva la registró el anfitrión a mano
+    // (teléfono/mostrador, §7) en vez de haberla creado el propio
+    // comensal — indispensable para que la disponibilidad refleje la
+    // realidad del local, no solo lo reservado por la plataforma.
+    createdByStaffId: text("created_by_staff_id").references(() => users.id, { onDelete: "set null" }),
+    // Notas internas del local sobre la reserva/comensal — nunca visibles
+    // para el comensal (a diferencia de `notes`, que él mismo escribe).
+    staffNotes: text("staff_notes"),
   },
   (table) => [
     // Índice único parcial: solo bloquea el slot mientras la reserva sigue

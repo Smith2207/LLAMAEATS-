@@ -52,12 +52,18 @@ export async function getAvailableTables({
   timeSlot,
   guests,
   turnoverBufferMinutes = 15,
+  // Las reservas hechas por el propio comensal solo pueden usar mesas
+  // expuestas a la plataforma; una reserva telefónica/de mostrador que
+  // registra el anfitrión sí puede usar las mesas reservadas para
+  // mostrador (§7) — para eso existen.
+  platformOnly = true,
 }: {
   restaurantId: string;
   date: string;
   timeSlot: string;
   guests: number;
   turnoverBufferMinutes?: number;
+  platformOnly?: boolean;
 }) {
   const intervals = await getBusyIntervals(restaurantId, date, turnoverBufferMinutes);
   const slotStart = timeToMinutes(timeSlot);
@@ -66,7 +72,7 @@ export async function getAvailableTables({
     where: and(
       eq(tables.restaurantId, restaurantId),
       eq(tables.isActive, true),
-      eq(tables.platformBookable, true),
+      platformOnly ? eq(tables.platformBookable, true) : undefined,
     ),
     orderBy: (t, { asc }) => [asc(t.zone), asc(t.number)],
   });

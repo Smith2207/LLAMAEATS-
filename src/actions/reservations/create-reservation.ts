@@ -10,8 +10,7 @@ import { generateReservationCode } from "@/lib/reservations/codes";
 import { isValidSlotForRestaurant } from "@/lib/reservations/time";
 import { getEffectiveHours } from "@/lib/reservations/schedule";
 import { RESERVATION_EXPIRY_MINUTES, type RestaurantCategory } from "@/lib/constants";
-
-type PgError = Error & { code?: string; constraint?: string };
+import { getPgErrorCode, getPgErrorConstraint } from "@/lib/db/pg-error";
 
 export const createReservationAction = authActionClient
   .inputSchema(createReservationSchema)
@@ -111,9 +110,8 @@ export const createReservationAction = authActionClient
           ).toISOString(),
         };
       } catch (error) {
-        const pgError = error as PgError;
-        if (pgError.code === "23505") {
-          if (pgError.constraint?.includes("table_date_slot")) {
+        if (getPgErrorCode(error) === "23505") {
+          if (getPgErrorConstraint(error)?.includes("table_date_slot")) {
             throw new Error("TABLE_ALREADY_BOOKED");
           }
           // Colisión de código: reintenta con uno nuevo.

@@ -8,8 +8,7 @@ import { rescheduleReservationSchema } from "@/lib/validations/reservation";
 import { isValidSlotForRestaurant, reservationInstant } from "@/lib/reservations/time";
 import { getEffectiveHours } from "@/lib/reservations/schedule";
 import { FREE_CANCELLATION_WINDOW_HOURS } from "@/lib/constants";
-
-type PgError = Error & { code?: string; constraint?: string };
+import { getPgErrorCode, getPgErrorConstraint } from "@/lib/db/pg-error";
 
 export const rescheduleReservationAction = authActionClient
   .inputSchema(rescheduleReservationSchema)
@@ -91,8 +90,7 @@ export const rescheduleReservationAction = authActionClient
         return { code: reservation.code };
       });
     } catch (error) {
-      const pgError = error as PgError;
-      if (pgError.code === "23505" && pgError.constraint?.includes("table_date_slot")) {
+      if (getPgErrorCode(error) === "23505" && getPgErrorConstraint(error)?.includes("table_date_slot")) {
         throw new Error("TABLE_ALREADY_BOOKED");
       }
       throw error;

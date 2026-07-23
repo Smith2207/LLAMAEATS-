@@ -9,7 +9,7 @@ export const usersRelations = relations(users, ({ many }) => ({
   accounts: many(accounts),
   sessions: many(sessions),
   restaurants: many(restaurants, { relationName: "restaurant_owner" }),
-  reservations: many(reservations),
+  reservations: many(reservations, { relationName: "reservation_customer" }),
   reviews: many(reviews),
 }));
 
@@ -67,7 +67,16 @@ export const tablesRelations = relations(tables, ({ one, many }) => ({
 }));
 
 export const reservationsRelations = relations(reservations, ({ one, many }) => ({
-  user: one(users, { fields: [reservations.userId], references: [users.id] }),
+  user: one(users, {
+    fields: [reservations.userId],
+    references: [users.id],
+    relationName: "reservation_customer",
+  }),
+  createdByStaff: one(users, {
+    fields: [reservations.createdByStaffId],
+    references: [users.id],
+    relationName: "reservation_created_by_staff",
+  }),
   restaurant: one(restaurants, {
     fields: [reservations.restaurantId],
     references: [restaurants.id],
