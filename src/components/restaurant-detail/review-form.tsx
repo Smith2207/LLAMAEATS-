@@ -36,7 +36,7 @@ export function ReviewForm({ reservationCode }: { reservationCode: string }) {
               <Star
                 className={cn(
                   "size-6 transition-colors",
-                  value <= rating ? "fill-primary text-primary" : "text-muted-foreground",
+                  value <= rating ? "fill-terracota-400 text-terracota-400" : "text-muted-foreground",
                 )}
               />
             </button>

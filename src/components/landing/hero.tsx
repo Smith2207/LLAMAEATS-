@@ -33,7 +33,7 @@ export function Hero({
       </div>
 
       <div className="mx-auto flex max-w-3xl flex-col items-center gap-6 px-4 text-center">
-        <span className="glass rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-primary">
+        <span className="glass rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-terracota-400">
           Campaña {CAMPAIGN_NAME}
         </span>
 

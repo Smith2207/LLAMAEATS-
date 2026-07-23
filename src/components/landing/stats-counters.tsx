@@ -16,7 +16,7 @@ export function StatsCounters() {
             <AnimatedCounter
               value={stat.value}
               suffix={stat.suffix}
-              className="font-display text-3xl font-bold text-primary sm:text-4xl"
+              className="font-display text-3xl font-bold text-terracota-400 sm:text-4xl"
             />
             <p className="mt-2 text-xs text-muted-foreground sm:text-sm">{stat.label}</p>
           </div>

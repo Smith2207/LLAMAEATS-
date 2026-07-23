@@ -66,13 +66,13 @@ export default async function AdminRestaurantDetailPage({
           <div className="mt-2 space-y-1 text-sm">
             <p className="text-foreground">RUC: {restaurant.ruc}</p>
             {restaurant.rucVerifiedAt ? (
-              <p className="flex items-center gap-1.5 text-emerald-500">
+              <p className="flex items-center gap-1.5 text-success">
                 <CheckCircle2 className="size-4 shrink-0" />
                 Verificado con SUNAT — {restaurant.razonSocial} · {restaurant.sunatEstado} ·{" "}
                 {restaurant.sunatCondicion}
               </p>
             ) : (
-              <p className="flex items-center gap-1.5 text-primary">
+              <p className="flex items-center gap-1.5 text-terracota-400">
                 <ShieldAlert className="size-4 shrink-0" />
                 No verificado automáticamente. Confirma el RUC manualmente antes de aprobar.
               </p>

@@ -117,7 +117,7 @@ function RoleOption({
           : "border-border bg-transparent hover:border-primary/50",
       )}
     >
-      <Icon className={cn("size-5", selected ? "text-primary" : "text-muted-foreground")} />
+      <Icon className={cn("size-5", selected ? "text-terracota-400" : "text-muted-foreground")} />
       <span className="font-medium text-foreground">{label}</span>
       <span className="text-xs text-muted-foreground">{description}</span>
     </button>

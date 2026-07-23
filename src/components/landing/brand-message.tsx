@@ -11,7 +11,7 @@ export function BrandMessage() {
         >
           {BRAND_TAGLINE}
         </SplitTextReveal>
-        <p className="mt-4 text-sm font-medium text-primary">{CAMPAIGN_CTA}</p>
+        <p className="mt-4 text-sm font-medium text-terracota-400">{CAMPAIGN_CTA}</p>
       </div>
     </section>
   );

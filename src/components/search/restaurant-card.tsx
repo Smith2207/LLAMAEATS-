@@ -66,7 +66,7 @@ export function RestaurantCard({
           <h3 className="flex items-center gap-1 font-display font-semibold text-foreground">
             {restaurant.name}
             {restaurant.rucVerifiedAt && (
-              <BadgeCheck className="size-4 shrink-0 text-primary" aria-label="Negocio verificado" />
+              <BadgeCheck className="size-4 shrink-0 text-success" aria-label="Negocio verificado" />
             )}
           </h3>
           <div className="flex items-center gap-1 text-xs text-muted-foreground">
@@ -75,7 +75,7 @@ export function RestaurantCard({
           </div>
           <div className="mt-1 flex items-center justify-between text-sm">
             <span className="flex items-center gap-1 text-foreground">
-              <Star className="size-3.5 fill-primary text-primary" />
+              <Star className="size-3.5 fill-terracota-400 text-terracota-400" />
               {restaurant.avgRating ? restaurant.avgRating.toFixed(1) : "Nuevo"}
               {restaurant.reviewCount > 0 && (
                 <span className="text-muted-foreground">({restaurant.reviewCount})</span>

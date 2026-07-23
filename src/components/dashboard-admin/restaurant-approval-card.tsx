@@ -16,8 +16,8 @@ export type RestaurantModerationItem = {
 };
 
 const STATUS_VARIANT: Record<string, string> = {
-  pendiente: "border-primary/40 bg-primary/10 text-primary",
-  aprobado: "border-emerald-500/40 bg-emerald-500/10 text-emerald-400",
+  pendiente: "border-primary/40 bg-primary/10 text-terracota-400",
+  aprobado: "border-success/40 bg-success/10 text-success",
   rechazado: "border-destructive/40 bg-destructive/10 text-destructive",
 };
 
@@ -35,7 +35,7 @@ export function RestaurantApprovalCard({ restaurant }: { restaurant: RestaurantM
         </p>
         <p className="mt-1 flex items-center gap-1 text-xs">
           {restaurant.rucVerifiedAt ? (
-            <span className="flex items-center gap-1 text-emerald-500">
+            <span className="flex items-center gap-1 text-success">
               <CheckCircle2 className="size-3.5" />
               RUC verificado
             </span>

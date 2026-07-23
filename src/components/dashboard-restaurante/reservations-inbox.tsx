@@ -92,7 +92,7 @@ export function ReservationsInbox({ reservations }: { reservations: InboxReserva
 
           {r.status === "en_curso" && (
             <div className="flex items-center gap-2">
-              <Badge variant="outline" className="border-primary/40 bg-primary/10 text-primary">
+              <Badge variant="outline" className="border-success/40 bg-success/10 text-success">
                 En curso
               </Badge>
               <Button

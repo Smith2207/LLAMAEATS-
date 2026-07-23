@@ -31,11 +31,11 @@ export function ReviewList({ reviews }: { reviews: ReviewItem[] }) {
               <span className="text-sm font-medium text-foreground">
                 {review.user.name ?? "Usuario LlamaEats"}
               </span>
-              <span className="flex items-center gap-0.5 text-xs text-primary">
+              <span className="flex items-center gap-0.5 text-xs text-terracota-400">
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Star
                     key={i}
-                    className={`size-3 ${i < review.rating ? "fill-primary" : "fill-transparent text-muted-foreground"}`}
+                    className={`size-3 ${i < review.rating ? "fill-terracota-400" : "fill-transparent text-muted-foreground"}`}
                   />
                 ))}
               </span>

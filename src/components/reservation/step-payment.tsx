@@ -56,7 +56,7 @@ export function StepPayment({
         <p className="mt-3 text-2xl font-bold text-foreground">S/ {serviceFee.toFixed(2)}</p>
         <p className="text-xs text-muted-foreground">Tarifa de servicio LlamaEats</p>
         {promoApplied && (
-          <Badge className="mt-2 gap-1 bg-primary/15 text-primary">
+          <Badge className="mt-2 gap-1 bg-primary/15 text-terracota-400">
             <Sparkles className="size-3" />
             Promo de lanzamiento aplicada
           </Badge>
@@ -71,7 +71,7 @@ export function StepPayment({
           isExpired
             ? "border-destructive/40 bg-destructive/10 text-destructive"
             : totalSeconds < 120
-              ? "border-primary/40 bg-primary/10 text-primary"
+              ? "border-primary/40 bg-primary/10 text-terracota-400"
               : "border-border text-muted-foreground",
         )}
       >

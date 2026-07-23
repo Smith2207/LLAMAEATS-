@@ -45,7 +45,7 @@ export default async function RestaurantePage() {
       </div>
 
       {restaurant.status === "pendiente" && (
-        <p className="mt-3 rounded-lg border border-primary/40 bg-primary/10 px-4 py-3 text-sm text-primary">
+        <p className="mt-3 rounded-lg border border-primary/40 bg-primary/10 px-4 py-3 text-sm text-terracota-400">
           Tu restaurante está en revisión. Podrás recibir reservas apenas sea aprobado.
         </p>
       )}

@@ -15,7 +15,7 @@ export function StepperNav({ step }: { step: 1 | 2 | 3 }) {
               className={cn(
                 "flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-semibold transition-colors",
                 state === "done" && "bg-primary text-primary-foreground",
-                state === "active" && "bg-primary/20 text-primary ring-2 ring-primary",
+                state === "active" && "bg-primary/20 text-terracota-400 ring-2 ring-primary",
                 state === "pending" && "bg-muted text-muted-foreground",
               )}
             >

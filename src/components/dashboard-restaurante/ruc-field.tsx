@@ -62,7 +62,7 @@ export function RucField<T extends FieldValues & { ruc: string }>({
           <FieldError errors={[errors.ruc as { message?: string } | undefined]} />
 
           {result?.found && (
-            <p className="mt-1 flex items-center gap-1.5 text-sm text-emerald-500">
+            <p className="mt-1 flex items-center gap-1.5 text-sm text-success">
               <CheckCircle2 className="size-4 shrink-0" />
               {result.razonSocial} · {result.estado} · {result.condicion}
             </p>

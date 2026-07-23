@@ -32,7 +32,7 @@ export default async function AdminRestaurantesPage({
             href={`/admin/restaurantes?status=${s.value}`}
             className={`rounded-full border px-3 py-1.5 text-sm transition-colors ${
               activeStatus === s.value
-                ? "border-primary bg-primary/10 text-primary"
+                ? "border-primary bg-primary/10 text-terracota-400"
                 : "border-border text-muted-foreground hover:border-primary/50"
             }`}
           >

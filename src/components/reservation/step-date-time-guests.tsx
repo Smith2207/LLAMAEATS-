@@ -93,7 +93,7 @@ export function StepDateTimeGuests({
                 className={cn(
                   "rounded-lg border px-4 py-2 text-sm font-medium transition-colors",
                   timeSlot === slot
-                    ? "border-primary bg-primary/10 text-primary"
+                    ? "border-primary bg-primary/10 text-terracota-400"
                     : "border-border text-foreground hover:border-primary/50",
                 )}
               >

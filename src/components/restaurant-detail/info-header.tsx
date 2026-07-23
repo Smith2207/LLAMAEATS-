@@ -49,7 +49,7 @@ export function InfoHeader({
       <motion.div variants={fadeUp} transition={{ duration: 0.3, ease: "easeOut" }} className="flex flex-wrap items-center gap-2">
         <Badge>{categoryLabel}</Badge>
         <span className="flex items-center gap-1 text-sm text-foreground">
-          <Star className="size-4 fill-primary text-primary" />
+          <Star className="size-4 fill-terracota-400 text-terracota-400" />
           {avgRating ? avgRating.toFixed(1) : "Nuevo"}
           {reviewCount > 0 && <span className="text-muted-foreground">({reviewCount} reseñas)</span>}
         </span>
@@ -61,7 +61,7 @@ export function InfoHeader({
       >
         {name}
         {rucVerified && (
-          <span className="flex items-center gap-1 text-sm font-medium text-primary">
+          <span className="flex items-center gap-1 text-sm font-medium text-success">
             <BadgeCheck className="size-5 shrink-0" />
             Verificado
           </span>
@@ -96,13 +96,13 @@ export function InfoHeader({
           {promoActive && (
             <span className="line-through opacity-60">S/ {originalFee.toFixed(2)}</span>
           )}{" "}
-          <span className={promoActive ? "font-semibold text-primary" : undefined}>
+          <span className={promoActive ? "font-semibold text-terracota-400" : undefined}>
             S/ {fee.toFixed(2)}
           </span>{" "}
           por reserva confirmada.
         </span>
         {promoActive && (
-          <Badge className="gap-1 bg-primary/15 text-primary">
+          <Badge className="gap-1 bg-primary/15 text-terracota-400">
             <Sparkles className="size-3" />
             Promo de lanzamiento
           </Badge>
