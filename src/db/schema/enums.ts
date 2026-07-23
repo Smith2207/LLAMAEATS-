@@ -18,11 +18,21 @@ export const restaurantStatusEnum = pgEnum("restaurant_status", [
   "rechazado",
 ]);
 
+// Máquina de estados del ciclo de vida de una reserva. "pendiente_pago"
+// cubre tanto la retención inicial de la mesa como la espera del pago (en
+// nuestro flujo ocurren en el mismo instante, así que no se modelan como
+// dos estados separados). Los recordatorios (24h/2h) y la confirmación de
+// asistencia del comensal son eventos/columnas sobre "confirmada", no
+// estados propios: una reserva confirmada sigue confirmada aunque ya se le
+// haya mandado el recordatorio.
 export const reservationStatusEnum = pgEnum("reservation_status", [
-  "pendiente",
+  "pendiente_pago",
   "confirmada",
-  "cancelada",
+  "en_curso",
   "completada",
+  "expirada",
+  "cancelada_comensal",
+  "cancelada_local",
   "no_asistio",
 ]);
 
@@ -31,4 +41,10 @@ export const paymentStatusEnum = pgEnum("payment_status", [
   "completado",
   "fallido",
   "reembolsado",
+]);
+
+export const scheduleExceptionTypeEnum = pgEnum("schedule_exception_type", [
+  "cerrado",
+  "horario_especial",
+  "evento_privado",
 ]);

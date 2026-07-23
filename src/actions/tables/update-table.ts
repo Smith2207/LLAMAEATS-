@@ -15,7 +15,13 @@ export const updateTableAction = roleActionClient("restaurante")
 
     await db
       .update(tables)
-      .set({ number: parsedInput.number, seats: parsedInput.seats, zone: parsedInput.zone })
+      .set({
+        number: parsedInput.number,
+        minSeats: parsedInput.minSeats,
+        seats: parsedInput.seats,
+        zone: parsedInput.zone,
+        platformBookable: parsedInput.platformBookable,
+      })
       .where(and(eq(tables.id, parsedInput.tableId), eq(tables.restaurantId, restaurant.id)));
 
     revalidatePath("/restaurante/mesas");

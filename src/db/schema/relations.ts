@@ -1,6 +1,6 @@
 import { relations } from "drizzle-orm";
 import { accounts, sessions, users } from "./auth";
-import { restaurants, tables } from "./restaurants";
+import { restaurants, restaurantScheduleExceptions, tables } from "./restaurants";
 import { reservations } from "./reservations";
 import { payments } from "./payments";
 import { reviews } from "./reviews";
@@ -26,7 +26,18 @@ export const restaurantsRelations = relations(restaurants, ({ one, many }) => ({
   tables: many(tables),
   reservations: many(reservations),
   reviews: many(reviews),
+  scheduleExceptions: many(restaurantScheduleExceptions),
 }));
+
+export const restaurantScheduleExceptionsRelations = relations(
+  restaurantScheduleExceptions,
+  ({ one }) => ({
+    restaurant: one(restaurants, {
+      fields: [restaurantScheduleExceptions.restaurantId],
+      references: [restaurants.id],
+    }),
+  }),
+);
 
 export const tablesRelations = relations(tables, ({ one, many }) => ({
   restaurant: one(restaurants, {

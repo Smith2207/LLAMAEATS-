@@ -22,7 +22,7 @@ export default async function ReservationDetailPage({
   if (!reservation || reservation.userId !== session.user.id) notFound();
 
   const qrDataUrl = await generateQrDataUrl(reservation.code);
-  const canManage = reservation.status === "pendiente" || reservation.status === "confirmada";
+  const canManage = reservation.status === "pendiente_pago" || reservation.status === "confirmada";
 
   return (
     <main className="mx-auto max-w-2xl px-4 py-10">

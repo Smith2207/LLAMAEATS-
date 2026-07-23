@@ -3,6 +3,7 @@ config({ path: ".env.local" });
 
 import { db } from "../src/db";
 import {
+  holidays,
   payments,
   reservations,
   restaurants,
@@ -242,7 +243,7 @@ async function main() {
       timeSlot: "13:30",
       guests: 2,
       serviceFee: "4.00",
-      status: "pendiente",
+      status: "pendiente_pago",
     });
 
     // Reserva cancelada.
@@ -257,8 +258,32 @@ async function main() {
       timeSlot: "14:00",
       guests: 3,
       serviceFee: "3.00",
-      status: "cancelada",
+      status: "cancelada_comensal",
     });
+  }
+
+  console.log("Sembrando feriados...");
+  const nationalHolidays: { date: string; name: string }[] = [
+    { date: "2026-01-01", name: "Año Nuevo" },
+    { date: "2026-04-02", name: "Jueves Santo" },
+    { date: "2026-04-03", name: "Viernes Santo" },
+    { date: "2026-05-01", name: "Día del Trabajo" },
+    { date: "2026-06-29", name: "San Pedro y San Pablo" },
+    { date: "2026-07-28", name: "Fiestas Patrias" },
+    { date: "2026-07-29", name: "Fiestas Patrias" },
+    { date: "2026-08-30", name: "Santa Rosa de Lima" },
+    { date: "2026-10-08", name: "Combate de Angamos" },
+    { date: "2026-11-01", name: "Todos los Santos" },
+    { date: "2026-12-08", name: "Inmaculada Concepción" },
+    { date: "2026-12-25", name: "Navidad" },
+  ];
+  const punoHolidays: { date: string; name: string }[] = [
+    { date: "2026-02-02", name: "Virgen de la Candelaria (Puno)" },
+    { date: "2026-11-05", name: "Aniversario de Puno" },
+  ];
+  for (const h of [...nationalHolidays.map((h) => ({ ...h, scope: "nacional" })), ...punoHolidays.map((h) => ({ ...h, scope: "puno" }))]) {
+    const existing = await db.query.holidays.findFirst({ where: eq(holidays.date, h.date) });
+    if (!existing) await db.insert(holidays).values(h);
   }
 
   console.log("\nListo. Usuarios demo:");

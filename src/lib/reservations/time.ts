@@ -1,5 +1,10 @@
 import { formatInTimeZone, fromZonedTime } from "date-fns-tz";
-import { LIMA_TIME_ZONE, RESERVATION_BLOCK_MINUTES } from "@/lib/constants";
+import {
+  LIMA_TIME_ZONE,
+  MAX_BOOKING_LEAD_DAYS,
+  MIN_BOOKING_LEAD_MINUTES,
+  RESERVATION_BLOCK_MINUTES,
+} from "@/lib/constants";
 
 /** "HH:mm" o "HH:mm:ss" → minutos desde medianoche. */
 export function timeToMinutes(time: string): number {
@@ -47,12 +52,43 @@ export function isPastDateTime(date: string, time: string): boolean {
   return reservationInstant(date, time).getTime() < Date.now();
 }
 
+/**
+ * Antelación mínima (no reservar para dentro de MIN_BOOKING_LEAD_MINUTES) y
+ * máxima (no más de MAX_BOOKING_LEAD_DAYS) — §4.2. `isPastDateTime` ya cubre
+ * el caso trivial de una hora que ya pasó; esto además exige un margen
+ * mínimo hacia adelante y acota cuán lejos se puede reservar.
+ */
+export function isWithinBookingLeadWindow(date: string, time: string): boolean {
+  const target = reservationInstant(date, time).getTime();
+  const now = Date.now();
+  const minLeadMs = MIN_BOOKING_LEAD_MINUTES * 60 * 1000;
+  const maxLeadMs = MAX_BOOKING_LEAD_DAYS * 24 * 60 * 60 * 1000;
+  return target - now >= minLeadMs && target - now <= maxLeadMs;
+}
+
+/**
+ * Corte de última reserva antes del cierre (§4.2): el bloque completo debe
+ * caber antes de closeTime, y además no puede empezar dentro de los
+ * `lastBookingBeforeCloseMinutes` previos al cierre.
+ */
+export function isBeforeClosingCutoff(
+  time: string,
+  closeTime: string,
+  lastBookingBeforeCloseMinutes: number,
+): boolean {
+  const slotStart = timeToMinutes(time);
+  const close = timeToMinutes(closeTime);
+  return slotStart + RESERVATION_BLOCK_MINUTES <= close - lastBookingBeforeCloseMinutes;
+}
+
 export function isValidSlotForRestaurant(
   date: string,
   time: string,
   openTime: string,
   closeTime: string,
+  lastBookingBeforeCloseMinutes = 0,
 ): boolean {
-  if (isPastDateTime(date, time)) return false;
+  if (!isWithinBookingLeadWindow(date, time)) return false;
+  if (!isBeforeClosingCutoff(time, closeTime, lastBookingBeforeCloseMinutes)) return false;
   return generateTimeSlots(openTime, closeTime).includes(time);
 }

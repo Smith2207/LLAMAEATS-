@@ -21,6 +21,8 @@ export const getAvailableSlotsAction = authActionClient
       openTime: restaurant.openTime,
       closeTime: restaurant.closeTime,
       guests: parsedInput.guests,
+      turnoverBufferMinutes: restaurant.turnoverBufferMinutes,
+      lastBookingBeforeCloseMinutes: restaurant.lastBookingBeforeCloseMinutes,
     });
 
     return { slots };
@@ -29,6 +31,14 @@ export const getAvailableSlotsAction = authActionClient
 export const getAvailableTablesAction = authActionClient
   .inputSchema(tablesQuerySchema)
   .action(async ({ parsedInput }) => {
-    const tables = await getAvailableTables(parsedInput);
+    const restaurant = await db.query.restaurants.findFirst({
+      where: eq(restaurants.id, parsedInput.restaurantId),
+    });
+    if (!restaurant) throw new Error("Restaurante no encontrado.");
+
+    const tables = await getAvailableTables({
+      ...parsedInput,
+      turnoverBufferMinutes: restaurant.turnoverBufferMinutes,
+    });
     return { tables };
   });

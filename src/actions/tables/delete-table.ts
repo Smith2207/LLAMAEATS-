@@ -19,7 +19,7 @@ export const deleteTableAction = roleActionClient("restaurante")
         eq(reservations.tableId, parsedInput.tableId),
         eq(reservations.restaurantId, restaurant.id),
         gte(reservations.date, todayInLima()),
-        inArray(reservations.status, ["pendiente", "confirmada"]),
+        inArray(reservations.status, ["pendiente_pago", "confirmada", "en_curso"]),
       ),
     });
     if (futureActive) {

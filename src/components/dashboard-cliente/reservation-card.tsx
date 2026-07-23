@@ -7,9 +7,12 @@ import { Badge } from "@/components/ui/badge";
 import { RESERVATION_STATUS_LABELS } from "@/lib/constants";
 
 const STATUS_VARIANT: Record<string, string> = {
-  pendiente: "border-primary/40 bg-primary/10 text-primary",
+  pendiente_pago: "border-primary/40 bg-primary/10 text-primary",
   confirmada: "border-emerald-500/40 bg-emerald-500/10 text-emerald-400",
-  cancelada: "border-destructive/40 bg-destructive/10 text-destructive",
+  en_curso: "border-emerald-500/40 bg-emerald-500/10 text-emerald-400",
+  expirada: "border-destructive/40 bg-destructive/10 text-destructive",
+  cancelada_comensal: "border-destructive/40 bg-destructive/10 text-destructive",
+  cancelada_local: "border-destructive/40 bg-destructive/10 text-destructive",
   completada: "border-border bg-secondary text-muted-foreground",
   no_asistio: "border-destructive/40 bg-destructive/10 text-destructive",
 };

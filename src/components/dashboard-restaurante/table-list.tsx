@@ -14,9 +14,11 @@ import { deleteTableAction } from "@/actions/tables/delete-table";
 export type TableItem = {
   id: string;
   number: number;
+  minSeats: number;
   seats: number;
   zone: string;
   isActive: boolean;
+  platformBookable: boolean;
 };
 
 export function TableList({ tables }: { tables: TableItem[] }) {
@@ -56,9 +58,10 @@ export function TableList({ tables }: { tables: TableItem[] }) {
                     </span>
                     <span className="flex items-center gap-1 text-xs text-muted-foreground">
                       <Users className="size-3.5" />
-                      {table.seats}
+                      {table.minSeats}–{table.seats}
                     </span>
                     {!table.isActive && <Badge variant="outline">Inactiva</Badge>}
+                    {!table.platformBookable && <Badge variant="outline">Solo mostrador</Badge>}
                   </div>
                   <div className="flex items-center gap-2">
                     <Switch

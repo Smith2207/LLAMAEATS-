@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import {
   Dialog,
@@ -38,7 +39,8 @@ export function TableForm({ table }: { table?: ExistingTable }) {
     formState: { errors },
   } = useForm<FormInput, unknown, FormOutput>({
     resolver: zodResolver(createTableSchema),
-    defaultValues: table ?? { number: 1, seats: 2, zone: "Salón Principal" },
+    defaultValues:
+      table ?? { number: 1, minSeats: 1, seats: 2, zone: "Salón Principal", platformBookable: true },
   });
 
   const createAction = useAction(createTableAction, {
@@ -118,7 +120,7 @@ export function TableForm({ table }: { table?: ExistingTable }) {
                 name="seats"
                 render={({ field: { value, onChange, ...field } }) => (
                   <Field>
-                    <FieldLabel htmlFor="seats">Asientos</FieldLabel>
+                    <FieldLabel htmlFor="seats">Asientos (máx.)</FieldLabel>
                     <Input
                       id="seats"
                       type="number"
@@ -134,12 +136,52 @@ export function TableForm({ table }: { table?: ExistingTable }) {
             </div>
             <Controller
               control={control}
+              name="minSeats"
+              render={({ field: { value, onChange, ...field } }) => (
+                <Field>
+                  <FieldLabel htmlFor="minSeats">Mínimo de personas</FieldLabel>
+                  <Input
+                    id="minSeats"
+                    type="number"
+                    min={1}
+                    value={value as number}
+                    onChange={(e) => onChange(e.target.valueAsNumber)}
+                    {...field}
+                  />
+                  <FieldError errors={[errors.minSeats]} />
+                </Field>
+              )}
+            />
+            <Controller
+              control={control}
               name="zone"
               render={({ field }) => (
                 <Field>
                   <FieldLabel htmlFor="zone">Zona</FieldLabel>
                   <Input id="zone" placeholder="Ej. Terraza / Vista al lago" {...field} />
                   <FieldError errors={[errors.zone]} />
+                </Field>
+              )}
+            />
+            <Controller
+              control={control}
+              name="platformBookable"
+              render={({ field }) => (
+                <Field>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <FieldLabel htmlFor="platformBookable">Reservable en LlamaEats</FieldLabel>
+                      <p className="text-xs text-muted-foreground">
+                        Si lo apagas, esta mesa queda solo para mostrador y nunca se ofrece en la
+                        plataforma.
+                      </p>
+                    </div>
+                    <Switch
+                      id="platformBookable"
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </div>
                 </Field>
               )}
             />

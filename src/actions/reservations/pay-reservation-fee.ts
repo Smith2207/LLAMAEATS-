@@ -22,7 +22,7 @@ export const payReservationFeeAction = authActionClient
       if (!reservation || reservation.userId !== ctx.user.id) {
         throw new Error("Reserva no encontrada.");
       }
-      if (reservation.status !== "pendiente") {
+      if (reservation.status !== "pendiente_pago") {
         throw new Error("Esta reserva ya no está pendiente de pago.");
       }
 
@@ -30,7 +30,7 @@ export const payReservationFeeAction = authActionClient
       if (Date.now() > expiresAt) {
         await tx
           .update(reservations)
-          .set({ status: "cancelada", updatedAt: new Date() })
+          .set({ status: "expirada", updatedAt: new Date() })
           .where(eq(reservations.id, reservation.id));
         throw new Error("El tiempo para pagar esta reserva expiró.");
       }

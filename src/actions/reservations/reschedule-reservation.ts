@@ -6,6 +6,7 @@ import { reservations, restaurants, tables } from "@/db/schema";
 import { authActionClient } from "@/lib/actions/safe-action";
 import { rescheduleReservationSchema } from "@/lib/validations/reservation";
 import { isValidSlotForRestaurant, reservationInstant } from "@/lib/reservations/time";
+import { getEffectiveHours } from "@/lib/reservations/schedule";
 import { FREE_CANCELLATION_WINDOW_HOURS } from "@/lib/constants";
 
 type PgError = Error & { code?: string; constraint?: string };
@@ -24,8 +25,11 @@ export const rescheduleReservationAction = authActionClient
         if (!reservation || reservation.userId !== ctx.user.id) {
           throw new Error("Reserva no encontrada.");
         }
-        if (!["pendiente", "confirmada"].includes(reservation.status)) {
+        if (!["pendiente_pago", "confirmada"].includes(reservation.status)) {
           throw new Error("Esta reserva ya no se puede reprogramar.");
+        }
+        if (reservation.rescheduleCount >= 2) {
+          throw new Error("Esta reserva ya alcanzó el máximo de 2 reprogramaciones.");
         }
 
         const currentSlot = reservationInstant(reservation.date, reservation.timeSlot);
@@ -41,12 +45,20 @@ export const rescheduleReservationAction = authActionClient
         });
         if (!restaurant) throw new Error("Restaurante no encontrado.");
 
+        const effectiveHours = await getEffectiveHours(
+          restaurant.id,
+          parsedInput.date,
+          restaurant.openTime,
+          restaurant.closeTime,
+        );
         if (
+          !effectiveHours ||
           !isValidSlotForRestaurant(
             parsedInput.date,
             parsedInput.timeSlot,
-            restaurant.openTime,
-            restaurant.closeTime,
+            effectiveHours.openTime,
+            effectiveHours.closeTime,
+            restaurant.lastBookingBeforeCloseMinutes,
           )
         ) {
           throw new Error("El nuevo horario elegido no es válido.");
@@ -57,11 +69,12 @@ export const rescheduleReservationAction = authActionClient
             eq(tables.id, parsedInput.tableId),
             eq(tables.restaurantId, reservation.restaurantId),
             eq(tables.isActive, true),
+            eq(tables.platformBookable, true),
           ),
         });
         if (!table) throw new Error("La mesa elegida no está disponible.");
-        if (table.seats < reservation.guests) {
-          throw new Error("Esa mesa no tiene capacidad suficiente para el grupo.");
+        if (reservation.guests < table.minSeats || reservation.guests > table.seats) {
+          throw new Error("Esa mesa no tiene la capacidad adecuada para el grupo.");
         }
 
         await tx
@@ -70,6 +83,7 @@ export const rescheduleReservationAction = authActionClient
             tableId: parsedInput.tableId,
             date: parsedInput.date,
             timeSlot: parsedInput.timeSlot,
+            rescheduleCount: reservation.rescheduleCount + 1,
             updatedAt: new Date(),
           })
           .where(eq(reservations.id, reservation.id));

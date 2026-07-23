@@ -8,6 +8,7 @@ import { createReservationSchema } from "@/lib/validations/reservation";
 import { computeServiceFee, isLaunchPromoActive } from "@/lib/reservations/pricing";
 import { generateReservationCode } from "@/lib/reservations/codes";
 import { isValidSlotForRestaurant } from "@/lib/reservations/time";
+import { getEffectiveHours } from "@/lib/reservations/schedule";
 import { RESERVATION_EXPIRY_MINUTES, type RestaurantCategory } from "@/lib/constants";
 
 type PgError = Error & { code?: string; constraint?: string };
@@ -20,12 +21,20 @@ export const createReservationAction = authActionClient
     });
     if (!restaurant) throw new Error("Restaurante no encontrado.");
 
+    const effectiveHours = await getEffectiveHours(
+      restaurant.id,
+      parsedInput.date,
+      restaurant.openTime,
+      restaurant.closeTime,
+    );
     if (
+      !effectiveHours ||
       !isValidSlotForRestaurant(
         parsedInput.date,
         parsedInput.timeSlot,
-        restaurant.openTime,
-        restaurant.closeTime,
+        effectiveHours.openTime,
+        effectiveHours.closeTime,
+        restaurant.lastBookingBeforeCloseMinutes,
       )
     ) {
       throw new Error("El horario elegido ya no es válido.");
@@ -36,11 +45,12 @@ export const createReservationAction = authActionClient
         eq(tables.id, parsedInput.tableId),
         eq(tables.restaurantId, parsedInput.restaurantId),
         eq(tables.isActive, true),
+        eq(tables.platformBookable, true),
       ),
     });
     if (!table) throw new Error("La mesa elegida no está disponible.");
-    if (table.seats < parsedInput.guests) {
-      throw new Error("Esa mesa no tiene capacidad suficiente para el grupo.");
+    if (parsedInput.guests < table.minSeats || parsedInput.guests > table.seats) {
+      throw new Error("Esa mesa no tiene la capacidad adecuada para el grupo.");
     }
 
     const serviceFee = computeServiceFee(restaurant.category as RestaurantCategory);
@@ -63,7 +73,7 @@ export const createReservationAction = authActionClient
               timeSlot: parsedInput.timeSlot,
               guests: parsedInput.guests,
               serviceFee: serviceFee.toFixed(2),
-              status: "pendiente",
+              status: "pendiente_pago",
               notes: parsedInput.notes,
             })
             .returning();

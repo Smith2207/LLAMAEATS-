@@ -13,7 +13,7 @@ export default async function ReprogramarPage({
 
   const reservation = await getReservationByCode(code);
   if (!reservation || reservation.userId !== session.user.id) notFound();
-  if (!["pendiente", "confirmada"].includes(reservation.status)) notFound();
+  if (!["pendiente_pago", "confirmada"].includes(reservation.status)) notFound();
 
   return (
     <main className="mx-auto max-w-2xl px-4 py-10">

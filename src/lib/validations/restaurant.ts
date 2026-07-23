@@ -25,7 +25,16 @@ function withHoursCheck<T extends z.ZodType<{ openTime: string; closeTime: strin
 }
 
 export const submitRestaurantSchema = withHoursCheck(restaurantFieldsSchema);
-export const updateRestaurantProfileSchema = submitRestaurantSchema;
+
+export const updateRestaurantProfileSchema = withHoursCheck(
+  restaurantFieldsSchema.extend({
+    // Colchón de rotación entre reservas de la misma mesa y corte de
+    // última reserva antes del cierre (§4.2) — configurables solo desde el
+    // perfil ya aprobado, con valores por defecto razonables en el alta.
+    turnoverBufferMinutes: z.coerce.number().int().min(0).max(60),
+    lastBookingBeforeCloseMinutes: z.coerce.number().int().min(0).max(120),
+  }),
+);
 
 export const rucLookupSchema = z.object({
   ruc: z.string().trim().regex(rucRegex, "RUC inválido"),

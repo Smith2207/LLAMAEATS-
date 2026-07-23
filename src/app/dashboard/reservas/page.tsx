@@ -10,10 +10,13 @@ export default async function MisReservasPage() {
   const reservations = await getUserReservations(session.user.id);
   const today = todayInLima();
 
+  const ACTIVE_STATUSES = ["pendiente_pago", "confirmada", "en_curso"];
   const proximas = reservations.filter(
-    (r) => r.date >= today && (r.status === "pendiente" || r.status === "confirmada"),
+    (r) => r.date >= today && ACTIVE_STATUSES.includes(r.status),
   );
-  const pasadas = reservations.filter((r) => !(r.date >= today && ["pendiente", "confirmada"].includes(r.status)));
+  const pasadas = reservations.filter(
+    (r) => !(r.date >= today && ACTIVE_STATUSES.includes(r.status)),
+  );
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-10">

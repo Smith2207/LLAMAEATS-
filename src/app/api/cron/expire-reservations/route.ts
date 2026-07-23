@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { expireStaleReservations } from "@/lib/reservations/expire";
+import { expireStaleReservations, markNoShowReservations } from "@/lib/reservations/expire";
 
 export async function GET(req: Request) {
   const authHeader = req.headers.get("authorization");
@@ -7,7 +7,10 @@ export async function GET(req: Request) {
     return new NextResponse("Unauthorized", { status: 401 });
   }
 
-  const expiredCount = await expireStaleReservations();
+  const [expiredCount, noShowCount] = await Promise.all([
+    expireStaleReservations(),
+    markNoShowReservations(),
+  ]);
 
-  return NextResponse.json({ expired: expiredCount });
+  return NextResponse.json({ expired: expiredCount, noShows: noShowCount });
 }

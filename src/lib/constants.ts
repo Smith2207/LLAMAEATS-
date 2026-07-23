@@ -26,10 +26,13 @@ export const PUNO_DISTRICTS = [
 ] as const;
 
 export const RESERVATION_STATUS_LABELS: Record<string, string> = {
-  pendiente: "Pendiente de pago",
+  pendiente_pago: "Pendiente de pago",
   confirmada: "Confirmada",
-  cancelada: "Cancelada",
+  en_curso: "En curso",
   completada: "Completada",
+  expirada: "Expirada",
+  cancelada_comensal: "Cancelada por el comensal",
+  cancelada_local: "Cancelada por el restaurante",
   no_asistio: "No asistió",
 };
 
@@ -54,8 +57,20 @@ export const TIME_SLOT_OPTIONS = [
 ] as const;
 
 export const RESERVATION_BLOCK_MINUTES = 90;
-export const RESERVATION_EXPIRY_MINUTES = 15;
+// Retención de la mesa mientras se completa el pago (§4.4): si no se paga
+// dentro de este plazo, la mesa vuelve automáticamente al inventario.
+export const RESERVATION_EXPIRY_MINUTES = 10;
 export const FREE_CANCELLATION_WINDOW_HOURS = 2;
+
+// Antelación mínima y máxima para reservar (§4.2).
+export const MIN_BOOKING_LEAD_MINUTES = 15;
+export const MAX_BOOKING_LEAD_DAYS = 60;
+
+// Tolerancia por defecto antes de marcar una reserva confirmada como
+// no-asistencia (§4.5). Hoy el marcado es manual desde el anfitrión; esta
+// constante documenta la política aunque el cron automático de no-shows
+// queda fuera de esta fase.
+export const NO_SHOW_GRACE_MINUTES = 15;
 
 export const LIMA_TIME_ZONE = "America/Lima";
 

@@ -38,6 +38,8 @@ export const updateRestaurantProfileAction = roleActionClient("restaurante")
           : {}),
         openTime: parsedInput.openTime,
         closeTime: parsedInput.closeTime,
+        turnoverBufferMinutes: parsedInput.turnoverBufferMinutes,
+        lastBookingBeforeCloseMinutes: parsedInput.lastBookingBeforeCloseMinutes,
         updatedAt: new Date(),
       })
       .where(and(eq(restaurants.id, restaurant.id), eq(restaurants.ownerId, ctx.user.id)));

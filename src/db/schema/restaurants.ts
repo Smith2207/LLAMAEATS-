@@ -1,13 +1,15 @@
 import {
   boolean,
+  date,
   integer,
   jsonb,
   pgTable,
   text,
   time,
   timestamp,
+  uniqueIndex,
 } from "drizzle-orm/pg-core";
-import { restaurantCategoryEnum, restaurantStatusEnum } from "./enums";
+import { restaurantCategoryEnum, restaurantStatusEnum, scheduleExceptionTypeEnum } from "./enums";
 import { users } from "./auth";
 
 export const restaurants = pgTable("restaurants", {
@@ -29,6 +31,16 @@ export const restaurants = pgTable("restaurants", {
   gallery: jsonb("gallery").$type<string[]>().notNull().default([]),
   openTime: time("open_time").notNull(),
   closeTime: time("close_time").notNull(),
+  // Colchón de limpieza/armado entre dos reservas de la misma mesa: una
+  // mesa reservada a las 19:30 con bloque de 90 min + 15 de colchón queda
+  // ocupada hasta las 21:15, aunque el siguiente bloque de la grilla
+  // (21:00) exista — availability.ts la excluye por solape de intervalos.
+  turnoverBufferMinutes: integer("turnover_buffer_minutes").notNull().default(15),
+  // No se acepta ninguna reserva que empiece dentro de estos minutos antes
+  // del cierre (además de que el bloque completo debe caber antes de cerrar).
+  lastBookingBeforeCloseMinutes: integer("last_booking_before_close_minutes")
+    .notNull()
+    .default(0),
   ownerId: text("owner_id")
     .notNull()
     .references(() => users.id, { onDelete: "restrict" }),
@@ -45,7 +57,50 @@ export const tables = pgTable("tables", {
     .notNull()
     .references(() => restaurants.id, { onDelete: "cascade" }),
   number: integer("number").notNull(),
+  // Capacidad máxima. minSeats acota por abajo (una mesa de 8 no debería
+  // ofrecerse por defecto a una reserva de 1 persona un día lleno).
   seats: integer("seats").notNull(),
+  minSeats: integer("min_seats").notNull().default(1),
   zone: text("zone").notNull(),
   isActive: boolean("is_active").notNull().default(true),
+  // Cupo de reserva vs. cupo libre (§4.3): si el local desactiva esto para
+  // una mesa, esa mesa nunca aparece en la disponibilidad de la plataforma
+  // aunque esté activa — queda reservada para walk-ins/mostrador.
+  platformBookable: boolean("platform_bookable").notNull().default(true),
+});
+
+// Excepciones al horario base por fecha: feriados, cierres, horario
+// extendido o eventos privados que bloquean el local completo (§4.2).
+export const restaurantScheduleExceptions = pgTable(
+  "restaurant_schedule_exceptions",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    restaurantId: text("restaurant_id")
+      .notNull()
+      .references(() => restaurants.id, { onDelete: "cascade" }),
+    date: date("date", { mode: "string" }).notNull(),
+    type: scheduleExceptionTypeEnum("type").notNull(),
+    // Solo aplican cuando type = "horario_especial"; en "cerrado" y
+    // "evento_privado" el local no acepta reservas ese día.
+    openTime: time("open_time"),
+    closeTime: time("close_time"),
+    note: text("note"),
+    createdAt: timestamp("created_at", { mode: "date", withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [uniqueIndex("schedule_exceptions_restaurant_date_unique").on(t.restaurantId, t.date)],
+);
+
+// Feriados nacionales y fiestas locales de Puno, precargados como
+// referencia (§4.2, §13.4). Informativos: no cierran el local
+// automáticamente (muchos son temporada alta), pero se muestran al
+// comensal y se ofrecen como sugerencia rápida al crear una excepción.
+export const holidays = pgTable("holidays", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  date: date("date", { mode: "string" }).notNull().unique(),
+  name: text("name").notNull(),
+  scope: text("scope").notNull(), // "nacional" | "puno"
 });

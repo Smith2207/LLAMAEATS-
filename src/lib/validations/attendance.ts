@@ -1,6 +1,5 @@
 import { z } from "zod";
 
-export const markAttendanceSchema = z.object({
+export const reservationCodeInputSchema = z.object({
   code: z.string(),
-  attended: z.boolean(),
 });

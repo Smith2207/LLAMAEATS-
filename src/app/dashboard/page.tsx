@@ -11,7 +11,11 @@ export default async function DashboardPage() {
   const reservations = await getUserReservations(session.user.id);
   const today = todayInLima();
   const proximas = reservations
-    .filter((r) => r.date >= today && (r.status === "pendiente" || r.status === "confirmada"))
+    .filter(
+      (r) =>
+        r.date >= today &&
+        ["pendiente_pago", "confirmada", "en_curso"].includes(r.status),
+    )
     .slice(0, 3);
 
   return (

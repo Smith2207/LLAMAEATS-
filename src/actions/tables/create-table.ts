@@ -15,8 +15,10 @@ export const createTableAction = roleActionClient("restaurante")
     await db.insert(tables).values({
       restaurantId: restaurant.id,
       number: parsedInput.number,
+      minSeats: parsedInput.minSeats,
       seats: parsedInput.seats,
       zone: parsedInput.zone,
+      platformBookable: parsedInput.platformBookable,
     });
 
     revalidatePath("/restaurante/mesas");

@@ -32,7 +32,7 @@ export default async function RestaurantePage() {
   const today = todayInLima();
   const todayReservations = await getRestaurantReservationsForDate(restaurant.id, today);
   const activeToday = todayReservations.filter((r) =>
-    ["pendiente", "confirmada"].includes(r.status),
+    ["pendiente_pago", "confirmada", "en_curso"].includes(r.status),
   );
 
   return (

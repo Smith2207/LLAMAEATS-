@@ -22,15 +22,16 @@ import { PUNO_DISTRICTS, RESTAURANT_CATEGORIES } from "@/lib/constants";
 import { RucField } from "@/components/dashboard-restaurante/ruc-field";
 import type { z } from "zod";
 
-type FormValues = z.infer<typeof updateRestaurantProfileSchema>;
+type FormInput = z.input<typeof updateRestaurantProfileSchema>;
+type FormOutput = z.output<typeof updateRestaurantProfileSchema>;
 
-export function RestaurantProfileForm({ defaultValues }: { defaultValues: FormValues }) {
+export function RestaurantProfileForm({ defaultValues }: { defaultValues: FormInput }) {
   const router = useRouter();
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormValues>({
+  } = useForm<FormInput, unknown, FormOutput>({
     resolver: zodResolver(updateRestaurantProfileSchema),
     defaultValues,
   });
@@ -146,6 +147,48 @@ export function RestaurantProfileForm({ defaultValues }: { defaultValues: FormVa
                 <FieldLabel htmlFor="closeTime">Hora de cierre</FieldLabel>
                 <Input id="closeTime" type="time" {...field} />
                 <FieldError errors={[errors.closeTime]} />
+              </Field>
+            )}
+          />
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <Controller
+            control={control}
+            name="turnoverBufferMinutes"
+            render={({ field: { value, onChange, ...field } }) => (
+              <Field>
+                <FieldLabel htmlFor="turnoverBufferMinutes">
+                  Colchón entre reservas (min)
+                </FieldLabel>
+                <Input
+                  id="turnoverBufferMinutes"
+                  type="number"
+                  min={0}
+                  value={value as number}
+                  onChange={(e) => onChange(e.target.valueAsNumber)}
+                  {...field}
+                />
+                <FieldError errors={[errors.turnoverBufferMinutes]} />
+              </Field>
+            )}
+          />
+          <Controller
+            control={control}
+            name="lastBookingBeforeCloseMinutes"
+            render={({ field: { value, onChange, ...field } }) => (
+              <Field>
+                <FieldLabel htmlFor="lastBookingBeforeCloseMinutes">
+                  Última reserva antes de cerrar (min)
+                </FieldLabel>
+                <Input
+                  id="lastBookingBeforeCloseMinutes"
+                  type="number"
+                  min={0}
+                  value={value as number}
+                  onChange={(e) => onChange(e.target.valueAsNumber)}
+                  {...field}
+                />
+                <FieldError errors={[errors.lastBookingBeforeCloseMinutes]} />
               </Field>
             )}
           />

@@ -34,7 +34,7 @@ export const cancelReservationAction = authActionClient
       if (!isOwner && !isRestaurantOwner && !isAdmin) {
         throw new Error("No tienes permiso para cancelar esta reserva.");
       }
-      if (!["pendiente", "confirmada"].includes(reservation.status)) {
+      if (!["pendiente_pago", "confirmada"].includes(reservation.status)) {
         throw new Error("Esta reserva ya no se puede cancelar.");
       }
 
@@ -45,9 +45,14 @@ export const cancelReservationAction = authActionClient
       const clienteInitiated = isOwner && ctx.user.role === "cliente";
       const eligibleForRefund = !clienteInitiated || hoursUntil > FREE_CANCELLATION_WINDOW_HOURS;
 
+      // El estado refleja quién canceló (§4.5): si lo hace el restaurante o
+      // un admin en su nombre, siempre reembolso total + queda registrado
+      // como cancelación del local (afecta su historial), no del comensal.
+      const newStatus = clienteInitiated ? "cancelada_comensal" : "cancelada_local";
+
       await tx
         .update(reservations)
-        .set({ status: "cancelada", updatedAt: new Date() })
+        .set({ status: newStatus, updatedAt: new Date() })
         .where(eq(reservations.id, reservation.id));
 
       let refunded = false;

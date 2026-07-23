@@ -22,7 +22,7 @@ export async function getRestaurantOccupancyByDay(restaurantId: string, days = 1
       and(
         eq(reservations.restaurantId, restaurantId),
         gte(reservations.date, since),
-        inArray(reservations.status, ["confirmada", "completada", "no_asistio"]),
+        inArray(reservations.status, ["confirmada", "en_curso", "completada", "no_asistio"]),
       ),
     )
     .groupBy(reservations.date)
@@ -48,7 +48,10 @@ export async function getPlatformStatsByDay(days = 14) {
     })
     .from(reservations)
     .where(
-      and(gte(reservations.date, since), inArray(reservations.status, ["confirmada", "completada", "no_asistio"])),
+      and(
+        gte(reservations.date, since),
+        inArray(reservations.status, ["confirmada", "en_curso", "completada", "no_asistio"]),
+      ),
     )
     .groupBy(reservations.date)
     .orderBy(reservations.date);
@@ -69,10 +72,10 @@ export async function getCancellationRate(days = 30) {
   const [row] = await db
     .select({
       total: sql<number>`count(*)::int`,
-      cancelled: sql<number>`count(*) filter (where ${reservations.status} = 'cancelada')::int`,
+      cancelled: sql<number>`count(*) filter (where ${reservations.status} in ('cancelada_comensal', 'cancelada_local'))::int`,
     })
     .from(reservations)
-    .where(and(gte(reservations.date, since), ne(reservations.status, "pendiente")));
+    .where(and(gte(reservations.date, since), ne(reservations.status, "pendiente_pago")));
 
   const total = row?.total ?? 0;
   const cancelled = row?.cancelled ?? 0;
@@ -89,7 +92,7 @@ export async function getTopRestaurants(limit = 5) {
     })
     .from(reservations)
     .innerJoin(restaurants, eq(restaurants.id, reservations.restaurantId))
-    .where(inArray(reservations.status, ["confirmada", "completada", "no_asistio"]))
+    .where(inArray(reservations.status, ["confirmada", "en_curso", "completada", "no_asistio"]))
     .groupBy(reservations.restaurantId, restaurants.name)
     .orderBy(sql`count(*) desc`)
     .limit(limit);
