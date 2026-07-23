@@ -10,20 +10,25 @@ import {
   MunicipalLicenseUpload,
 } from "@/components/dashboard-restaurante/compliance-documents";
 import { RepresentativeForm } from "@/components/dashboard-restaurante/representative-form";
+import { SessionsList } from "@/components/shared/sessions-list";
 import { Separator } from "@/components/ui/separator";
 import {
   getRestaurantScheduleExceptions,
   getUpcomingHolidays,
 } from "@/lib/reservations/schedule";
+import { getUserSessions } from "@/lib/users/sessions";
+import { getCurrentSessionToken } from "@/lib/auth/current-session";
 
 export default async function RestaurantePerfilPage() {
   const session = await requireRole("restaurante");
   const restaurant = await getOwnedRestaurant(session.user.id);
   if (!restaurant) redirect("/restaurante");
 
-  const [exceptions, holidays] = await Promise.all([
+  const [exceptions, holidays, sessions, currentSessionToken] = await Promise.all([
     getRestaurantScheduleExceptions(restaurant.id),
     getUpcomingHolidays(),
+    getUserSessions(session.user.id),
+    getCurrentSessionToken(),
   ]);
 
   return (
@@ -102,6 +107,13 @@ export default async function RestaurantePerfilPage() {
           }}
           emailVerified={Boolean(restaurant.representativeEmailVerifiedAt)}
         />
+      </div>
+
+      <Separator className="my-8" />
+
+      <h2 className="font-display text-lg font-semibold text-foreground">Sesiones activas</h2>
+      <div className="mt-4">
+        <SessionsList sessions={sessions} currentSessionToken={currentSessionToken} />
       </div>
     </main>
   );

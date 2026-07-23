@@ -27,6 +27,7 @@ export const authConfig: NextAuthConfig = {
         session.user.id = user.id;
         session.user.role = user.role;
         session.user.phone = user.phone;
+        session.user.twoFactorEnabled = user.twoFactorEnabled;
       }
       return session;
     },

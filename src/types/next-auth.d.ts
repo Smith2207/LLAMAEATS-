@@ -6,6 +6,7 @@ declare module "next-auth" {
       id: string;
       role: "cliente" | "restaurante" | "admin";
       phone: string | null;
+      twoFactorEnabled: boolean;
     } & DefaultSession["user"];
   }
 }
@@ -14,5 +15,6 @@ declare module "next-auth/adapters" {
   interface AdapterUser {
     role: "cliente" | "restaurante" | "admin";
     phone: string | null;
+    twoFactorEnabled: boolean;
   }
 }

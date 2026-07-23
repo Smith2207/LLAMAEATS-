@@ -43,6 +43,13 @@
       "when": 1784844795378,
       "tag": "0005_amused_wolverine",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1784846456426,
+      "tag": "0006_slim_spot",
+      "breakpoints": true
     }
   ]
 }

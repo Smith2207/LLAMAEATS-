@@ -1,4 +1,4 @@
-import { integer, pgTable, primaryKey, text, timestamp } from "drizzle-orm/pg-core";
+import { boolean, integer, pgTable, primaryKey, text, timestamp } from "drizzle-orm/pg-core";
 import type { AdapterAccountType } from "next-auth/adapters";
 import { userRoleEnum } from "./enums";
 
@@ -13,6 +13,12 @@ export const users = pgTable("users", {
   role: userRoleEnum("role").notNull().default("cliente"),
   phone: text("phone"),
   deletedAt: timestamp("deleted_at", { mode: "date", withTimezone: true }),
+  // 2FA obligatorio para roles administrativos (§11): secreto TOTP en
+  // texto — igual que cualquier "credencial compartida" (ej. una
+  // contraseña hasheada), este campo nunca se expone al cliente ni se
+  // incluye en la sesión, solo se lee dentro de server actions.
+  twoFactorEnabled: boolean("two_factor_enabled").notNull().default(false),
+  twoFactorSecret: text("two_factor_secret"),
   createdAt: timestamp("created_at", { mode: "date", withTimezone: true }).notNull().defaultNow(),
 });
 

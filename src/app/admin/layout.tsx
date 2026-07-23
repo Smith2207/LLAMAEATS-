@@ -6,6 +6,7 @@ const NAV_ITEMS = [
   { href: "/admin", label: "Dashboard" },
   { href: "/admin/restaurantes", label: "Restaurantes" },
   { href: "/admin/usuarios", label: "Usuarios" },
+  { href: "/admin/seguridad", label: "Seguridad" },
 ];
 
 export default async function AdminLayout({
