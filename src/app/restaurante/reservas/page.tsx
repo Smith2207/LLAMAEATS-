@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { requireRole } from "@/lib/auth/session";
 import { getOwnedRestaurant } from "@/lib/restaurants/owner";
 import { getRestaurantReservationsForDate } from "@/lib/reservations/queries";
-import { ReservationsInbox } from "@/components/dashboard-restaurante/reservations-inbox";
+import { ReservasViewSwitcher } from "@/components/dashboard-restaurante/reservas-view-switcher";
 import { DateFilterInput } from "@/components/dashboard-restaurante/date-filter-input";
 import { ManualReservationDialog } from "@/components/dashboard-restaurante/manual-reservation-dialog";
 import { QuickCloseToday } from "@/components/dashboard-restaurante/quick-close-today";
@@ -24,7 +24,7 @@ export default async function RestauranteReservasPage({
   const reservations = await getRestaurantReservationsForDate(restaurant.id, selectedDate);
 
   return (
-    <main className="mx-auto max-w-3xl px-4 py-10">
+    <main className="mx-auto max-w-5xl px-4 py-10">
       <div className="flex flex-wrap items-center justify-between gap-3 print:block">
         <div>
           <h1 className="font-display text-2xl font-bold text-foreground">Reservas del día</h1>
@@ -45,7 +45,13 @@ export default async function RestauranteReservasPage({
       </div>
 
       <div className="mt-6">
-        <ReservationsInbox reservations={reservations} />
+        <ReservasViewSwitcher
+          reservations={reservations}
+          tables={restaurant.tables.filter((t) => t.isActive)}
+          openTime={restaurant.openTime.slice(0, 5)}
+          closeTime={restaurant.closeTime.slice(0, 5)}
+          turnoverBufferMinutes={restaurant.turnoverBufferMinutes}
+        />
       </div>
     </main>
   );

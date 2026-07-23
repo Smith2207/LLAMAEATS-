@@ -23,6 +23,7 @@ import { cn } from "@/lib/utils";
 
 export type InboxReservation = {
   code: string;
+  tableId: string;
   timeSlot: string;
   guests: number;
   status: string;

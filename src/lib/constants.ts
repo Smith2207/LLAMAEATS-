@@ -36,6 +36,11 @@ export const RESERVATION_STATUS_LABELS: Record<string, string> = {
   no_asistio: "No asistió",
 };
 
+// Estados que realmente ocupan una mesa hoy (para disponibilidad y agenda).
+// Sin `as const`: se compara contra columnas `status: string` leídas de la
+// base de datos, no contra el tipo literal del enum.
+export const RESERVATION_ACTIVE_STATUSES: string[] = ["pendiente_pago", "confirmada", "en_curso"];
+
 export const RESTAURANT_STATUS_LABELS: Record<string, string> = {
   enviada: "Enviada, en cola",
   en_revision: "En revisión",
