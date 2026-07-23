@@ -1,4 +1,5 @@
 import { formatPEN } from "@/lib/utils";
+import { StatCard } from "@/components/shared/stat-card";
 
 export function KpiCards({
   totalReservations,
@@ -20,11 +21,8 @@ export function KpiCards({
 
   return (
     <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-      {items.map((item) => (
-        <div key={item.label} className="rounded-xl border border-border/60 bg-card p-4">
-          <p className="text-xs text-muted-foreground">{item.label}</p>
-          <p className="mt-1 font-display text-2xl font-bold text-foreground">{item.value}</p>
-        </div>
+      {items.map((item, i) => (
+        <StatCard key={item.label} label={item.label} value={item.value} index={i} />
       ))}
     </div>
   );

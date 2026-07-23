@@ -17,7 +17,7 @@ export default async function AdminLayout({
 
   return (
     <div className="min-h-svh">
-      <Navbar />
+      <Navbar hidePanelLink />
       <DashboardNav items={NAV_ITEMS} />
       {children}
     </div>

@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { CalendarDays, MapPin } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { RESERVATION_STATUS_LABELS } from "@/lib/constants";
@@ -21,35 +24,48 @@ export type ReservationCardData = {
   table: { number: number; zone: string } | null;
 };
 
-export function ReservationCard({ reservation }: { reservation: ReservationCardData }) {
+export function ReservationCard({
+  reservation,
+  index = 0,
+}: {
+  reservation: ReservationCardData;
+  index?: number;
+}) {
   return (
-    <Link
-      href={`/dashboard/reservas/${reservation.code}`}
-      className="flex items-center justify-between gap-4 rounded-xl border border-border/60 bg-card p-4 transition-colors hover:border-primary/40"
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      whileHover={{ y: -2 }}
+      transition={{ duration: 0.3, delay: index * 0.06, ease: "easeOut" }}
     >
-      <div>
-        <p className="font-display font-semibold text-foreground">
-          {reservation.restaurant?.name ?? "Restaurante"}
-        </p>
-        <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
-          <span className="flex items-center gap-1">
-            <CalendarDays className="size-3.5" />
-            {reservation.date} · {reservation.timeSlot.slice(0, 5)}
-          </span>
-          {reservation.restaurant && (
+      <Link
+        href={`/dashboard/reservas/${reservation.code}`}
+        className="flex items-center justify-between gap-4 rounded-xl border border-border/60 bg-card p-4 transition-colors hover:border-primary/40"
+      >
+        <div>
+          <p className="font-display font-semibold text-foreground">
+            {reservation.restaurant?.name ?? "Restaurante"}
+          </p>
+          <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
             <span className="flex items-center gap-1">
-              <MapPin className="size-3.5" />
-              {reservation.restaurant.district}
+              <CalendarDays className="size-3.5" />
+              {reservation.date} · {reservation.timeSlot.slice(0, 5)}
             </span>
-          )}
-          <span>
-            {reservation.guests} {reservation.guests === 1 ? "persona" : "personas"}
-          </span>
+            {reservation.restaurant && (
+              <span className="flex items-center gap-1">
+                <MapPin className="size-3.5" />
+                {reservation.restaurant.district}
+              </span>
+            )}
+            <span>
+              {reservation.guests} {reservation.guests === 1 ? "persona" : "personas"}
+            </span>
+          </div>
         </div>
-      </div>
-      <Badge variant="outline" className={STATUS_VARIANT[reservation.status]}>
-        {RESERVATION_STATUS_LABELS[reservation.status] ?? reservation.status}
-      </Badge>
-    </Link>
+        <Badge variant="outline" className={STATUS_VARIANT[reservation.status]}>
+          {RESERVATION_STATUS_LABELS[reservation.status] ?? reservation.status}
+        </Badge>
+      </Link>
+    </motion.div>
   );
 }

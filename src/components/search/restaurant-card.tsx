@@ -19,7 +19,13 @@ export type RestaurantCardData = {
   reviewCount: number;
 };
 
-export function RestaurantCard({ restaurant }: { restaurant: RestaurantCardData }) {
+export function RestaurantCard({
+  restaurant,
+  index = 0,
+}: {
+  restaurant: RestaurantCardData;
+  index?: number;
+}) {
   const categoryLabel =
     RESTAURANT_CATEGORIES.find((c) => c.value === restaurant.category)?.label ??
     restaurant.category;
@@ -31,7 +37,7 @@ export function RestaurantCard({ restaurant }: { restaurant: RestaurantCardData 
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ y: -4 }}
-      transition={{ duration: 0.3, ease: "easeOut" }}
+      transition={{ duration: 0.3, delay: Math.min(index, 8) * 0.05, ease: "easeOut" }}
     >
       <Link
         href={`/restaurantes/${restaurant.slug}`}

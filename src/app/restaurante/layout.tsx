@@ -19,7 +19,7 @@ export default async function RestauranteLayout({
 
   return (
     <div className="min-h-svh">
-      <Navbar />
+      <Navbar hidePanelLink />
       <DashboardNav items={NAV_ITEMS} />
       {children}
     </div>

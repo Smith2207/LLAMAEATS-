@@ -43,8 +43,8 @@ export default async function BuscarPage({
           <EmptyState message="No encontramos restaurantes con esos filtros. Prueba con otra fecha, hora o categoría." />
         ) : (
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {restaurants.map((r) => (
-              <RestaurantCard key={r.id} restaurant={r} />
+            {restaurants.map((r, i) => (
+              <RestaurantCard key={r.id} restaurant={r} index={i} />
             ))}
           </div>
         )}

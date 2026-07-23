@@ -28,14 +28,14 @@ export default async function MisReservasPage() {
           {proximas.length === 0 ? (
             <EmptyState message="No tienes reservas próximas. ¡Busca un restaurante y asegura tu mesa!" />
           ) : (
-            proximas.map((r) => <ReservationCard key={r.code} reservation={r} />)
+            proximas.map((r, i) => <ReservationCard key={r.code} reservation={r} index={i} />)
           )}
         </TabsContent>
         <TabsContent value="pasadas" className="mt-4 flex flex-col gap-3">
           {pasadas.length === 0 ? (
             <EmptyState message="Todavía no tienes historial de reservas." />
           ) : (
-            pasadas.map((r) => <ReservationCard key={r.code} reservation={r} />)
+            pasadas.map((r, i) => <ReservationCard key={r.code} reservation={r} index={i} />)
           )}
         </TabsContent>
       </Tabs>

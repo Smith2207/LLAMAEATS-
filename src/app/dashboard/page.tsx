@@ -30,8 +30,8 @@ export default async function DashboardPage() {
         <EmptyState message="No tienes reservas próximas. ¡Busca un restaurante y asegura tu mesa!" />
       ) : (
         <div className="flex flex-col gap-3">
-          {proximas.map((r) => (
-            <ReservationCard key={r.code} reservation={r} />
+          {proximas.map((r, i) => (
+            <ReservationCard key={r.code} reservation={r} index={i} />
           ))}
         </div>
       )}

@@ -1,7 +1,15 @@
+"use client";
+
+import { motion } from "framer-motion";
 import { Clock, MapPin, Sparkles, Star } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { RESTAURANT_CATEGORIES, type RestaurantCategory } from "@/lib/constants";
 import { baseServiceFee, computeServiceFee, isLaunchPromoActive } from "@/lib/reservations/pricing";
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 12 },
+  show: { opacity: 1, y: 0 },
+};
 
 export function InfoHeader({
   name,
@@ -31,18 +39,36 @@ export function InfoHeader({
   const promoActive = isLaunchPromoActive();
 
   return (
-    <div>
-      <div className="flex flex-wrap items-center gap-2">
+    <motion.div
+      initial="hidden"
+      animate="show"
+      transition={{ staggerChildren: 0.08 }}
+    >
+      <motion.div variants={fadeUp} transition={{ duration: 0.3, ease: "easeOut" }} className="flex flex-wrap items-center gap-2">
         <Badge>{categoryLabel}</Badge>
         <span className="flex items-center gap-1 text-sm text-foreground">
           <Star className="size-4 fill-primary text-primary" />
           {avgRating ? avgRating.toFixed(1) : "Nuevo"}
           {reviewCount > 0 && <span className="text-muted-foreground">({reviewCount} reseñas)</span>}
         </span>
-      </div>
-      <h1 className="mt-3 font-display text-3xl font-bold text-foreground sm:text-4xl">{name}</h1>
-      {description && <p className="mt-3 text-muted-foreground">{description}</p>}
-      <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground">
+      </motion.div>
+      <motion.h1
+        variants={fadeUp}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+        className="mt-3 font-display text-3xl font-bold text-foreground sm:text-4xl"
+      >
+        {name}
+      </motion.h1>
+      {description && (
+        <motion.p variants={fadeUp} transition={{ duration: 0.3, ease: "easeOut" }} className="mt-3 text-muted-foreground">
+          {description}
+        </motion.p>
+      )}
+      <motion.div
+        variants={fadeUp}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+        className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground"
+      >
         <span className="flex items-center gap-1.5">
           <MapPin className="size-4" />
           {address ? `${address}, ${district}` : district}
@@ -51,8 +77,12 @@ export function InfoHeader({
           <Clock className="size-4" />
           {openTime.slice(0, 5)} – {closeTime.slice(0, 5)}
         </span>
-      </div>
-      <p className="mt-2 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+      </motion.div>
+      <motion.p
+        variants={fadeUp}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+        className="mt-2 flex flex-wrap items-center gap-2 text-xs text-muted-foreground"
+      >
         <span>
           Tarifa de servicio LlamaEats:{" "}
           {promoActive && (
@@ -69,7 +99,7 @@ export function InfoHeader({
             Promo de lanzamiento
           </Badge>
         )}
-      </p>
-    </div>
+      </motion.p>
+    </motion.div>
   );
 }

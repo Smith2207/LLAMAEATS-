@@ -4,6 +4,7 @@ import { MotionConfig } from "framer-motion";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { WhatsAppButton } from "@/components/shared/whatsapp-button";
+import { PageTransition } from "@/components/animations/page-transition";
 import "./globals.css";
 
 const sora = Sora({
@@ -37,7 +38,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-background text-foreground font-body">
         <MotionConfig reducedMotion="user">
           <TooltipProvider>
-            {children}
+            <PageTransition>{children}</PageTransition>
             <WhatsAppButton />
             <Toaster richColors position="top-center" />
           </TooltipProvider>

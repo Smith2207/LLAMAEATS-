@@ -3,6 +3,7 @@ import { requireRole } from "@/lib/auth/session";
 import { getOwnedRestaurant } from "@/lib/restaurants/owner";
 import { getRestaurantReservationsForDate } from "@/lib/reservations/queries";
 import { RestaurantForm } from "@/components/dashboard-restaurante/restaurant-form";
+import { StatCard } from "@/components/shared/stat-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { RESTAURANT_STATUS_LABELS } from "@/lib/constants";
@@ -55,20 +56,13 @@ export default async function RestaurantePage() {
       )}
 
       <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <div className="rounded-xl border border-border/60 bg-card p-4">
-          <p className="text-xs text-muted-foreground">Mesas activas</p>
-          <p className="mt-1 text-2xl font-bold text-foreground">
-            {restaurant.tables.filter((t) => t.isActive).length}
-          </p>
-        </div>
-        <div className="rounded-xl border border-border/60 bg-card p-4">
-          <p className="text-xs text-muted-foreground">Reservas hoy</p>
-          <p className="mt-1 text-2xl font-bold text-foreground">{activeToday.length}</p>
-        </div>
-        <div className="rounded-xl border border-border/60 bg-card p-4">
-          <p className="text-xs text-muted-foreground">Total de mesas</p>
-          <p className="mt-1 text-2xl font-bold text-foreground">{restaurant.tables.length}</p>
-        </div>
+        <StatCard
+          label="Mesas activas"
+          value={String(restaurant.tables.filter((t) => t.isActive).length)}
+          index={0}
+        />
+        <StatCard label="Reservas hoy" value={String(activeToday.length)} index={1} />
+        <StatCard label="Total de mesas" value={String(restaurant.tables.length)} index={2} />
       </div>
 
       <div className="mt-8 flex flex-wrap gap-3">

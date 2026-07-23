@@ -56,7 +56,7 @@ export default async function RestaurantDetailPage({
           </div>
         </div>
 
-        <aside className="h-fit rounded-2xl border border-border/60 bg-card p-5 lg:sticky lg:top-24">
+        <aside className="h-fit animate-in fade-in slide-in-from-bottom-4 duration-500 rounded-2xl border border-border/60 bg-card p-5 lg:sticky lg:top-24">
           <p className="text-sm text-muted-foreground">Reserva tu mesa en minutos</p>
           <p className="mt-1 text-2xl font-bold text-foreground">{restaurant.name}</p>
           <Button asChild size="lg" className="mt-4 w-full">

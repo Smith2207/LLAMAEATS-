@@ -13,7 +13,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { LogOut, LayoutDashboard } from "lucide-react";
 import { ROLE_HOME } from "@/lib/constants";
 
-export async function Navbar() {
+export async function Navbar({ hidePanelLink = false }: { hidePanelLink?: boolean } = {}) {
   const session = await auth();
 
   return (
@@ -42,13 +42,17 @@ export async function Navbar() {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel className="truncate">{session.user.email}</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem asChild>
-                <Link href={ROLE_HOME[session.user.role] ?? "/dashboard"}>
-                  <LayoutDashboard />
-                  Mi panel
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
+              {!hidePanelLink && (
+                <>
+                  <DropdownMenuItem asChild>
+                    <Link href={ROLE_HOME[session.user.role] ?? "/dashboard"}>
+                      <LayoutDashboard />
+                      Mi panel
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                </>
+              )}
               <form
                 action={async () => {
                   "use server";
