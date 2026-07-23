@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CheckCircle2, ShieldAlert } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { RESTAURANT_CATEGORIES, RESTAURANT_STATUS_LABELS } from "@/lib/constants";
@@ -9,6 +10,8 @@ export type RestaurantModerationItem = {
   district: string;
   category: string;
   status: string;
+  ruc: string | null;
+  rucVerifiedAt: Date | null;
   owner: { name: string | null; email: string } | null;
 };
 
@@ -29,6 +32,19 @@ export function RestaurantApprovalCard({ restaurant }: { restaurant: RestaurantM
         <p className="font-display font-semibold text-foreground">{restaurant.name}</p>
         <p className="text-xs text-muted-foreground">
           {categoryLabel} · {restaurant.district} · {restaurant.owner?.name ?? restaurant.owner?.email}
+        </p>
+        <p className="mt-1 flex items-center gap-1 text-xs">
+          {restaurant.rucVerifiedAt ? (
+            <span className="flex items-center gap-1 text-emerald-500">
+              <CheckCircle2 className="size-3.5" />
+              RUC verificado
+            </span>
+          ) : (
+            <span className="flex items-center gap-1 text-muted-foreground">
+              <ShieldAlert className="size-3.5" />
+              {restaurant.ruc ? "RUC sin verificar" : "Sin RUC"}
+            </span>
+          )}
         </p>
       </div>
       <div className="flex items-center gap-2">

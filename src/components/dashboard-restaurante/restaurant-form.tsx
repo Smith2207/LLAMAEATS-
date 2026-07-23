@@ -19,6 +19,7 @@ import {
 import { submitRestaurantForApprovalAction } from "@/actions/restaurants/submit-restaurant";
 import { submitRestaurantSchema } from "@/lib/validations/restaurant";
 import { PUNO_DISTRICTS, RESTAURANT_CATEGORIES } from "@/lib/constants";
+import { RucField } from "@/components/dashboard-restaurante/ruc-field";
 import type { z } from "zod";
 
 type FormValues = z.infer<typeof submitRestaurantSchema>;
@@ -38,6 +39,7 @@ export function RestaurantForm() {
       address: "",
       district: PUNO_DISTRICTS[0],
       category: "comida_tipica",
+      ruc: "",
       openTime: "12:00",
       closeTime: "22:00",
     },
@@ -89,6 +91,7 @@ export function RestaurantForm() {
             </Field>
           )}
         />
+        <RucField control={control} errors={errors} />
         <div className="grid grid-cols-2 gap-4">
           <Controller
             control={control}

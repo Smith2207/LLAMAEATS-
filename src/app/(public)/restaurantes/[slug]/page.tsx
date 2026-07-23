@@ -46,6 +46,7 @@ export default async function RestaurantDetailPage({
             closeTime={restaurant.closeTime}
             avgRating={restaurant.avgRating}
             reviewCount={restaurant.reviewCount}
+            rucVerified={Boolean(restaurant.rucVerifiedAt)}
           />
 
           <Separator className="my-8" />

@@ -19,6 +19,7 @@ import {
 import { updateRestaurantProfileAction } from "@/actions/restaurants/update-restaurant-profile";
 import { updateRestaurantProfileSchema } from "@/lib/validations/restaurant";
 import { PUNO_DISTRICTS, RESTAURANT_CATEGORIES } from "@/lib/constants";
+import { RucField } from "@/components/dashboard-restaurante/ruc-field";
 import type { z } from "zod";
 
 type FormValues = z.infer<typeof updateRestaurantProfileSchema>;
@@ -80,6 +81,7 @@ export function RestaurantProfileForm({ defaultValues }: { defaultValues: FormVa
             </Field>
           )}
         />
+        <RucField control={control} errors={errors} />
         <div className="grid grid-cols-2 gap-4">
           <Controller
             control={control}

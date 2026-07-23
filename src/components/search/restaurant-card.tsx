@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { MapPin, Star, UtensilsCrossed } from "lucide-react";
+import { BadgeCheck, MapPin, Star, UtensilsCrossed } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { RESTAURANT_CATEGORIES, type RestaurantCategory } from "@/lib/constants";
 import { computeServiceFee } from "@/lib/reservations/pricing";
@@ -17,6 +17,7 @@ export type RestaurantCardData = {
   coverBlobUrl: string | null;
   avgRating: number | null;
   reviewCount: number;
+  rucVerifiedAt: Date | null;
 };
 
 export function RestaurantCard({
@@ -62,7 +63,12 @@ export function RestaurantCard({
           </Badge>
         </div>
         <div className="flex flex-col gap-1.5 p-4">
-          <h3 className="font-display font-semibold text-foreground">{restaurant.name}</h3>
+          <h3 className="flex items-center gap-1 font-display font-semibold text-foreground">
+            {restaurant.name}
+            {restaurant.rucVerifiedAt && (
+              <BadgeCheck className="size-4 shrink-0 text-primary" aria-label="Negocio verificado" />
+            )}
+          </h3>
           <div className="flex items-center gap-1 text-xs text-muted-foreground">
             <MapPin className="size-3.5" />
             {restaurant.district}

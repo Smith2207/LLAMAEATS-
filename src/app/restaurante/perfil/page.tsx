@@ -29,6 +29,7 @@ export default async function RestaurantePerfilPage() {
           address: restaurant.address ?? "",
           district: restaurant.district,
           category: restaurant.category,
+          ruc: restaurant.ruc ?? "",
           openTime: restaurant.openTime.slice(0, 5),
           closeTime: restaurant.closeTime.slice(0, 5),
         }}

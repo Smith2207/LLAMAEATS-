@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Clock, MapPin, Sparkles, Star } from "lucide-react";
+import { BadgeCheck, Clock, MapPin, Sparkles, Star } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { RESTAURANT_CATEGORIES, type RestaurantCategory } from "@/lib/constants";
 import { baseServiceFee, computeServiceFee, isLaunchPromoActive } from "@/lib/reservations/pricing";
@@ -21,6 +21,7 @@ export function InfoHeader({
   closeTime,
   avgRating,
   reviewCount,
+  rucVerified,
 }: {
   name: string;
   description: string | null;
@@ -31,6 +32,7 @@ export function InfoHeader({
   closeTime: string;
   avgRating: number | null;
   reviewCount: number;
+  rucVerified: boolean;
 }) {
   const categoryLabel =
     RESTAURANT_CATEGORIES.find((c) => c.value === category)?.label ?? category;
@@ -55,9 +57,15 @@ export function InfoHeader({
       <motion.h1
         variants={fadeUp}
         transition={{ duration: 0.3, ease: "easeOut" }}
-        className="mt-3 font-display text-3xl font-bold text-foreground sm:text-4xl"
+        className="mt-3 flex items-center gap-2 font-display text-3xl font-bold text-foreground sm:text-4xl"
       >
         {name}
+        {rucVerified && (
+          <span className="flex items-center gap-1 text-sm font-medium text-primary">
+            <BadgeCheck className="size-5 shrink-0" />
+            Verificado
+          </span>
+        )}
       </motion.h1>
       {description && (
         <motion.p variants={fadeUp} transition={{ duration: 0.3, ease: "easeOut" }} className="mt-3 text-muted-foreground">

@@ -6,6 +6,7 @@ import { db } from "@/db";
 import { restaurants } from "@/db/schema";
 import { roleActionClient } from "@/lib/actions/safe-action";
 import { updateRestaurantProfileSchema } from "@/lib/validations/restaurant";
+import { lookupRuc } from "@/lib/ruc/lookup";
 
 export const updateRestaurantProfileAction = roleActionClient("restaurante")
   .inputSchema(updateRestaurantProfileSchema)
@@ -15,6 +16,9 @@ export const updateRestaurantProfileAction = roleActionClient("restaurante")
     });
     if (!restaurant) throw new Error("No tienes un restaurante registrado.");
 
+    const rucChanged = parsedInput.ruc !== restaurant.ruc;
+    const rucInfo = rucChanged ? await lookupRuc(parsedInput.ruc) : null;
+
     await db
       .update(restaurants)
       .set({
@@ -23,6 +27,15 @@ export const updateRestaurantProfileAction = roleActionClient("restaurante")
         address: parsedInput.address,
         district: parsedInput.district,
         category: parsedInput.category,
+        ruc: parsedInput.ruc,
+        ...(rucChanged
+          ? {
+              razonSocial: rucInfo?.razonSocial ?? null,
+              sunatEstado: rucInfo?.estado ?? null,
+              sunatCondicion: rucInfo?.condicion ?? null,
+              rucVerifiedAt: rucInfo ? new Date() : null,
+            }
+          : {}),
         openTime: parsedInput.openTime,
         closeTime: parsedInput.closeTime,
         updatedAt: new Date(),
