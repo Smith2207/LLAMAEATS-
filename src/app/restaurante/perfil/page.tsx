@@ -9,6 +9,7 @@ import {
   HealthCertificateUpload,
   MunicipalLicenseUpload,
 } from "@/components/dashboard-restaurante/compliance-documents";
+import { RepresentativeForm } from "@/components/dashboard-restaurante/representative-form";
 import { Separator } from "@/components/ui/separator";
 import {
   getRestaurantScheduleExceptions,
@@ -80,6 +81,26 @@ export default async function RestaurantePerfilPage() {
         <HealthCertificateUpload
           initialUrl={restaurant.healthCertificateUrl}
           initialExpiresAt={restaurant.healthCertificateExpiresAt}
+        />
+      </div>
+
+      <Separator className="my-8" />
+
+      <h2 className="font-display text-lg font-semibold text-foreground">Representante</h2>
+      <p className="mt-1 text-sm text-muted-foreground">
+        La persona responsable del local ante LlamaEats. Verificamos su correo con un código; el
+        celular queda como dato de contacto (sin verificación por SMS por ahora).
+      </p>
+      <div className="mt-4">
+        <RepresentativeForm
+          defaultValues={{
+            name: restaurant.representativeName ?? "",
+            document: restaurant.representativeDocument ?? "",
+            role: restaurant.representativeRole ?? "",
+            email: restaurant.representativeEmail ?? session.user.email ?? "",
+            phone: restaurant.representativePhone ?? "",
+          }}
+          emailVerified={Boolean(restaurant.representativeEmailVerifiedAt)}
         />
       </div>
     </main>

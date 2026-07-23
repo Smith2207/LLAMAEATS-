@@ -3,6 +3,7 @@ import { MagicLinkEmail } from "./templates/magic-link";
 import { ReservationConfirmedEmail } from "./templates/reservation-confirmed";
 import { ReservationCancelledEmail } from "./templates/reservation-cancelled";
 import { DocumentExpiryWarningEmail } from "./templates/document-expiry-warning";
+import { RepresentativeVerificationEmail } from "./templates/representative-verification";
 import { generateQrDataUrl } from "@/lib/qr/qr";
 
 export async function sendMagicLinkEmail({ to, url }: { to: string; url: string }) {
@@ -71,5 +72,21 @@ export async function sendDocumentExpiryWarningEmail({
     to,
     subject: `Documentos de ${restaurantName} por vencer`,
     react: DocumentExpiryWarningEmail({ restaurantName, documents }),
+  });
+}
+
+export async function sendRepresentativeVerificationEmail({
+  to,
+  restaurantName,
+  code,
+}: {
+  to: string;
+  restaurantName: string;
+  code: string;
+}) {
+  await sendMail({
+    to,
+    subject: "Tu código de verificación — LlamaEats",
+    react: RepresentativeVerificationEmail({ restaurantName, code }),
   });
 }

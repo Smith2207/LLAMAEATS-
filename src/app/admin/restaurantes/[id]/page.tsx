@@ -185,6 +185,37 @@ export default async function AdminRestaurantDetailPage({
       </div>
 
       <div className="mt-6 rounded-xl border border-border/60 bg-card p-4">
+        <p className="text-sm font-medium text-foreground">Representante</p>
+        {restaurant.representativeName ? (
+          <div className="mt-2 space-y-1 text-sm">
+            <p className="text-foreground">
+              {restaurant.representativeName} · {restaurant.representativeRole} · Doc.{" "}
+              {restaurant.representativeDocument}
+            </p>
+            <p className="text-muted-foreground">
+              {restaurant.representativeEmail} · {restaurant.representativePhone}
+            </p>
+            {restaurant.representativeEmailVerifiedAt ? (
+              <p className="flex items-center gap-1.5 text-success">
+                <CheckCircle2 className="size-4 shrink-0" />
+                Correo verificado
+              </p>
+            ) : (
+              <p className="flex items-center gap-1.5 text-terracota-400">
+                <ShieldAlert className="size-4 shrink-0" />
+                Correo sin verificar
+              </p>
+            )}
+          </div>
+        ) : (
+          <p className="mt-2 flex items-center gap-1.5 text-sm text-muted-foreground">
+            <ShieldAlert className="size-4 shrink-0" />
+            Sin datos de representante registrados.
+          </p>
+        )}
+      </div>
+
+      <div className="mt-6 rounded-xl border border-border/60 bg-card p-4">
         <p className="text-sm font-medium text-foreground">Verificación presencial</p>
         {restaurant.presencialVisitAt ? (
           <p className="mt-2 flex items-start gap-1.5 text-sm text-success">

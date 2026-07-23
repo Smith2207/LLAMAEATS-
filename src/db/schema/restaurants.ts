@@ -91,6 +91,25 @@ export const restaurants = pgTable("restaurants", {
     onDelete: "set null",
   }),
 
+  // --- Representante legal (§3.2) ---
+  // Solo se verifica el correo por código de 6 dígitos (sin SMS: no hay
+  // proveedor de mensajería de texto contratado). El celular se guarda
+  // como dato de contacto sin verificar.
+  representativeName: text("representative_name"),
+  representativeDocument: text("representative_document"),
+  representativeRole: text("representative_role"),
+  representativeEmail: text("representative_email"),
+  representativePhone: text("representative_phone"),
+  representativeEmailVerifiedAt: timestamp("representative_email_verified_at", {
+    mode: "date",
+    withTimezone: true,
+  }),
+  representativeEmailCodeHash: text("representative_email_code_hash"),
+  representativeEmailCodeExpiresAt: timestamp("representative_email_code_expires_at", {
+    mode: "date",
+    withTimezone: true,
+  }),
+
   createdAt: timestamp("created_at", { mode: "date", withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { mode: "date", withTimezone: true }),
 });
