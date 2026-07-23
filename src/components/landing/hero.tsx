@@ -6,6 +6,7 @@ import { ScrollParallax } from "@/components/animations/scroll-parallax";
 import { SubmitButton } from "@/components/shared/submit-button";
 import { GoogleIcon } from "@/components/shared/google-icon";
 import { Button } from "@/components/ui/button";
+import { CAMPAIGN_NAME } from "@/lib/constants";
 
 export function Hero({ onGoogleSignIn }: { onGoogleSignIn: () => Promise<void> }) {
   return (
@@ -24,6 +25,10 @@ export function Hero({ onGoogleSignIn }: { onGoogleSignIn: () => Promise<void> }
       </div>
 
       <div className="mx-auto flex max-w-3xl flex-col items-center gap-6 px-4 text-center">
+        <span className="glass rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-primary">
+          Campaña {CAMPAIGN_NAME}
+        </span>
+
         <SplitTextReveal
           as="h1"
           className="font-display text-4xl font-bold text-foreground sm:text-6xl"

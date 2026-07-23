@@ -5,7 +5,7 @@ import { db } from "@/db";
 import { reservations, restaurants, tables } from "@/db/schema";
 import { authActionClient } from "@/lib/actions/safe-action";
 import { createReservationSchema } from "@/lib/validations/reservation";
-import { computeServiceFee } from "@/lib/reservations/pricing";
+import { computeServiceFee, isLaunchPromoActive } from "@/lib/reservations/pricing";
 import { generateReservationCode } from "@/lib/reservations/codes";
 import { isValidSlotForRestaurant } from "@/lib/reservations/time";
 import { RESERVATION_EXPIRY_MINUTES, type RestaurantCategory } from "@/lib/constants";
@@ -72,6 +72,7 @@ export const createReservationAction = authActionClient
         return {
           code: reservation.code,
           serviceFee,
+          promoApplied: isLaunchPromoActive(),
           expiresAt: new Date(
             reservation.createdAt.getTime() + RESERVATION_EXPIRY_MINUTES * 60 * 1000,
           ).toISOString(),

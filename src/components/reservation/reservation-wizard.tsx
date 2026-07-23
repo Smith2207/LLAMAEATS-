@@ -17,6 +17,7 @@ type WizardState = {
   tableId: string | null;
   code: string | null;
   serviceFee: number | null;
+  promoApplied: boolean;
   expiresAt: string | null;
 };
 
@@ -35,13 +36,20 @@ export function ReservationWizard({
     tableId: null,
     code: null,
     serviceFee: null,
+    promoApplied: false,
     expiresAt: null,
   });
 
   const { execute: createReservation, isExecuting } = useAction(createReservationAction, {
     onSuccess({ data }) {
       if (!data) return;
-      setState((s) => ({ ...s, code: data.code, serviceFee: data.serviceFee, expiresAt: data.expiresAt }));
+      setState((s) => ({
+        ...s,
+        code: data.code,
+        serviceFee: data.serviceFee,
+        promoApplied: data.promoApplied,
+        expiresAt: data.expiresAt,
+      }));
       setStep(3);
     },
     onError({ error }) {
@@ -105,6 +113,7 @@ export function ReservationWizard({
                 timeSlot={state.timeSlot}
                 guests={state.guests}
                 serviceFee={state.serviceFee}
+                promoApplied={state.promoApplied}
                 expiresAt={state.expiresAt}
               />
             )}

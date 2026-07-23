@@ -4,8 +4,9 @@ import { useRouter } from "next/navigation";
 import { useAction } from "next-safe-action/hooks";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
-import { Clock } from "lucide-react";
+import { Clock, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { payReservationFeeAction } from "@/actions/reservations/pay-reservation-fee";
 import { useCountdown } from "@/hooks/use-countdown";
 import { cn } from "@/lib/utils";
@@ -17,6 +18,7 @@ export function StepPayment({
   timeSlot,
   guests,
   serviceFee,
+  promoApplied,
   expiresAt,
 }: {
   code: string;
@@ -25,6 +27,7 @@ export function StepPayment({
   timeSlot: string;
   guests: number;
   serviceFee: number;
+  promoApplied: boolean;
   expiresAt: string;
 }) {
   const router = useRouter();
@@ -52,6 +55,12 @@ export function StepPayment({
         </p>
         <p className="mt-3 text-2xl font-bold text-foreground">S/ {serviceFee.toFixed(2)}</p>
         <p className="text-xs text-muted-foreground">Tarifa de servicio LlamaEats</p>
+        {promoApplied && (
+          <Badge className="mt-2 gap-1 bg-primary/15 text-primary">
+            <Sparkles className="size-3" />
+            Promo de lanzamiento aplicada
+          </Badge>
+        )}
       </div>
 
       <motion.div

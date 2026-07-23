@@ -3,6 +3,7 @@ import { Manrope, Sora } from "next/font/google";
 import { MotionConfig } from "framer-motion";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { WhatsAppButton } from "@/components/shared/whatsapp-button";
 import "./globals.css";
 
 const sora = Sora({
@@ -37,6 +38,7 @@ export default function RootLayout({
         <MotionConfig reducedMotion="user">
           <TooltipProvider>
             {children}
+            <WhatsAppButton />
             <Toaster richColors position="top-center" />
           </TooltipProvider>
         </MotionConfig>

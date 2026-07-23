@@ -53,6 +53,7 @@ Completa `.env.local` con tus credenciales (ver siguiente sección).
 | `SMTP_USER` / `SMTP_PASSWORD` | Credenciales SMTP. Con Gmail, `SMTP_PASSWORD` debe ser una **contraseña de aplicación** (no la contraseña normal de la cuenta) — se genera en [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords) con verificación en 2 pasos activada. |
 | `EMAIL_FROM` | Remitente de los emails, ej. `"LlamaEats <tu-correo@gmail.com>"`. |
 | `BLOB_READ_WRITE_TOKEN` | Token de un store de Vercel Blob (fotos de restaurantes). |
+| `NEXT_PUBLIC_WHATSAPP_NUMBER` | Número de WhatsApp Business para el botón flotante de soporte, formato E.164 sin `+` (ej. `51987654321`). Vacío = botón oculto. |
 | `CRON_SECRET` | Secreto compartido para autorizar el endpoint de expiración de reservas. |
 | `NEXT_PUBLIC_APP_URL` | URL pública de la app (cliente). |
 | `PAYMENT_PROVIDER` | `fake` en desarrollo (driver `FakeProvider`, simulado). |
@@ -181,3 +182,9 @@ drizzle/          # migraciones SQL generadas
 - La tarifa de servicio se calcula por categoría del restaurante dentro del
   rango pedido (S/ 3–5): `comida_tipica` S/3, `vista_al_lago` S/4,
   `peña_con_show` S/5 — ajustable en `src/lib/constants.ts`.
+- **Promo de lanzamiento** ("Tu Mesa Te Espera"): mientras la fecha actual sea
+  anterior a `LAUNCH_PROMO_END_DATE` (en `src/lib/constants.ts`, por defecto
+  un mes desde el lanzamiento), la tarifa de servicio se cobra con S/1 menos.
+  Se aplica automáticamente al crear la reserva y se muestra en la ficha del
+  restaurante y en el paso de pago. Pasada esa fecha, vuelve al precio normal
+  sin tocar código.

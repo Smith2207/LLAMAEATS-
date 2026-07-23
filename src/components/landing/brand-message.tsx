@@ -1,5 +1,5 @@
 import { SplitTextReveal } from "@/components/animations/split-text";
-import { BRAND_TAGLINE } from "@/lib/constants";
+import { BRAND_TAGLINE, CAMPAIGN_CTA } from "@/lib/constants";
 
 export function BrandMessage() {
   return (
@@ -11,6 +11,7 @@ export function BrandMessage() {
         >
           {BRAND_TAGLINE}
         </SplitTextReveal>
+        <p className="mt-4 text-sm font-medium text-primary">{CAMPAIGN_CTA}</p>
       </div>
     </section>
   );

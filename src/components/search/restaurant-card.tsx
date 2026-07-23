@@ -5,7 +5,8 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { MapPin, Star, UtensilsCrossed } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { RESTAURANT_CATEGORIES, SERVICE_FEE_BY_CATEGORY } from "@/lib/constants";
+import { RESTAURANT_CATEGORIES, type RestaurantCategory } from "@/lib/constants";
+import { computeServiceFee } from "@/lib/reservations/pricing";
 
 export type RestaurantCardData = {
   id: string;
@@ -22,7 +23,7 @@ export function RestaurantCard({ restaurant }: { restaurant: RestaurantCardData 
   const categoryLabel =
     RESTAURANT_CATEGORIES.find((c) => c.value === restaurant.category)?.label ??
     restaurant.category;
-  const fee = SERVICE_FEE_BY_CATEGORY[restaurant.category as keyof typeof SERVICE_FEE_BY_CATEGORY];
+  const fee = computeServiceFee(restaurant.category as RestaurantCategory);
 
   return (
     <motion.div
