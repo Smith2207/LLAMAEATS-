@@ -59,6 +59,12 @@ export const FREE_CANCELLATION_WINDOW_HOURS = 2;
 
 export const LIMA_TIME_ZONE = "America/Lima";
 
+export const ROLE_HOME: Record<string, string> = {
+  cliente: "/dashboard",
+  restaurante: "/restaurante",
+  admin: "/admin",
+};
+
 export const BRAND_TAGLINE =
   "¿Cansado de hacer fila para comer en Puno? LlamaEats te asegura tu mesa en minutos.";
 

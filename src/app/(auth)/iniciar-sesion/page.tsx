@@ -1,11 +1,12 @@
 import { AuthError } from "next-auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { signIn } from "@/auth";
+import { auth, signIn } from "@/auth";
 import { Input } from "@/components/ui/input";
 import { Field, FieldLabel, FieldSeparator } from "@/components/ui/field";
 import { SubmitButton } from "@/components/shared/submit-button";
 import { GoogleIcon } from "@/components/shared/google-icon";
+import { ROLE_HOME } from "@/lib/constants";
 
 export default async function IniciarSesionPage({
   searchParams,
@@ -14,6 +15,11 @@ export default async function IniciarSesionPage({
 }) {
   const { callbackUrl, error } = await searchParams;
   const redirectTo = callbackUrl ?? "/";
+
+  const session = await auth();
+  if (session?.user) {
+    redirect(callbackUrl || ROLE_HOME[session.user.role] || "/");
+  }
 
   async function signInWithGoogle() {
     "use server";

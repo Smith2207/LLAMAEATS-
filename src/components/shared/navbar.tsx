@@ -11,12 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { LogOut, LayoutDashboard } from "lucide-react";
-
-const ROLE_HOME: Record<string, string> = {
-  cliente: "/dashboard",
-  restaurante: "/restaurante",
-  admin: "/admin",
-};
+import { ROLE_HOME } from "@/lib/constants";
 
 export async function Navbar() {
   const session = await auth();

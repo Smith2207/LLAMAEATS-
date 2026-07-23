@@ -8,7 +8,15 @@ import { GoogleIcon } from "@/components/shared/google-icon";
 import { Button } from "@/components/ui/button";
 import { CAMPAIGN_NAME } from "@/lib/constants";
 
-export function Hero({ onGoogleSignIn }: { onGoogleSignIn: () => Promise<void> }) {
+type HeroSession = { name: string | null; homeHref: string } | null;
+
+export function Hero({
+  session,
+  onGoogleSignIn,
+}: {
+  session: HeroSession;
+  onGoogleSignIn: () => Promise<void>;
+}) {
   return (
     <section className="relative flex min-h-[90svh] items-center justify-center overflow-hidden">
       <div className="absolute inset-0 -z-10">
@@ -33,21 +41,28 @@ export function Hero({ onGoogleSignIn }: { onGoogleSignIn: () => Promise<void> }
           as="h1"
           className="font-display text-4xl font-bold text-foreground sm:text-6xl"
         >
-          Tu mesa en Puno, asegurada en minutos
+          {session ? `Hola de nuevo${session.name ? `, ${session.name.split(" ")[0]}` : ""}` : "Tu mesa en Puno, asegurada en minutos"}
         </SplitTextReveal>
 
         <p className="max-w-xl text-balance text-lg text-muted-foreground">
-          Reserva mesa en los mejores restaurantes del lago Titicaca en tres pasos, desde tu
-          celular, antes de llegar.
+          {session
+            ? "Sigue explorando restaurantes o revisa tus reservas desde tu panel."
+            : "Reserva mesa en los mejores restaurantes del lago Titicaca en tres pasos, desde tu celular, antes de llegar."}
         </p>
 
         <div className="flex flex-col gap-3 sm:flex-row">
-          <form action={onGoogleSignIn}>
-            <SubmitButton size="lg" className="w-full gap-2 sm:w-auto" pendingLabel="Redirigiendo...">
-              <GoogleIcon className="size-4" />
-              Continuar con Google
-            </SubmitButton>
-          </form>
+          {session ? (
+            <Button asChild size="lg" className="w-full gap-2 sm:w-auto">
+              <Link href={session.homeHref}>Ir a mi panel</Link>
+            </Button>
+          ) : (
+            <form action={onGoogleSignIn}>
+              <SubmitButton size="lg" className="w-full gap-2 sm:w-auto" pendingLabel="Redirigiendo...">
+                <GoogleIcon className="size-4" />
+                Continuar con Google
+              </SubmitButton>
+            </form>
+          )}
           <Button asChild size="lg" variant="outline">
             <Link href="/buscar">Explorar restaurantes</Link>
           </Button>
