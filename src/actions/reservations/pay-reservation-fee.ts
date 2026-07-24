@@ -6,7 +6,7 @@ import { payments, reservations, restaurants, users } from "@/db/schema";
 import { authActionClient } from "@/lib/actions/safe-action";
 import { reservationCodeSchema } from "@/lib/validations/reservation";
 import { getPaymentProvider } from "@/lib/payments";
-import { sendReservationConfirmedEmail } from "@/lib/email/send";
+import { sendReservationConfirmedEmail, sendNewReservationNotificationEmail } from "@/lib/email/send";
 import { RESERVATION_EXPIRY_MINUTES } from "@/lib/constants";
 
 export const payReservationFeeAction = authActionClient
@@ -84,6 +84,36 @@ export const payReservationFeeAction = authActionClient
       }
     } catch (err) {
       console.error("No se pudo enviar el email de confirmación", err);
+    }
+
+    // Best-effort: avisar al restaurante de que tiene una mesa nueva
+    // reservada — antes solo se enteraban si entraban a mirar el panel.
+    try {
+      if (restaurant) {
+        const [owner, customer] = await Promise.all([
+          db.query.users.findFirst({ where: eq(users.id, restaurant.ownerId) }),
+          db.query.users.findFirst({ where: eq(users.id, ctx.user.id) }),
+        ]);
+        const notifyEmail =
+          restaurant.representativeEmailVerifiedAt && restaurant.representativeEmail
+            ? restaurant.representativeEmail
+            : owner?.email;
+
+        if (notifyEmail) {
+          await sendNewReservationNotificationEmail({
+            to: notifyEmail,
+            restaurantName: restaurant.name,
+            customerName: customer?.name ?? "Cliente",
+            customerPhone: customer?.phone ?? null,
+            date: reservation.date,
+            timeSlot: reservation.timeSlot,
+            guests: reservation.guests,
+            code: reservation.code,
+          });
+        }
+      }
+    } catch (err) {
+      console.error("No se pudo notificar al restaurante de la nueva reserva", err);
     }
 
     return { code: reservation.code };

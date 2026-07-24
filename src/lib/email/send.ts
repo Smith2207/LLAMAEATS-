@@ -4,6 +4,7 @@ import { ReservationConfirmedEmail } from "./templates/reservation-confirmed";
 import { ReservationCancelledEmail } from "./templates/reservation-cancelled";
 import { DocumentExpiryWarningEmail } from "./templates/document-expiry-warning";
 import { RepresentativeVerificationEmail } from "./templates/representative-verification";
+import { NewReservationNotificationEmail } from "./templates/new-reservation-notification";
 import { generateQrDataUrl } from "@/lib/qr/qr";
 
 export async function sendMagicLinkEmail({ to, url }: { to: string; url: string }) {
@@ -88,5 +89,41 @@ export async function sendRepresentativeVerificationEmail({
     to,
     subject: "Tu código de verificación — LlamaEats",
     react: RepresentativeVerificationEmail({ restaurantName, code }),
+  });
+}
+
+export async function sendNewReservationNotificationEmail({
+  to,
+  restaurantName,
+  customerName,
+  customerPhone,
+  date,
+  timeSlot,
+  guests,
+  code,
+}: {
+  to: string;
+  restaurantName: string;
+  customerName: string;
+  customerPhone: string | null;
+  date: string;
+  timeSlot: string;
+  guests: number;
+  code: string;
+}) {
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+  await sendMail({
+    to,
+    subject: `Nueva reserva confirmada — ${code}`,
+    react: NewReservationNotificationEmail({
+      restaurantName,
+      customerName,
+      customerPhone,
+      date,
+      timeSlot,
+      guests,
+      code,
+      appUrl,
+    }),
   });
 }
