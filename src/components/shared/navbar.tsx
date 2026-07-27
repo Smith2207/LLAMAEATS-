@@ -28,6 +28,9 @@ export async function Navbar({ hidePanelLink = false }: { hidePanelLink?: boolea
             Buscar
             <span className="hidden sm:inline"> restaurantes</span>
           </Link>
+          <Link href="/para-restaurantes" className="hidden hover:text-foreground sm:inline">
+            Para restaurantes
+          </Link>
         </div>
 
         {session?.user ? (

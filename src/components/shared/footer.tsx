@@ -12,7 +12,7 @@ export function Footer() {
           <Link href="/buscar" className="hover:text-foreground">
             Buscar restaurantes
           </Link>
-          <Link href="/iniciar-sesion" className="hover:text-foreground">
+          <Link href="/para-restaurantes" className="hover:text-foreground">
             Soy un restaurante
           </Link>
         </div>
