@@ -1,7 +1,7 @@
 import { AnimatedCounter } from "@/components/animations/counter";
 
 const STATS = [
-  { value: 4, suffix: "", label: "Restaurantes aliados en Puno" },
+  { value: 3, suffix: "", label: "Pasos para reservar tu mesa" },
   { value: 90, suffix: " min", label: "Bloques de reserva" },
   { value: 15, suffix: " min", label: "Para confirmar tu pago" },
   { value: 2, suffix: " h", label: "Cancelación con reembolso total" },
