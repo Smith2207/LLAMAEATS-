@@ -9,12 +9,13 @@ import { isValidSlotForRestaurant, reservationInstant } from "@/lib/reservations
 import { getEffectiveHours } from "@/lib/reservations/schedule";
 import { FREE_CANCELLATION_WINDOW_HOURS } from "@/lib/constants";
 import { getPgErrorCode, getPgErrorConstraint } from "@/lib/db/pg-error";
+import { notifyWaitlistIfSlotFreed } from "@/lib/waitlist/notify";
 
 export const rescheduleReservationAction = authActionClient
   .inputSchema(rescheduleReservationSchema)
   .action(async ({ parsedInput, ctx }) => {
     try {
-      return await db.transaction(async (tx) => {
+      const result = await db.transaction(async (tx) => {
         const [reservation] = await tx
           .select()
           .from(reservations)
@@ -87,8 +88,27 @@ export const rescheduleReservationAction = authActionClient
           })
           .where(eq(reservations.id, reservation.id));
 
-        return { code: reservation.code };
+        return {
+          code: reservation.code,
+          freedSlot: {
+            restaurantId: reservation.restaurantId,
+            date: reservation.date,
+            timeSlot: reservation.timeSlot,
+          },
+        };
       });
+
+      try {
+        await notifyWaitlistIfSlotFreed(
+          result.freedSlot.restaurantId,
+          result.freedSlot.date,
+          result.freedSlot.timeSlot,
+        );
+      } catch (err) {
+        console.error("No se pudo notificar la lista de espera tras reprogramar", err);
+      }
+
+      return { code: result.code };
     } catch (error) {
       if (getPgErrorCode(error) === "23505" && getPgErrorConstraint(error)?.includes("table_date_slot")) {
         throw new Error("TABLE_ALREADY_BOOKED");

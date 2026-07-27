@@ -9,6 +9,7 @@ import { getPaymentProvider } from "@/lib/payments";
 import { sendReservationCancelledEmail } from "@/lib/email/send";
 import { FREE_CANCELLATION_WINDOW_HOURS } from "@/lib/constants";
 import { reservationInstant } from "@/lib/reservations/time";
+import { notifyWaitlistIfSlotFreed } from "@/lib/waitlist/notify";
 
 export const cancelReservationAction = authActionClient
   .inputSchema(reservationCodeSchema)
@@ -90,6 +91,16 @@ export const cancelReservationAction = authActionClient
       }
     } catch (err) {
       console.error("No se pudo enviar el email de cancelación", err);
+    }
+
+    try {
+      await notifyWaitlistIfSlotFreed(
+        result.reservation.restaurantId,
+        result.reservation.date,
+        result.reservation.timeSlot,
+      );
+    } catch (err) {
+      console.error("No se pudo notificar la lista de espera tras cancelar", err);
     }
 
     return { refunded: result.refunded };

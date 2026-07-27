@@ -65,3 +65,15 @@ export const scheduleExceptionTypeEnum = pgEnum("schedule_exception_type", [
   "horario_especial",
   "evento_privado",
 ]);
+
+// "notificada" no es una promesa de mesa reservada: solo indica que se le
+// avisó al comensal que puede haber cupo. Si no llega a reservar antes que
+// otro de la lista, el estado se queda en "notificada" hasta que expire —
+// no hay retención real del cupo (§ver notify.ts).
+export const waitlistStatusEnum = pgEnum("waitlist_status", [
+  "activa",
+  "notificada",
+  "reservada",
+  "cancelada",
+  "expirada",
+]);

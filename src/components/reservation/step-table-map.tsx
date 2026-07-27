@@ -4,10 +4,11 @@ import { useEffect, useMemo, useState } from "react";
 import { useAction } from "next-safe-action/hooks";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
-import { Users } from "lucide-react";
+import { BellRing, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getAvailableTablesAction } from "@/actions/reservations/get-availability";
+import { joinWaitlistAction } from "@/actions/waitlist/join-waitlist";
 import { cn } from "@/lib/utils";
 
 type TableItem = {
@@ -47,6 +48,17 @@ export function StepTableMap({
     },
   });
 
+  const [joinedWaitlist, setJoinedWaitlist] = useState(false);
+  const { execute: joinWaitlist, isExecuting: isJoiningWaitlist } = useAction(joinWaitlistAction, {
+    onSuccess() {
+      setJoinedWaitlist(true);
+      toast.success("Te anotamos en la lista de espera. Te avisamos por email si se libera un cupo.");
+    },
+    onError({ error }) {
+      toast.error(error.serverError ?? "No se pudo anotar en la lista de espera.");
+    },
+  });
+
   useEffect(() => {
     execute({ restaurantId, date, timeSlot, guests });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -70,9 +82,27 @@ export function StepTableMap({
       {isExecuting && <p className="text-sm text-muted-foreground">Buscando mesas...</p>}
 
       {tables && tables.length === 0 && (
-        <p className="text-sm text-muted-foreground">
-          No quedan mesas libres para ese horario. Vuelve atrás y elige otro.
-        </p>
+        <div className="flex flex-col items-start gap-3 rounded-xl border border-border/60 bg-muted/30 p-4">
+          <p className="text-sm text-muted-foreground">
+            No quedan mesas libres para ese horario. Vuelve atrás y elige otro, o anótate en la lista
+            de espera y te avisamos por email si se libera un cupo.
+          </p>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="gap-1.5"
+            disabled={isJoiningWaitlist || joinedWaitlist}
+            onClick={() => joinWaitlist({ restaurantId, date, timeSlot, guests })}
+          >
+            <BellRing className="size-3.5" />
+            {joinedWaitlist
+              ? "Ya estás en la lista de espera"
+              : isJoiningWaitlist
+                ? "Anotando..."
+                : "Anotarme en lista de espera"}
+          </Button>
+        </div>
       )}
 
       {zones.length > 1 && (

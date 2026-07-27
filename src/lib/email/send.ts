@@ -5,6 +5,7 @@ import { ReservationCancelledEmail } from "./templates/reservation-cancelled";
 import { DocumentExpiryWarningEmail } from "./templates/document-expiry-warning";
 import { RepresentativeVerificationEmail } from "./templates/representative-verification";
 import { NewReservationNotificationEmail } from "./templates/new-reservation-notification";
+import { WaitlistSlotAvailableEmail } from "./templates/waitlist-slot-available";
 import { generateQrDataUrl } from "@/lib/qr/qr";
 
 export async function sendMagicLinkEmail({ to, url }: { to: string; url: string }) {
@@ -124,6 +125,41 @@ export async function sendNewReservationNotificationEmail({
       guests,
       code,
       appUrl,
+    }),
+  });
+}
+
+export async function sendWaitlistSlotAvailableEmail({
+  to,
+  restaurantName,
+  restaurantSlug,
+  date,
+  timeSlot,
+  guests,
+}: {
+  to: string;
+  restaurantName: string;
+  restaurantSlug: string;
+  date: string;
+  timeSlot: string;
+  guests: number;
+}) {
+  // La columna `time` de Postgres serializa como "HH:MM:SS"; el wizard de
+  // reserva compara horarios contra la grilla en formato "HH:MM"
+  // (generateTimeSlots), así que hay que recortar los segundos aquí — si no,
+  // el link de "Reservar ahora" siempre falla con "horario ya no es válido".
+  const shortTimeSlot = timeSlot.slice(0, 5);
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+  const reserveUrl = `${appUrl}/restaurantes/${restaurantSlug}/reservar?date=${date}&timeSlot=${shortTimeSlot}&guests=${guests}`;
+  await sendMail({
+    to,
+    subject: `Se liberó un cupo en ${restaurantName}`,
+    react: WaitlistSlotAvailableEmail({
+      restaurantName,
+      date,
+      timeSlot: shortTimeSlot,
+      guests,
+      reserveUrl,
     }),
   });
 }

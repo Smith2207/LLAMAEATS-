@@ -24,15 +24,26 @@ type WizardState = {
 export function ReservationWizard({
   restaurantId,
   restaurantName,
+  initialDate,
+  initialTimeSlot,
+  initialGuests,
 }: {
   restaurantId: string;
   restaurantName: string;
+  initialDate?: string;
+  initialTimeSlot?: string;
+  initialGuests?: number;
 }) {
-  const [step, setStep] = useState<1 | 2 | 3>(1);
+  // Si llega desde el email de "se liberó un cupo" (lista de espera), ya
+  // tenemos fecha/hora/personas — saltamos directo a elegir mesa en vez de
+  // hacerlo repetir el paso 1, porque ahí es una carrera contra otros de la
+  // lista.
+  const hasPrefill = Boolean(initialDate && initialTimeSlot && initialGuests);
+  const [step, setStep] = useState<1 | 2 | 3>(hasPrefill ? 2 : 1);
   const [state, setState] = useState<WizardState>({
-    date: "",
-    guests: 2,
-    timeSlot: "",
+    date: initialDate ?? "",
+    guests: initialGuests ?? 2,
+    timeSlot: initialTimeSlot ?? "",
     tableId: null,
     code: null,
     serviceFee: null,

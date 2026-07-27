@@ -4,6 +4,7 @@ import { restaurants, restaurantScheduleExceptions, tables } from "./restaurants
 import { reservations } from "./reservations";
 import { payments } from "./payments";
 import { reviews } from "./reviews";
+import { waitlistEntries } from "./waitlist";
 
 export const usersRelations = relations(users, ({ many }) => ({
   accounts: many(accounts),
@@ -11,6 +12,7 @@ export const usersRelations = relations(users, ({ many }) => ({
   restaurants: many(restaurants, { relationName: "restaurant_owner" }),
   reservations: many(reservations, { relationName: "reservation_customer" }),
   reviews: many(reviews),
+  waitlistEntries: many(waitlistEntries),
 }));
 
 export const accountsRelations = relations(accounts, ({ one }) => ({
@@ -46,6 +48,7 @@ export const restaurantsRelations = relations(restaurants, ({ one, many }) => ({
   reservations: many(reservations),
   reviews: many(reviews),
   scheduleExceptions: many(restaurantScheduleExceptions),
+  waitlistEntries: many(waitlistEntries),
 }));
 
 export const restaurantScheduleExceptionsRelations = relations(
@@ -107,6 +110,14 @@ export const reviewsRelations = relations(reviews, ({ one }) => ({
   user: one(users, { fields: [reviews.userId], references: [users.id] }),
   restaurant: one(restaurants, {
     fields: [reviews.restaurantId],
+    references: [restaurants.id],
+  }),
+}));
+
+export const waitlistEntriesRelations = relations(waitlistEntries, ({ one }) => ({
+  user: one(users, { fields: [waitlistEntries.userId], references: [users.id] }),
+  restaurant: one(restaurants, {
+    fields: [waitlistEntries.restaurantId],
     references: [restaurants.id],
   }),
 }));

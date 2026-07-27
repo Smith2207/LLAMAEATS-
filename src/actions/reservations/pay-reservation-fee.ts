@@ -1,8 +1,8 @@
 "use server";
 
-import { eq } from "drizzle-orm";
+import { and, eq, inArray } from "drizzle-orm";
 import { db } from "@/db";
-import { payments, reservations, restaurants, users } from "@/db/schema";
+import { payments, reservations, restaurants, users, waitlistEntries } from "@/db/schema";
 import { authActionClient } from "@/lib/actions/safe-action";
 import { reservationCodeSchema } from "@/lib/validations/reservation";
 import { getPaymentProvider } from "@/lib/payments";
@@ -114,6 +114,26 @@ export const payReservationFeeAction = authActionClient
       }
     } catch (err) {
       console.error("No se pudo notificar al restaurante de la nueva reserva", err);
+    }
+
+    // Si el comensal estaba en la lista de espera para este mismo horario y
+    // terminó consiguiendo mesa (por esta vía o porque otro canceló y le
+    // avisamos), su apunte deja de estar activo.
+    try {
+      await db
+        .update(waitlistEntries)
+        .set({ status: "reservada" })
+        .where(
+          and(
+            eq(waitlistEntries.userId, ctx.user.id),
+            eq(waitlistEntries.restaurantId, reservation.restaurantId),
+            eq(waitlistEntries.date, reservation.date),
+            eq(waitlistEntries.timeSlot, reservation.timeSlot),
+            inArray(waitlistEntries.status, ["activa", "notificada"]),
+          ),
+        );
+    } catch (err) {
+      console.error("No se pudo actualizar el estado de la lista de espera", err);
     }
 
     return { code: reservation.code };

@@ -9,6 +9,7 @@ import { requireOwnedRestaurant } from "@/lib/restaurants/owner";
 import { isValidSlotForRestaurant } from "@/lib/reservations/time";
 import { getEffectiveHours } from "@/lib/reservations/schedule";
 import { getPgErrorCode, getPgErrorConstraint } from "@/lib/db/pg-error";
+import { notifyWaitlistIfSlotFreed } from "@/lib/waitlist/notify";
 
 const staffRescheduleSchema = z.object({
   code: z.string(),
@@ -76,6 +77,14 @@ export const staffRescheduleReservationAction = roleActionClient("restaurante")
         throw new Error("Esa mesa ya está ocupada en ese horario.");
       }
       throw error;
+    }
+
+    if (reservation.timeSlot !== parsedInput.timeSlot) {
+      try {
+        await notifyWaitlistIfSlotFreed(restaurant.id, reservation.date, reservation.timeSlot);
+      } catch (err) {
+        console.error("No se pudo notificar la lista de espera tras mover la reserva", err);
+      }
     }
 
     return { ok: true };

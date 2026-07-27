@@ -1,9 +1,10 @@
 import { and, eq, gte, inArray, lt } from "drizzle-orm";
 import { db } from "@/db";
-import { reservations, restaurants, users } from "@/db/schema";
+import { reservations, restaurants, users, waitlistEntries } from "@/db/schema";
 import { sendReservationCancelledEmail } from "@/lib/email/send";
 import { NO_SHOW_GRACE_MINUTES, RESERVATION_EXPIRY_MINUTES } from "@/lib/constants";
-import { reservationInstant } from "./time";
+import { reservationInstant, todayInLima } from "./time";
+import { notifyWaitlistIfSlotFreed } from "@/lib/waitlist/notify";
 
 /**
  * Expira toda reserva `pendiente_pago` cuyo `createdAt` supere la ventana de
@@ -36,15 +37,17 @@ export async function expireStaleReservations() {
         db.query.users.findFirst({ where: eq(users.id, r.userId) }),
         db.query.restaurants.findFirst({ where: eq(restaurants.id, r.restaurantId) }),
       ]);
-      if (!user?.email || !restaurant) return;
-      await sendReservationCancelledEmail({
-        to: user.email,
-        restaurantName: restaurant.name,
-        date: r.date,
-        timeSlot: r.timeSlot,
-        code: r.code,
-        refunded: false,
-      });
+      if (user?.email && restaurant) {
+        await sendReservationCancelledEmail({
+          to: user.email,
+          restaurantName: restaurant.name,
+          date: r.date,
+          timeSlot: r.timeSlot,
+          code: r.code,
+          refunded: false,
+        });
+      }
+      await notifyWaitlistIfSlotFreed(r.restaurantId, r.date, r.timeSlot);
     }),
   );
 
@@ -82,6 +85,29 @@ export async function markNoShowReservations() {
     .set({ status: "no_asistio", updatedAt: new Date() })
     .where(and(eq(reservations.status, "confirmada"), inArray(reservations.id, overdueIds)))
     .returning({ id: reservations.id });
+
+  return updated.length;
+}
+
+/**
+ * Cierra los apuntes de lista de espera cuya fecha ya pasó y a los que
+ * nunca se les avisó de un cupo (o se les avisó pero nunca reservaron) —
+ * evita que queden colgados para siempre bloqueando el índice único de
+ * "un apunte activo por horario".
+ */
+export async function expireStaleWaitlistEntries() {
+  const today = todayInLima();
+
+  const updated = await db
+    .update(waitlistEntries)
+    .set({ status: "expirada" })
+    .where(
+      and(
+        lt(waitlistEntries.date, today),
+        inArray(waitlistEntries.status, ["activa", "notificada"]),
+      ),
+    )
+    .returning({ id: waitlistEntries.id });
 
   return updated.length;
 }

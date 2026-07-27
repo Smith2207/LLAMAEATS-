@@ -4,4 +4,5 @@ export * from "./restaurants";
 export * from "./reservations";
 export * from "./payments";
 export * from "./reviews";
+export * from "./waitlist";
 export * from "./relations";
