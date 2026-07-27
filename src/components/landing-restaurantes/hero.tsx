@@ -15,7 +15,7 @@ export function HeroRestaurantes() {
             className="absolute inset-0"
             style={{
               background:
-                "radial-gradient(60% 50% at 50% 20%, rgba(95,168,211,0.16), transparent), radial-gradient(80% 60% at 80% 90%, rgba(193,80,46,0.10), transparent), linear-gradient(180deg, #ffffff 0%, #f7f5f1 55%, #ffffff 100%)",
+                "radial-gradient(65% 55% at 50% 15%, rgba(95,168,211,0.24), transparent), radial-gradient(85% 65% at 85% 95%, rgba(193,80,46,0.20), transparent), linear-gradient(180deg, #ffffff 0%, #f7f5f1 55%, #ffffff 100%)",
             }}
           />
         </ScrollParallax>
@@ -39,7 +39,11 @@ export function HeroRestaurantes() {
         </p>
 
         <div className="flex flex-col gap-3 sm:flex-row">
-          <Button asChild size="lg" className="w-full gap-2 sm:w-auto">
+          <Button
+            asChild
+            size="lg"
+            className="w-full gap-2 bg-gradient-to-r from-terracota-500 to-terracota-600 shadow-lg shadow-terracota-600/20 transition-all hover:scale-[1.02] hover:from-terracota-400 hover:to-terracota-500 hover:shadow-xl hover:shadow-terracota-600/30 sm:w-auto"
+          >
             <Link href="/iniciar-sesion">Registrar mi restaurante</Link>
           </Button>
           <Button asChild size="lg" variant="outline">

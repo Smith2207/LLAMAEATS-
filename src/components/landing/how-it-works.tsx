@@ -1,4 +1,5 @@
 import { Search, CalendarCheck, QrCode } from "lucide-react";
+import { RevealItem } from "@/components/animations/reveal-item";
 
 const STEPS = [
   {
@@ -26,12 +27,16 @@ export function HowItWorks() {
       </h2>
       <div className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-3">
         {STEPS.map((step, i) => (
-          <div key={step.title} className="relative rounded-2xl border border-border/60 bg-card p-6">
+          <RevealItem
+            key={step.title}
+            index={i}
+            className="group relative rounded-2xl border border-border/60 bg-card p-6 transition-colors hover:border-terracota-400/50"
+          >
             <span className="font-display text-sm font-bold text-terracota-400">0{i + 1}</span>
-            <step.icon className="mt-3 size-8 text-terracota-400" />
+            <step.icon className="mt-3 size-8 text-terracota-400 transition-transform group-hover:scale-110" />
             <h3 className="mt-4 font-display font-semibold text-foreground">{step.title}</h3>
             <p className="mt-2 text-sm text-muted-foreground">{step.description}</p>
-          </div>
+          </RevealItem>
         ))}
       </div>
     </section>

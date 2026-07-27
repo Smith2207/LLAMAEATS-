@@ -1,3 +1,5 @@
+import { RevealItem } from "@/components/animations/reveal-item";
+
 const STEPS = [
   {
     title: "Regístrate con Google",
@@ -25,11 +27,15 @@ export function OnboardingSteps() {
       </h2>
       <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2">
         {STEPS.map((step, i) => (
-          <div key={step.title} className="rounded-2xl border border-border/60 bg-card p-6">
+          <RevealItem
+            key={step.title}
+            index={i}
+            className="rounded-2xl border border-border/60 bg-card p-6"
+          >
             <span className="font-display text-sm font-bold text-terracota-400">0{i + 1}</span>
             <h3 className="mt-2 font-display font-semibold text-foreground">{step.title}</h3>
             <p className="mt-2 text-sm text-muted-foreground">{step.description}</p>
-          </div>
+          </RevealItem>
         ))}
       </div>
     </section>

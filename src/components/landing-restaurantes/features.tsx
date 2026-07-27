@@ -9,6 +9,7 @@ import {
   BarChart3,
   ShieldCheck,
 } from "lucide-react";
+import { RevealItem } from "@/components/animations/reveal-item";
 
 const FEATURES = [
   {
@@ -65,12 +66,16 @@ export function FeaturesRestaurantes() {
         Todo lo que necesitas para tu agenda, en un solo panel
       </h2>
       <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {FEATURES.map((feature) => (
-          <div key={feature.title} className="rounded-2xl border border-border/60 bg-card p-6">
-            <feature.icon className="size-7 text-terracota-400" />
+        {FEATURES.map((feature, i) => (
+          <RevealItem
+            key={feature.title}
+            index={i}
+            className="group rounded-2xl border border-border/60 bg-card p-6 transition-colors hover:border-terracota-400/50"
+          >
+            <feature.icon className="size-7 text-terracota-400 transition-transform group-hover:scale-110" />
             <h3 className="mt-4 font-display font-semibold text-foreground">{feature.title}</h3>
             <p className="mt-2 text-sm text-muted-foreground">{feature.description}</p>
-          </div>
+          </RevealItem>
         ))}
       </div>
     </section>

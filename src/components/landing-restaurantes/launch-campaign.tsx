@@ -4,7 +4,7 @@ import { CAMPAIGN_NAME } from "@/lib/constants";
 export function LaunchCampaign() {
   return (
     <section className="mx-auto max-w-3xl px-4 py-16">
-      <div className="rounded-2xl border border-primary/30 bg-primary/5 p-8 text-center">
+      <div className="rounded-2xl border border-terracota-400/30 bg-gradient-to-br from-terracota-500/10 via-transparent to-lake-glow/15 p-8 text-center">
         <Rocket className="mx-auto size-8 text-terracota-400" />
         <h2 className="mt-4 font-display text-2xl font-bold text-foreground">
           Estamos en campaña de lanzamiento: {CAMPAIGN_NAME}

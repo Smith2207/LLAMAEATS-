@@ -1,4 +1,5 @@
 import { PhoneOff, UserX, CalendarX2, EyeOff, Notebook } from "lucide-react";
+import { RevealItem } from "@/components/animations/reveal-item";
 
 const PAIN_POINTS = [
   {
@@ -30,14 +31,15 @@ export function PainPoints() {
         Lo que ya conoces de manejar reservas a mano
       </h2>
       <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2">
-        {PAIN_POINTS.map((point) => (
-          <div
+        {PAIN_POINTS.map((point, i) => (
+          <RevealItem
             key={point.text}
+            index={i}
             className="flex items-start gap-3 rounded-xl border border-border/60 bg-card p-4"
           >
             <point.icon className="mt-0.5 size-5 shrink-0 text-destructive" />
             <p className="text-sm text-foreground">{point.text}</p>
-          </div>
+          </RevealItem>
         ))}
       </div>
     </section>
