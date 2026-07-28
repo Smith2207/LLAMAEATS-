@@ -3,6 +3,7 @@
 import { z } from "zod";
 import { roleActionClient } from "@/lib/actions/safe-action";
 import { uploadImage } from "@/lib/blob/upload";
+import { normalizeRestaurantPhoto } from "@/lib/blob/normalize-image";
 import { requireOwnedRestaurant } from "@/lib/restaurants/owner";
 
 const MAX_SIZE_BYTES = 5 * 1024 * 1024;
@@ -20,6 +21,7 @@ export const uploadRestaurantPhotoAction = roleActionClient("restaurante")
   .inputSchema(uploadSchema)
   .action(async ({ parsedInput, ctx }) => {
     const restaurant = await requireOwnedRestaurant(ctx.user.id);
-    const url = await uploadImage(parsedInput.file, `restaurants/${restaurant.id}/${parsedInput.kind}`);
+    const normalized = await normalizeRestaurantPhoto(parsedInput.file);
+    const url = await uploadImage(normalized, `restaurants/${restaurant.id}/${parsedInput.kind}`);
     return { url };
   });

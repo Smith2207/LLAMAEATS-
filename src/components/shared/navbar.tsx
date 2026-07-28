@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { auth, signOut } from "@/auth";
+import { NavbarShell } from "@/components/shared/navbar-shell";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -17,18 +18,30 @@ export async function Navbar({ hidePanelLink = false }: { hidePanelLink?: boolea
   const session = await auth();
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border/60 glass">
+    <NavbarShell>
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
         <Link href="/" className="font-display text-xl font-bold text-foreground">
           LlamaEats
         </Link>
 
         <div className="flex items-center gap-6 text-sm font-medium text-muted-foreground">
-          <Link href="/buscar" className="hover:text-foreground">
+          <Link href="/buscar" className="transition-colors hover:text-foreground">
             Buscar
             <span className="hidden sm:inline"> restaurantes</span>
           </Link>
-          <Link href="/para-restaurantes" className="hidden hover:text-foreground sm:inline">
+          <Link
+            href="/#como-funciona"
+            className="hidden transition-colors hover:text-foreground md:inline"
+          >
+            Cómo funciona
+          </Link>
+          <Link href="/nosotros" className="hidden transition-colors hover:text-foreground md:inline">
+            Quiénes somos
+          </Link>
+          <Link
+            href="/para-restaurantes"
+            className="hidden transition-colors hover:text-foreground sm:inline"
+          >
             Para restaurantes
           </Link>
         </div>
@@ -78,6 +91,6 @@ export async function Navbar({ hidePanelLink = false }: { hidePanelLink?: boolea
           </Button>
         )}
       </nav>
-    </header>
+    </NavbarShell>
   );
 }

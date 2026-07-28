@@ -1,6 +1,7 @@
 import { auth, signIn } from "@/auth";
 import { Hero } from "@/components/landing/hero";
 import { BrandMessage } from "@/components/landing/brand-message";
+import { FeaturedCategories } from "@/components/landing/featured-categories";
 import { StatsCounters } from "@/components/landing/stats-counters";
 import { HowItWorks } from "@/components/landing/how-it-works";
 import { ROLE_HOME } from "@/lib/constants";
@@ -26,6 +27,7 @@ export default async function LandingPage() {
         }
         onGoogleSignIn={signInWithGoogle}
       />
+      <FeaturedCategories />
       <BrandMessage />
       <StatsCounters />
       <HowItWorks />

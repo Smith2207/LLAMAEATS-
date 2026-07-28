@@ -21,7 +21,7 @@ const STEPS = [
 
 export function HowItWorks() {
   return (
-    <section className="mx-auto max-w-5xl px-4 py-20">
+    <section id="como-funciona" className="mx-auto max-w-5xl scroll-mt-20 px-4 py-20">
       <h2 className="text-center font-display text-2xl font-bold text-foreground sm:text-3xl">
         Cómo funciona
       </h2>
