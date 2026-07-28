@@ -44,6 +44,7 @@ export function RestaurantForm({
       name: "",
       description: "",
       address: "",
+      location: "",
       district: PUNO_DISTRICTS[0],
       category: "comida_tipica",
       ruc: "",
@@ -99,6 +100,21 @@ export function RestaurantForm({
               <FieldLabel htmlFor="address">Dirección</FieldLabel>
               <Input id="address" {...field} />
               <FieldError errors={[errors.address]} />
+            </Field>
+          )}
+        />
+        <Controller
+          control={control}
+          name="location"
+          render={({ field }) => (
+            <Field>
+              <FieldLabel htmlFor="location">Ubicación en el mapa (opcional)</FieldLabel>
+              <Input id="location" placeholder="-15.8402, -70.0219 o link de Google Maps" {...field} />
+              <p className="text-xs text-muted-foreground">
+                Abre Google Maps, ubica tu local, click derecho → copia las coordenadas (o pega el
+                link) y pégalas aquí. Así tu ficha muestra un mapa real.
+              </p>
+              <FieldError errors={[errors.location]} />
             </Field>
           )}
         />

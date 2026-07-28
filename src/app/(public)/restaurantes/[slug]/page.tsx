@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { getRestaurantBySlug, getRestaurantReviews } from "@/lib/restaurants/queries";
 import { Gallery } from "@/components/restaurant-detail/gallery";
 import { InfoHeader } from "@/components/restaurant-detail/info-header";
+import { LocationMap } from "@/components/restaurant-detail/location-map";
 import { ReviewList } from "@/components/restaurant-detail/review-list";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -41,12 +42,21 @@ export default async function RestaurantDetailPage({
             description={restaurant.description}
             address={restaurant.address}
             district={restaurant.district}
+            lat={restaurant.lat}
+            lng={restaurant.lng}
             category={restaurant.category}
             openTime={restaurant.openTime}
             closeTime={restaurant.closeTime}
             avgRating={restaurant.avgRating}
             reviewCount={restaurant.reviewCount}
             rucVerified={Boolean(restaurant.rucVerifiedAt)}
+          />
+
+          <LocationMap
+            lat={restaurant.lat}
+            lng={restaurant.lng}
+            address={restaurant.address}
+            district={restaurant.district}
           />
 
           <Separator className="my-8" />

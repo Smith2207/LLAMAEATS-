@@ -1,12 +1,27 @@
 import { z } from "zod";
+import { parseLocationInput } from "@/lib/restaurants/location";
 
 const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
 const rucRegex = /^(10|15|17|20)\d{9}$/;
+
+// Sin transform a propósito: si el input mutara de tipo (string -> {lat,lng})
+// el output de react-hook-form dejaría de calzar con lo que next-safe-action
+// espera en el cliente (el schema completo, sin transformar). El parseo real
+// a {lat,lng} pasa server-side, en cada action, sobre este mismo string ya
+// validado.
+const locationSchema = z
+  .string()
+  .trim()
+  .optional()
+  .refine((value) => !value || parseLocationInput(value) !== null, {
+    message: "Pega coordenadas 'lat, lng' o un link de Google Maps con tu ubicación.",
+  });
 
 const restaurantFieldsSchema = z.object({
   name: z.string().trim().min(2).max(120),
   description: z.string().trim().max(1000).optional(),
   address: z.string().trim().max(200).optional(),
+  location: locationSchema,
   district: z.string().trim().min(2).max(80),
   category: z.enum(["vista_al_lago", "peña_con_show", "comida_tipica"]),
   ruc: z

@@ -1,6 +1,7 @@
 import {
   boolean,
   date,
+  doublePrecision,
   integer,
   jsonb,
   pgTable,
@@ -25,6 +26,11 @@ export const restaurants = pgTable("restaurants", {
   slug: text("slug").notNull().unique(),
   description: text("description"),
   address: text("address"),
+  // Coordenadas opcionales para mostrar un mapa real en la ficha del
+  // restaurante — el alta solo pide dirección en texto libre, así que
+  // estas quedan null hasta que el dueño las agregue desde su perfil.
+  lat: doublePrecision("lat"),
+  lng: doublePrecision("lng"),
   district: text("district").notNull(),
   category: restaurantCategoryEnum("category").notNull(),
   ruc: text("ruc"),

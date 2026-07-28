@@ -8,6 +8,7 @@ import { submitRestaurantSchema } from "@/lib/validations/restaurant";
 import { slugify } from "@/lib/utils";
 import { lookupRuc } from "@/lib/ruc/lookup";
 import { assessRestaurantRisk } from "@/lib/restaurants/risk";
+import { parseLocationInput } from "@/lib/restaurants/location";
 
 export const submitRestaurantForApprovalAction = roleActionClient("restaurante")
   .inputSchema(submitRestaurantSchema)
@@ -27,6 +28,8 @@ export const submitRestaurantForApprovalAction = roleActionClient("restaurante")
     // si no, el admin lo revisa a mano con el documento adjunto.
     const rucInfo = await lookupRuc(parsedInput.ruc);
 
+    const location = parsedInput.location ? parseLocationInput(parsedInput.location) : null;
+
     const risk = await assessRestaurantRisk({
       name: parsedInput.name,
       address: parsedInput.address,
@@ -41,6 +44,8 @@ export const submitRestaurantForApprovalAction = roleActionClient("restaurante")
       slug,
       description: parsedInput.description,
       address: parsedInput.address,
+      lat: location?.lat ?? null,
+      lng: location?.lng ?? null,
       district: parsedInput.district,
       category: parsedInput.category,
       ruc: parsedInput.ruc,

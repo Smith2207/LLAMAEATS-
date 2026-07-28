@@ -47,6 +47,9 @@ export default async function RestaurantePerfilPage() {
           name: restaurant.name,
           description: restaurant.description ?? "",
           address: restaurant.address ?? "",
+          location: restaurant.lat != null && restaurant.lng != null
+            ? `${restaurant.lat}, ${restaurant.lng}`
+            : "",
           district: restaurant.district,
           category: restaurant.category,
           ruc: restaurant.ruc ?? "",

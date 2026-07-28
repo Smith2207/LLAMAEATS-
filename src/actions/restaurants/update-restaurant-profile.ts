@@ -7,6 +7,7 @@ import { restaurants } from "@/db/schema";
 import { roleActionClient } from "@/lib/actions/safe-action";
 import { updateRestaurantProfileSchema } from "@/lib/validations/restaurant";
 import { lookupRuc } from "@/lib/ruc/lookup";
+import { parseLocationInput } from "@/lib/restaurants/location";
 
 export const updateRestaurantProfileAction = roleActionClient("restaurante")
   .inputSchema(updateRestaurantProfileSchema)
@@ -16,6 +17,7 @@ export const updateRestaurantProfileAction = roleActionClient("restaurante")
     });
     if (!restaurant) throw new Error("No tienes un restaurante registrado.");
 
+    const location = parsedInput.location ? parseLocationInput(parsedInput.location) : null;
     const rucChanged = parsedInput.ruc !== restaurant.ruc;
     const rucInfo = rucChanged ? await lookupRuc(parsedInput.ruc) : null;
 
@@ -25,6 +27,8 @@ export const updateRestaurantProfileAction = roleActionClient("restaurante")
         name: parsedInput.name,
         description: parsedInput.description,
         address: parsedInput.address,
+        lat: location?.lat ?? null,
+        lng: location?.lng ?? null,
         district: parsedInput.district,
         category: parsedInput.category,
         ruc: parsedInput.ruc,

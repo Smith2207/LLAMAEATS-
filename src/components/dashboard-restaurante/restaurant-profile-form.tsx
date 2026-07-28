@@ -82,6 +82,21 @@ export function RestaurantProfileForm({ defaultValues }: { defaultValues: FormIn
             </Field>
           )}
         />
+        <Controller
+          control={control}
+          name="location"
+          render={({ field }) => (
+            <Field>
+              <FieldLabel htmlFor="location">Ubicación en el mapa (opcional)</FieldLabel>
+              <Input id="location" placeholder="-15.8402, -70.0219 o link de Google Maps" {...field} />
+              <p className="text-xs text-muted-foreground">
+                Abre Google Maps, ubica tu local, click derecho → copia las coordenadas (o pega el
+                link) y pégalas aquí. Así tu ficha muestra un mapa real.
+              </p>
+              <FieldError errors={[errors.location]} />
+            </Field>
+          )}
+        />
         <RucField control={control} errors={errors} />
         <div className="grid grid-cols-2 gap-4">
           <Controller

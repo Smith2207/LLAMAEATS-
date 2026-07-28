@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { BadgeCheck, Clock, MapPin, Sparkles, Star } from "lucide-react";
+import { googleMapsUrl } from "@/lib/restaurants/location";
 import { Badge } from "@/components/ui/badge";
 import { RESTAURANT_CATEGORIES, type RestaurantCategory } from "@/lib/constants";
 import { baseServiceFee, computeServiceFee, isLaunchPromoActive } from "@/lib/reservations/pricing";
@@ -16,6 +17,8 @@ export function InfoHeader({
   description,
   address,
   district,
+  lat,
+  lng,
   category,
   openTime,
   closeTime,
@@ -27,6 +30,8 @@ export function InfoHeader({
   description: string | null;
   address: string | null;
   district: string;
+  lat: number | null;
+  lng: number | null;
   category: string;
   openTime: string;
   closeTime: string;
@@ -77,10 +82,15 @@ export function InfoHeader({
         transition={{ duration: 0.3, ease: "easeOut" }}
         className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground"
       >
-        <span className="flex items-center gap-1.5">
+        <a
+          href={googleMapsUrl({ lat, lng, address, district })}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-1.5 transition-colors hover:text-foreground"
+        >
           <MapPin className="size-4" />
           {address ? `${address}, ${district}` : district}
-        </span>
+        </a>
         <span className="flex items-center gap-1.5">
           <Clock className="size-4" />
           {openTime.slice(0, 5)} – {closeTime.slice(0, 5)}

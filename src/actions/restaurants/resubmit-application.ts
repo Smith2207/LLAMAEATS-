@@ -8,6 +8,7 @@ import { roleActionClient } from "@/lib/actions/safe-action";
 import { submitRestaurantSchema } from "@/lib/validations/restaurant";
 import { lookupRuc } from "@/lib/ruc/lookup";
 import { assessRestaurantRisk } from "@/lib/restaurants/risk";
+import { parseLocationInput } from "@/lib/restaurants/location";
 
 const RESUBMITTABLE_STATUSES = ["observada", "rechazada", "caducada"] as const;
 
@@ -33,6 +34,8 @@ export const resubmitApplicationAction = roleActionClient("restaurante")
         ? { razonSocial: restaurant.razonSocial!, estado: restaurant.sunatEstado!, condicion: restaurant.sunatCondicion! }
         : null;
 
+    const location = parsedInput.location ? parseLocationInput(parsedInput.location) : null;
+
     const risk = await assessRestaurantRisk({
       restaurantId: restaurant.id,
       name: parsedInput.name,
@@ -49,6 +52,8 @@ export const resubmitApplicationAction = roleActionClient("restaurante")
         name: parsedInput.name,
         description: parsedInput.description,
         address: parsedInput.address,
+        lat: location?.lat ?? null,
+        lng: location?.lng ?? null,
         district: parsedInput.district,
         category: parsedInput.category,
         ruc: parsedInput.ruc,
