@@ -4,10 +4,12 @@ import { BrandMessage } from "@/components/landing/brand-message";
 import { FeaturedCategories } from "@/components/landing/featured-categories";
 import { StatsCounters } from "@/components/landing/stats-counters";
 import { HowItWorks } from "@/components/landing/how-it-works";
+import { getFeaturedRestaurant } from "@/lib/restaurants/queries";
 import { ROLE_HOME } from "@/lib/constants";
 
 export default async function LandingPage() {
   const session = await auth();
+  const featured = await getFeaturedRestaurant();
 
   async function signInWithGoogle() {
     "use server";
@@ -26,6 +28,16 @@ export default async function LandingPage() {
             : null
         }
         onGoogleSignIn={signInWithGoogle}
+        featured={
+          featured
+            ? {
+                slug: featured.slug,
+                name: featured.name,
+                district: featured.district,
+                avgRating: featured.avgRating,
+              }
+            : null
+        }
       />
       <FeaturedCategories />
       <BrandMessage />

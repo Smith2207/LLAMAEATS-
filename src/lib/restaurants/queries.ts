@@ -50,6 +50,14 @@ export async function searchRestaurants(filters: SearchFilters) {
   return withRatings;
 }
 
+// Restaurante real que se muestra en el mockup del hero — el mejor
+// calificado con vista al lago, o null si aún no hay ninguno aprobado.
+export async function getFeaturedRestaurant() {
+  const candidates = await searchRestaurants({ category: "vista_al_lago" });
+  if (candidates.length === 0) return null;
+  return [...candidates].sort((a, b) => (b.avgRating ?? 0) - (a.avgRating ?? 0))[0];
+}
+
 // cache(): generateMetadata() y la página llaman esta función con el mismo
 // slug en el mismo request — sin memoizar, sería una consulta duplicada.
 export const getRestaurantBySlug = cache(async (slug: string) => {

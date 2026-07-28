@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { SplitTextReveal } from "@/components/animations/split-text";
 import { ScrollParallax } from "@/components/animations/scroll-parallax";
-import { ProductPreview } from "@/components/landing/product-preview";
+import { ProductPreview, type FeaturedRestaurant } from "@/components/landing/product-preview";
 import { SearchFilters } from "@/components/search/search-filters";
 import { SubmitButton } from "@/components/shared/submit-button";
 import { GoogleIcon } from "@/components/shared/google-icon";
@@ -15,9 +15,11 @@ type HeroSession = { name: string | null; homeHref: string } | null;
 export function Hero({
   session,
   onGoogleSignIn,
+  featured,
 }: {
   session: HeroSession;
   onGoogleSignIn: () => Promise<void>;
+  featured: FeaturedRestaurant | null;
 }) {
   return (
     <section className="relative flex min-h-[90svh] flex-col justify-center gap-10 overflow-hidden py-16">
@@ -79,7 +81,7 @@ export function Hero({
           </div>
         </div>
 
-        <ProductPreview />
+        <ProductPreview featured={featured} />
       </div>
 
       {!session && (
