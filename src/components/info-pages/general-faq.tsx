@@ -9,22 +9,16 @@ const FAQ_ITEMS = [
   {
     question: "¿Cómo reservo una mesa?",
     answer:
-      "Busca el restaurante, elige fecha, hora y número de personas, selecciona tu mesa en el plano y paga la tarifa de servicio. Recibes un código y un QR para mostrar al llegar.",
+      "Busca el restaurante, elige fecha, hora y número de personas, y selecciona tu mesa en el plano. Recibes un código y un QR para mostrar al llegar.",
   },
   {
     question: "¿Cuánto cuesta reservar?",
     answer:
-      "Solo pagas una tarifa de servicio de S/3 a S/5 según el tipo de restaurante, para asegurar tu mesa. El precio de tu comida se paga en el local, como siempre — LlamaEats no cobra comisión sobre tu consumo.",
-  },
-  {
-    question: "¿Tengo un plazo para pagar la tarifa?",
-    answer:
-      "Sí, 10 minutos desde que creas la reserva. Si no completas el pago en ese tiempo, la mesa se libera automáticamente para otra persona.",
+      "Nada — reservar tu mesa con LlamaEats es gratis para ti. El precio de tu comida se paga en el local, como siempre.",
   },
   {
     question: "¿Qué pasa si cancelo mi reserva?",
-    answer:
-      "Si cancelas con más de 2 horas de anticipación, recibes el reembolso completo de la tarifa de servicio. Con menos de 2 horas, la tarifa no se reembolsa.",
+    answer: "Puedes cancelar tu reserva en cualquier momento antes de la hora reservada, sin costo.",
   },
   {
     question: "¿Qué pasa si no llego a la reserva?",

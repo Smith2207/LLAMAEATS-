@@ -3,9 +3,10 @@
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { db } from "@/db";
-import { reservations, restaurants } from "@/db/schema";
+import { reservations, restaurants, restaurantCommissions } from "@/db/schema";
 import { roleActionClient } from "@/lib/actions/safe-action";
 import { reservationCodeInputSchema } from "@/lib/validations/attendance";
+import { commissionForGuests } from "@/lib/constants";
 
 async function loadOwnedReservation(code: string, ownerUserId: string) {
   const reservation = await db.query.reservations.findFirst({
@@ -50,10 +51,21 @@ export const releaseTableAction = roleActionClient("restaurante")
       throw new Error("Solo se puede liberar una mesa que está en curso.");
     }
 
-    await db
-      .update(reservations)
-      .set({ status: "completada", updatedAt: new Date() })
-      .where(eq(reservations.id, reservation.id));
+    await db.transaction(async (tx) => {
+      await tx
+        .update(reservations)
+        .set({ status: "completada", updatedAt: new Date() })
+        .where(eq(reservations.id, reservation.id));
+
+      // La reserva sí fue atendida: se genera la comisión que le cobramos
+      // al restaurante por esta mesa (escalada por cantidad de personas).
+      await tx.insert(restaurantCommissions).values({
+        reservationId: reservation.id,
+        restaurantId: reservation.restaurantId,
+        guests: reservation.guests,
+        amount: commissionForGuests(reservation.guests).toFixed(2),
+      });
+    });
 
     revalidatePath("/restaurante/reservas");
     return { ok: true };

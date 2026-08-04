@@ -1,11 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { BadgeCheck, Clock, MapPin, Sparkles, Star } from "lucide-react";
+import { BadgeCheck, Clock, MapPin, Star } from "lucide-react";
 import { googleMapsUrl } from "@/lib/restaurants/location";
 import { Badge } from "@/components/ui/badge";
-import { RESTAURANT_CATEGORIES, type RestaurantCategory } from "@/lib/constants";
-import { baseServiceFee, computeServiceFee, isLaunchPromoActive } from "@/lib/reservations/pricing";
+import { RESTAURANT_CATEGORIES } from "@/lib/constants";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 12 },
@@ -41,9 +40,6 @@ export function InfoHeader({
 }) {
   const categoryLabel =
     RESTAURANT_CATEGORIES.find((c) => c.value === category)?.label ?? category;
-  const originalFee = baseServiceFee(category as RestaurantCategory);
-  const fee = computeServiceFee(category as RestaurantCategory);
-  const promoActive = isLaunchPromoActive();
 
   return (
     <motion.div
@@ -101,22 +97,7 @@ export function InfoHeader({
         transition={{ duration: 0.3, ease: "easeOut" }}
         className="mt-2 flex flex-wrap items-center gap-2 text-xs text-muted-foreground"
       >
-        <span>
-          Tarifa de servicio LlamaEats:{" "}
-          {promoActive && (
-            <span className="line-through opacity-60">S/ {originalFee.toFixed(2)}</span>
-          )}{" "}
-          <span className={promoActive ? "font-semibold text-terracota-400" : undefined}>
-            S/ {fee.toFixed(2)}
-          </span>{" "}
-          por reserva confirmada.
-        </span>
-        {promoActive && (
-          <Badge className="gap-1 bg-primary/15 text-terracota-400">
-            <Sparkles className="size-3" />
-            Promo de lanzamiento
-          </Badge>
-        )}
+        <span>Reservar tu mesa con LlamaEats es gratis.</span>
       </motion.p>
     </motion.div>
   );

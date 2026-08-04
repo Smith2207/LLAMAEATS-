@@ -5,11 +5,9 @@ import { db } from "@/db";
 import { reservations, restaurants, tables } from "@/db/schema";
 import { authActionClient } from "@/lib/actions/safe-action";
 import { createReservationSchema } from "@/lib/validations/reservation";
-import { computeServiceFee, isLaunchPromoActive } from "@/lib/reservations/pricing";
 import { generateReservationCode } from "@/lib/reservations/codes";
 import { isValidSlotForRestaurant } from "@/lib/reservations/time";
 import { getEffectiveHours } from "@/lib/reservations/schedule";
-import { RESERVATION_EXPIRY_MINUTES, type RestaurantCategory } from "@/lib/constants";
 import { getPgErrorCode, getPgErrorConstraint } from "@/lib/db/pg-error";
 
 export const createReservationAction = authActionClient
@@ -75,8 +73,6 @@ export const createReservationAction = authActionClient
       throw new Error("Esa mesa no tiene la capacidad adecuada para el grupo.");
     }
 
-    const serviceFee = computeServiceFee(restaurant.category as RestaurantCategory);
-
     // Reintenta un par de veces solo por si el código (aleatorio, 6 chars)
     // colisiona con uno existente; la mesa/fecha/hora se protege con el
     // índice único parcial dentro de la misma inserción transaccional.
@@ -94,21 +90,14 @@ export const createReservationAction = authActionClient
               date: parsedInput.date,
               timeSlot: parsedInput.timeSlot,
               guests: parsedInput.guests,
-              serviceFee: serviceFee.toFixed(2),
-              status: "pendiente_pago",
+              serviceFee: "0.00",
+              status: "confirmada",
               notes: parsedInput.notes,
             })
             .returning();
         });
 
-        return {
-          code: reservation.code,
-          serviceFee,
-          promoApplied: isLaunchPromoActive(),
-          expiresAt: new Date(
-            reservation.createdAt.getTime() + RESERVATION_EXPIRY_MINUTES * 60 * 1000,
-          ).toISOString(),
-        };
+        return { code: reservation.code };
       } catch (error) {
         if (getPgErrorCode(error) === "23505") {
           if (getPgErrorConstraint(error)?.includes("table_date_slot")) {

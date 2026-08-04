@@ -43,7 +43,7 @@ export default async function AdminPage() {
           <ReservationsByDayChart data={byDay} />
         </div>
         <div className="rounded-xl border border-border/60 bg-card p-4">
-          <p className="mb-3 text-sm font-medium text-foreground">Ingresos por tarifa de servicio</p>
+          <p className="mb-3 text-sm font-medium text-foreground">Ingresos por comisión a restaurantes</p>
           <RevenueChart data={byDay} />
         </div>
         <div className="rounded-xl border border-border/60 bg-card p-4">

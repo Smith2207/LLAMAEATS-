@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 const LINK_COLUMNS = [
@@ -28,11 +29,14 @@ export function Footer() {
   return (
     <footer className="border-t border-border/60 py-10">
       <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 sm:flex-row sm:justify-between">
-        <p className="text-sm text-muted-foreground">
-          <span className="font-display font-semibold text-foreground">LlamaEats</span>
-          <br />
-          Reservas de mesa en Puno, Perú.
-        </p>
+        <div className="flex items-start gap-3 text-sm text-muted-foreground">
+          <Image src="/logo.jpeg" alt="LlamaEats" width={32} height={32} className="rounded-full" />
+          <p>
+            <span className="font-display font-semibold text-foreground">LlamaEats</span>
+            <br />
+            Reservas de mesa en Puno, Perú.
+          </p>
+        </div>
 
         <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
           {LINK_COLUMNS.map((column) => (

@@ -6,13 +6,15 @@ export const RESTAURANT_CATEGORIES = [
 
 export type RestaurantCategory = (typeof RESTAURANT_CATEGORIES)[number]["value"];
 
-// Tarifa de servicio (S/ 3.00 – S/ 5.00) fijada por categoría: determinística
-// y fácil de ajustar sin tocar el flujo de reserva.
-export const SERVICE_FEE_BY_CATEGORY: Record<RestaurantCategory, number> = {
-  comida_tipica: 3,
-  vista_al_lago: 4,
-  "peña_con_show": 5,
-};
+// Comisión que le cobramos al restaurante por cada reserva que atendió
+// (mesa liberada, §ver mark-attendance.ts), escalada por tamaño de grupo.
+// Reservar es gratis para el comensal — LlamaEats ya no cobra tarifa de
+// servicio al cliente.
+export function commissionForGuests(guests: number): number {
+  if (guests <= 2) return 2;
+  if (guests <= 4) return 3;
+  return 4;
+}
 
 export const PUNO_DISTRICTS = [
   "Puno",
@@ -105,12 +107,6 @@ export const BRAND_TAGLINE =
 // restaurantes aliados) — ver actividad de Plaza/Promoción del curso.
 export const CAMPAIGN_NAME = "Tu Mesa Te Espera";
 export const CAMPAIGN_CTA = "Escanea el código QR o ingresa a llamaeats.pe y reserva ahora.";
-
-// Descuento de lanzamiento: S/1 menos en la tarifa de servicio durante el
-// primer mes piloto. Pasada esta fecha, la tarifa vuelve al precio normal
-// por categoría (SERVICE_FEE_BY_CATEGORY) sin tocar código.
-export const LAUNCH_PROMO_DISCOUNT = 1;
-export const LAUNCH_PROMO_END_DATE = "2026-08-22";
 
 // Número de WhatsApp Business para soporte/reclamos, en formato E.164 sin
 // "+" (ej. 51987654321). Configurable por variable de entorno.

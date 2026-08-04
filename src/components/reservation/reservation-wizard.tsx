@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { StepperNav } from "./stepper-nav";
 import { StepDateTimeGuests } from "./step-date-time-guests";
 import { StepTableMap } from "./step-table-map";
-import { StepPayment } from "./step-payment";
+import { StepConfirmation } from "./step-confirmation";
 import { createReservationAction } from "@/actions/reservations/create-reservation";
 
 type WizardState = {
@@ -16,9 +16,6 @@ type WizardState = {
   timeSlot: string;
   tableId: string | null;
   code: string | null;
-  serviceFee: number | null;
-  promoApplied: boolean;
-  expiresAt: string | null;
 };
 
 export function ReservationWizard({
@@ -46,21 +43,12 @@ export function ReservationWizard({
     timeSlot: initialTimeSlot ?? "",
     tableId: null,
     code: null,
-    serviceFee: null,
-    promoApplied: false,
-    expiresAt: null,
   });
 
   const { execute: createReservation, isExecuting } = useAction(createReservationAction, {
     onSuccess({ data }) {
       if (!data) return;
-      setState((s) => ({
-        ...s,
-        code: data.code,
-        serviceFee: data.serviceFee,
-        promoApplied: data.promoApplied,
-        expiresAt: data.expiresAt,
-      }));
+      setState((s) => ({ ...s, code: data.code }));
       setStep(3);
     },
     onError({ error }) {
@@ -116,16 +104,13 @@ export function ReservationWizard({
               />
             )}
 
-            {step === 3 && state.code && state.serviceFee !== null && state.expiresAt && (
-              <StepPayment
+            {step === 3 && state.code && (
+              <StepConfirmation
                 code={state.code}
                 restaurantName={restaurantName}
                 date={state.date}
                 timeSlot={state.timeSlot}
                 guests={state.guests}
-                serviceFee={state.serviceFee}
-                promoApplied={state.promoApplied}
-                expiresAt={state.expiresAt}
               />
             )}
           </motion.div>

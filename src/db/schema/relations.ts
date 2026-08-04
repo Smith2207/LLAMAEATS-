@@ -3,6 +3,7 @@ import { accounts, sessions, users } from "./auth";
 import { restaurants, restaurantScheduleExceptions, tables } from "./restaurants";
 import { reservations } from "./reservations";
 import { payments } from "./payments";
+import { restaurantCommissions } from "./commissions";
 import { reviews } from "./reviews";
 import { waitlistEntries } from "./waitlist";
 
@@ -89,6 +90,10 @@ export const reservationsRelations = relations(reservations, ({ one, many }) => 
     references: [tables.id],
   }),
   payments: many(payments),
+  commission: one(restaurantCommissions, {
+    fields: [reservations.id],
+    references: [restaurantCommissions.reservationId],
+  }),
   review: one(reviews, {
     fields: [reservations.id],
     references: [reviews.reservationId],
@@ -99,6 +104,21 @@ export const paymentsRelations = relations(payments, ({ one }) => ({
   reservation: one(reservations, {
     fields: [payments.reservationId],
     references: [reservations.id],
+  }),
+}));
+
+export const restaurantCommissionsRelations = relations(restaurantCommissions, ({ one }) => ({
+  reservation: one(reservations, {
+    fields: [restaurantCommissions.reservationId],
+    references: [reservations.id],
+  }),
+  restaurant: one(restaurants, {
+    fields: [restaurantCommissions.restaurantId],
+    references: [restaurants.id],
+  }),
+  settledByStaff: one(users, {
+    fields: [restaurantCommissions.settledByStaffId],
+    references: [users.id],
   }),
 }));
 

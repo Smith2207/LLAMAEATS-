@@ -9,8 +9,8 @@ const STEPS = [
   },
   {
     icon: CalendarCheck,
-    title: "Elige tu mesa y paga la tarifa",
-    description: "Selecciona la mesa en el plano y paga solo S/ 3–5 de tarifa de servicio.",
+    title: "Elige tu mesa y listo",
+    description: "Selecciona la mesa en el plano y confirma — reservar es gratis, sin tarjeta.",
   },
   {
     icon: QrCode,

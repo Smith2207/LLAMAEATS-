@@ -2,6 +2,7 @@ import Link from "next/link";
 import { requireRole } from "@/lib/auth/session";
 import { getOwnedRestaurant } from "@/lib/restaurants/owner";
 import { getRestaurantReservationsForDate } from "@/lib/reservations/queries";
+import { getRestaurantCommissionSummary } from "@/lib/reservations/stats";
 import { RestaurantForm } from "@/components/dashboard-restaurante/restaurant-form";
 import { LifecycleActions } from "@/components/dashboard-restaurante/lifecycle-actions";
 import { StatCard } from "@/components/shared/stat-card";
@@ -82,7 +83,10 @@ export default async function RestaurantePage() {
   }
 
   const today = todayInLima();
-  const todayReservations = await getRestaurantReservationsForDate(restaurant.id, today);
+  const [todayReservations, commissionSummary] = await Promise.all([
+    getRestaurantReservationsForDate(restaurant.id, today),
+    getRestaurantCommissionSummary(restaurant.id),
+  ]);
   const activeToday = todayReservations.filter((r) =>
     ["pendiente_pago", "confirmada", "en_curso"].includes(r.status),
   );
@@ -124,7 +128,7 @@ export default async function RestaurantePage() {
         </p>
       )}
 
-      <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
         <StatCard
           label="Mesas activas"
           value={String(restaurant.tables.filter((t) => t.isActive).length)}
@@ -132,6 +136,11 @@ export default async function RestaurantePage() {
         />
         <StatCard label="Reservas hoy" value={String(activeToday.length)} index={1} />
         <StatCard label="Total de mesas" value={String(restaurant.tables.length)} index={2} />
+        <StatCard
+          label="Comisión pendiente"
+          value={`S/ ${commissionSummary.pendiente.toFixed(2)}`}
+          index={3}
+        />
       </div>
 
       <div className="mt-8 flex flex-wrap gap-3">

@@ -13,7 +13,7 @@ const PILLARS = [
     icon: Handshake,
     title: "Somos intermediarios, no dueños del negocio",
     description:
-      "LlamaEats conecta comensales con restaurantes de Puno. Nunca procesamos el pago de tu cuenta — eso se sigue pagando en el local, como siempre. Solo cobramos una tarifa de servicio de S/3 a S/5 por asegurar la mesa.",
+      "LlamaEats conecta comensales con restaurantes de Puno. Nunca procesamos el pago de tu cuenta — eso se sigue pagando en el local, como siempre. Reservar es gratis para ti: cobramos una comisión al restaurante solo cuando tu reserva se atiende.",
   },
   {
     icon: ShieldCheck,
@@ -53,11 +53,11 @@ export default function NosotrosPage() {
       <RevealSection className="mx-auto max-w-3xl px-4 py-12">
         <h2 className="font-display text-2xl font-bold text-foreground">Cómo ganamos dinero</h2>
         <p className="mt-3 text-muted-foreground">
-          Nuestro modelo es simple y transparente: cuando reservas una mesa, pagas solo una tarifa de
-          servicio de S/3 a S/5 (según el tipo de restaurante) para asegurar tu lugar. Esa tarifa es
-          nuestro único ingreso. El precio de tu comida se paga directamente en el restaurante, en
-          efectivo o con el método que el local acepte — LlamaEats nunca toca ese dinero ni se queda
-          con comisión sobre tu consumo.
+          Nuestro modelo es simple y transparente: reservar tu mesa es gratis para ti. Nuestro
+          ingreso es una comisión que le cobramos al restaurante (S/2 a S/4, según cuántas personas
+          reservaron) cada vez que tu reserva se atiende de verdad. El precio de tu comida se paga
+          directamente en el restaurante, en efectivo o con el método que el local acepte — LlamaEats
+          nunca toca ese dinero.
         </p>
       </RevealSection>
     </main>

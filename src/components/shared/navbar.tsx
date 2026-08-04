@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { auth, signOut } from "@/auth";
 import { NavbarShell } from "@/components/shared/navbar-shell";
@@ -20,8 +21,9 @@ export async function Navbar({ hidePanelLink = false }: { hidePanelLink?: boolea
   return (
     <NavbarShell>
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-        <Link href="/" className="font-display text-xl font-bold text-foreground">
-          LlamaEats
+        <Link href="/" className="flex items-center gap-2">
+          <Image src="/logo.jpeg" alt="LlamaEats" width={36} height={36} className="rounded-full" priority />
+          <span className="font-display text-xl font-bold text-foreground">LlamaEats</span>
         </Link>
 
         <div className="flex items-center gap-6 text-sm font-medium text-muted-foreground">

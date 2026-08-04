@@ -21,12 +21,8 @@ export function CancelReservationButton({ code }: { code: string }) {
   const [open, setOpen] = useState(false);
 
   const { execute, isExecuting } = useAction(cancelReservationAction, {
-    onSuccess({ data }) {
-      toast.success(
-        data?.refunded
-          ? "Reserva cancelada y tarifa reembolsada."
-          : "Reserva cancelada.",
-      );
+    onSuccess() {
+      toast.success("Reserva cancelada.");
       setOpen(false);
       router.refresh();
     },
@@ -44,8 +40,7 @@ export function CancelReservationButton({ code }: { code: string }) {
         <DialogHeader>
           <DialogTitle>¿Cancelar esta reserva?</DialogTitle>
           <DialogDescription>
-            Si cancelas con más de 2 horas de anticipación, recibes el reembolso total de la
-            tarifa de servicio. Con menos de 2 horas, la tarifa no se reembolsa.
+            Puedes cancelar sin costo en cualquier momento antes de la hora reservada.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>

@@ -9,12 +9,12 @@ const FAQ_ITEMS = [
   {
     question: "¿Cómo gana dinero LlamaEats?",
     answer:
-      "Solo cobramos una tarifa de servicio al comensal (S/3–5 según categoría) por asegurar la mesa. Nunca procesamos ni tocamos el pago de la cuenta — eso se sigue pagando en tu local, como siempre.",
+      "Cobramos una comisión de S/2 a S/4 por cada reserva que atiendes (según cuántas personas reservaron) — no antes, solo cuando el comensal realmente llegó. Nunca procesamos ni tocamos el pago de la cuenta — eso se sigue pagando en tu local, como siempre.",
   },
   {
     question: "¿Necesito una pasarela de pago propia?",
     answer:
-      "No. Lo único que se paga dentro de la plataforma es la tarifa de servicio del comensal. Tu forma de cobrar la cuenta en el local no cambia en nada.",
+      "No. La comisión se acumula en tu panel y se liquida fuera de la plataforma (transferencia, Yape/Plin, etc.) — nada dentro de LlamaEats te cobra automáticamente todavía. Tu forma de cobrar la cuenta en el local no cambia en nada.",
   },
   {
     question: "¿Qué documentos necesito para darme de alta?",

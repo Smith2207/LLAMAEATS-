@@ -3,6 +3,7 @@ export * from "./auth";
 export * from "./restaurants";
 export * from "./reservations";
 export * from "./payments";
+export * from "./commissions";
 export * from "./reviews";
 export * from "./waitlist";
 export * from "./relations";

@@ -1,6 +1,6 @@
 import { and, eq, gte, inArray, ne, sql } from "drizzle-orm";
 import { db } from "@/db";
-import { reservations, restaurants } from "@/db/schema";
+import { reservations, restaurants, restaurantCommissions } from "@/db/schema";
 import { todayInLima } from "./time";
 
 function daysAgoInLima(days: number): string {
@@ -44,9 +44,12 @@ export async function getPlatformStatsByDay(days = 14) {
     .select({
       date: reservations.date,
       count: sql<number>`count(*)::int`,
-      revenue: sql<number>`coalesce(sum(${reservations.serviceFee}), 0)::float`,
+      // Ingreso = comisión cobrada al restaurante (solo existe para reservas
+      // "completada"), no la vieja tarifa de servicio al comensal.
+      revenue: sql<number>`coalesce(sum(${restaurantCommissions.amount}), 0)::float`,
     })
     .from(reservations)
+    .leftJoin(restaurantCommissions, eq(restaurantCommissions.reservationId, reservations.id))
     .where(
       and(
         gte(reservations.date, since),
@@ -88,14 +91,57 @@ export async function getTopRestaurants(limit = 5) {
       restaurantId: reservations.restaurantId,
       name: restaurants.name,
       count: sql<number>`count(*)::int`,
-      revenue: sql<number>`coalesce(sum(${reservations.serviceFee}), 0)::float`,
+      revenue: sql<number>`coalesce(sum(${restaurantCommissions.amount}), 0)::float`,
     })
     .from(reservations)
     .innerJoin(restaurants, eq(restaurants.id, reservations.restaurantId))
+    .leftJoin(restaurantCommissions, eq(restaurantCommissions.reservationId, reservations.id))
     .where(inArray(reservations.status, ["confirmada", "en_curso", "completada", "no_asistio"]))
     .groupBy(reservations.restaurantId, restaurants.name)
     .orderBy(sql`count(*) desc`)
     .limit(limit);
 
   return rows;
+}
+
+// Saldo de comisiones de un restaurante: cuánto le debe a LlamaEats (aún sin
+// liquidar) y cuánto ya liquidó fuera de la plataforma (§panel de admin).
+export async function getRestaurantCommissionSummary(restaurantId: string) {
+  const rows = await db
+    .select({
+      status: restaurantCommissions.status,
+      total: sql<number>`coalesce(sum(${restaurantCommissions.amount}), 0)::float`,
+    })
+    .from(restaurantCommissions)
+    .where(eq(restaurantCommissions.restaurantId, restaurantId))
+    .groupBy(restaurantCommissions.status);
+
+  const byStatus = new Map(rows.map((r) => [r.status, r.total]));
+  return {
+    pendiente: byStatus.get("pendiente") ?? 0,
+    liquidado: byStatus.get("liquidado") ?? 0,
+  };
+}
+
+export async function getRestaurantCommissionByDay(restaurantId: string, days = 14) {
+  const since = daysAgoInLima(days);
+
+  const rows = await db
+    .select({
+      date: reservations.date,
+      total: sql<number>`coalesce(sum(${restaurantCommissions.amount}), 0)::float`,
+    })
+    .from(restaurantCommissions)
+    .innerJoin(reservations, eq(reservations.id, restaurantCommissions.reservationId))
+    .where(and(eq(restaurantCommissions.restaurantId, restaurantId), gte(reservations.date, since)))
+    .groupBy(reservations.date)
+    .orderBy(reservations.date);
+
+  const byDate = new Map(rows.map((r) => [r.date, r.total]));
+  const result: { date: string; comision: number }[] = [];
+  for (let i = days - 1; i >= 0; i--) {
+    const date = daysAgoInLima(i);
+    result.push({ date, comision: byDate.get(date) ?? 0 });
+  }
+  return result;
 }

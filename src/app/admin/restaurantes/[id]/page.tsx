@@ -2,8 +2,10 @@ import { notFound } from "next/navigation";
 import { CheckCircle2, FileCheck, MapPin, ShieldAlert } from "lucide-react";
 import { requireRole } from "@/lib/auth/session";
 import { getRestaurantById } from "@/lib/restaurants/queries";
+import { getRestaurantCommissionSummary } from "@/lib/reservations/stats";
 import { ModerationActions } from "@/components/dashboard-admin/moderation-actions";
 import { PresencialVisitForm } from "@/components/dashboard-admin/presencial-visit-form";
+import { CommissionBalance } from "@/components/dashboard-admin/commission-balance";
 import { Badge } from "@/components/ui/badge";
 import { RESTAURANT_CATEGORIES, RESTAURANT_STATUS_LABELS, RISK_LEVEL_LABELS } from "@/lib/constants";
 
@@ -18,6 +20,7 @@ export default async function AdminRestaurantDetailPage({
   const { id } = await params;
   const restaurant = await getRestaurantById(id);
   if (!restaurant) notFound();
+  const commissionSummary = await getRestaurantCommissionSummary(restaurant.id);
 
   const categoryLabel =
     RESTAURANT_CATEGORIES.find((c) => c.value === restaurant.category)?.label ??
@@ -233,6 +236,12 @@ export default async function AdminRestaurantDetailPage({
           <PresencialVisitForm restaurantId={restaurant.id} />
         </div>
       </div>
+
+      <CommissionBalance
+        restaurantId={restaurant.id}
+        pendiente={commissionSummary.pendiente}
+        liquidado={commissionSummary.liquidado}
+      />
 
       <div className="mt-8">
         <ModerationActions

@@ -60,6 +60,15 @@ export const paymentStatusEnum = pgEnum("payment_status", [
   "reembolsado",
 ]);
 
+// Comisión que le cobramos al restaurante por cada reserva atendida (§ver
+// mark-attendance.ts). "liquidado" se marca a mano desde el panel de admin
+// cuando el restaurante paga fuera de la plataforma — no hay pasarela para
+// cobrarle automáticamente todavía.
+export const commissionStatusEnum = pgEnum("commission_status", [
+  "pendiente",
+  "liquidado",
+]);
+
 export const scheduleExceptionTypeEnum = pgEnum("schedule_exception_type", [
   "cerrado",
   "horario_especial",

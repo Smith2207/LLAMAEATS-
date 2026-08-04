@@ -1,16 +1,25 @@
 import { redirect } from "next/navigation";
 import { requireRole } from "@/lib/auth/session";
 import { getOwnedRestaurant } from "@/lib/restaurants/owner";
-import { getRestaurantOccupancyByDay } from "@/lib/reservations/stats";
+import {
+  getRestaurantOccupancyByDay,
+  getRestaurantCommissionByDay,
+  getRestaurantCommissionSummary,
+} from "@/lib/reservations/stats";
 import { OccupancyChart } from "@/components/dashboard-restaurante/occupancy-charts";
+import { CommissionChart } from "@/components/dashboard-restaurante/commission-chart";
 
 export default async function MetricasPage() {
   const session = await requireRole("restaurante");
   const restaurant = await getOwnedRestaurant(session.user.id);
   if (!restaurant) redirect("/restaurante");
 
-  const data = await getRestaurantOccupancyByDay(restaurant.id, 14);
-  const total = data.reduce((sum, d) => sum + d.reservas, 0);
+  const [occupancy, commissionByDay, commissionSummary] = await Promise.all([
+    getRestaurantOccupancyByDay(restaurant.id, 14),
+    getRestaurantCommissionByDay(restaurant.id, 14),
+    getRestaurantCommissionSummary(restaurant.id),
+  ]);
+  const total = occupancy.reduce((sum, d) => sum + d.reservas, 0);
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-10">
@@ -20,7 +29,19 @@ export default async function MetricasPage() {
       </p>
 
       <div className="mt-6 rounded-xl border border-border/60 bg-card p-4">
-        <OccupancyChart data={data} />
+        <OccupancyChart data={occupancy} />
+      </div>
+
+      <h2 className="mt-10 font-display text-xl font-bold text-foreground">
+        Comisión con LlamaEats
+      </h2>
+      <p className="mt-1 text-sm text-muted-foreground">
+        S/ {commissionSummary.pendiente.toFixed(2)} pendiente de liquidar · S/{" "}
+        {commissionSummary.liquidado.toFixed(2)} ya liquidado.
+      </p>
+
+      <div className="mt-4 rounded-xl border border-border/60 bg-card p-4">
+        <CommissionChart data={commissionByDay} />
       </div>
     </main>
   );

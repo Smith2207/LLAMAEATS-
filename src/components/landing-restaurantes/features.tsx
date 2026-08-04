@@ -55,7 +55,7 @@ const FEATURES = [
   {
     icon: ShieldCheck,
     title: "Nunca tocamos tu dinero",
-    description: "Solo cobramos una tarifa de servicio al comensal (S/3–5). La cuenta se paga en tu local, como siempre.",
+    description: "Solo cobramos una comisión (S/2–4) por cada reserva que atiendes. La cuenta se paga en tu local, como siempre.",
   },
 ];
 

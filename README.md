@@ -1,9 +1,10 @@
 # LlamaEats
 
 Plataforma web de reservas de mesa en restaurantes de Puno, Perú. LlamaEats actúa
-como intermediario: el cliente reserva gratis la mesa y paga únicamente una
-tarifa de servicio de S/ 3.00–5.00 por reserva confirmada (no la cuenta del
-restaurante).
+como intermediario: reservar es gratis para el cliente. El ingreso es una
+comisión de S/2.00–4.00 que paga el restaurante por cada reserva que atendió
+(mesa liberada), escalada según cuántas personas reservaron — no la cuenta
+del restaurante.
 
 > ¿Cansado de hacer fila para comer en Puno? LlamaEats te asegura tu mesa en minutos.
 
@@ -140,13 +141,21 @@ una expiración cercana a los 15 minutos reales:
   5–15 min a `https://tu-dominio/api/cron/expire-reservations` con el header
   `Authorization: Bearer <CRON_SECRET>`.
 
-## 6. Pagos
+## 6. Comisión a restaurantes
+
+Reservar es gratis para el cliente. Al liberar la mesa (`releaseTableAction`
+en `src/actions/attendance/mark-attendance.ts`), se genera una comisión para
+el restaurante en `restaurant_commissions` (`commissionForGuests` en
+`src/lib/constants.ts`: S/2 en 1–2 personas, S/3 en 3–4, S/4 en 5+). No hay
+pasarela para cobrarle esa comisión al restaurante automáticamente todavía —
+se liquida a mano desde `/admin/restaurantes/[id]` cuando el restaurante paga
+fuera de la plataforma.
 
 `src/lib/payments/provider.ts` define la interfaz `PaymentProvider`
-(`charge`/`refund`). En desarrollo se usa `FakeProvider` (siempre aprueba, sin
-credenciales reales). Para producción, implementa un nuevo driver (Culqi,
-Mercado Pago) que cumpla la misma interfaz y regístralo en
-`src/lib/payments/index.ts`; se selecciona con la variable `PAYMENT_PROVIDER`.
+(`charge`/`refund`, con `FakeProvider` como implementación simulada). Ya no se
+usa para cobrar al comensal, pero se dejó como abstracción reusable por si en
+el futuro se decide cobrarle la comisión al restaurante vía una pasarela real
+(Culqi, Mercado Pago, etc.).
 
 ## 7. Deploy en Vercel
 
@@ -179,12 +188,6 @@ drizzle/          # migraciones SQL generadas
   `SMTP_PASSWORD`, los emails se loguean en consola en vez de enviarse.
 - El "plano de mesas" es un grid agrupado por zona (el esquema de `tables` no
   trae coordenadas x/y para un editor de planos libre).
-- La tarifa de servicio se calcula por categoría del restaurante dentro del
-  rango pedido (S/ 3–5): `comida_tipica` S/3, `vista_al_lago` S/4,
-  `peña_con_show` S/5 — ajustable en `src/lib/constants.ts`.
-- **Promo de lanzamiento** ("Tu Mesa Te Espera"): mientras la fecha actual sea
-  anterior a `LAUNCH_PROMO_END_DATE` (en `src/lib/constants.ts`, por defecto
-  un mes desde el lanzamiento), la tarifa de servicio se cobra con S/1 menos.
-  Se aplica automáticamente al crear la reserva y se muestra en la ficha del
-  restaurante y en el paso de pago. Pasada esa fecha, vuelve al precio normal
-  sin tocar código.
+- La comisión al restaurante se calcula por cantidad de personas de la
+  reserva (S/2 en 1–2, S/3 en 3–4, S/4 en 5+) — ajustable en
+  `commissionForGuests`, `src/lib/constants.ts`.

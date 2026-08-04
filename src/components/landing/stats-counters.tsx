@@ -2,10 +2,10 @@ import { AnimatedCounter } from "@/components/animations/counter";
 import { RevealItem } from "@/components/animations/reveal-item";
 
 const STATS = [
-  { value: 3, suffix: "", label: "Pasos para reservar tu mesa" },
-  { value: 90, suffix: " min", label: "Bloques de reserva" },
-  { value: 15, suffix: " min", label: "Para confirmar tu pago" },
-  { value: 2, suffix: " h", label: "Cancelación con reembolso total" },
+  { value: 3, prefix: "", suffix: "", label: "Pasos para reservar tu mesa" },
+  { value: 90, prefix: "", suffix: " min", label: "Bloques de reserva" },
+  { value: 0, prefix: "S/", suffix: "", label: "Costo de reservar tu mesa" },
+  { value: 60, prefix: "", suffix: " días", label: "Anticipación máxima para reservar" },
 ];
 
 export function StatsCounters() {
@@ -16,6 +16,7 @@ export function StatsCounters() {
           <RevealItem key={stat.label} index={i} className="text-center">
             <AnimatedCounter
               value={stat.value}
+              prefix={stat.prefix}
               suffix={stat.suffix}
               className="font-display text-3xl font-bold text-terracota-400 sm:text-4xl"
             />
