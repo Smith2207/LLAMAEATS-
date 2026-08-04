@@ -23,7 +23,7 @@ export function HeroRestaurantes() {
 
       <div className="mx-auto flex max-w-3xl flex-col items-center gap-6 px-4 text-center">
         <span className="glass rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-terracota-400">
-          Campaña &quot;{CAMPAIGN_NAME}&quot; — para restaurantes
+          Campaña {CAMPAIGN_NAME} — para restaurantes
         </span>
 
         <SplitTextReveal
