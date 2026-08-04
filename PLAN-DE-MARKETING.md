@@ -97,13 +97,24 @@ local como la naturaleza gastronómica del servicio.
 
 ### 2.2 Descripción
 
-| Aspecto | Detalle |
-|:---|:---|
-| **Qué es** | Un mercado de dos lados (marketplace) que conecta comensales con restaurantes verificados de Puno, especializado en tres categorías propias de la zona: vista al lago Titicaca, peña con show folclórico y comida típica puneña. |
-| **Cómo funciona (comensal)** | Busca por categoría, distrito, fecha, hora y número de personas; elige una mesa específica en un plano visual del restaurante; recibe al instante un código único y un QR descargable para mostrar al llegar. |
-| **Cómo funciona (restaurante)** | Gestiona toda su operación —reservas de la plataforma, telefónicas y de mostrador— desde un único panel con agenda en vivo, que sigue funcionando aunque se caiga la conexión a internet del local. |
-| **Cómo funciona (administración)** | Un tercer panel permite verificar restaurantes nuevos (licencia municipal y certificado sanitario vigentes) antes de que aparezcan públicamente en la plataforma. |
-| **Qué problema resuelve** | Elimina la reserva telefónica no confirmada, la doble reserva por error de agenda manual, y la imposibilidad de ver la disponibilidad real en tiempo real. |
+LlamaEats es un mercado de dos lados (marketplace) que conecta comensales
+con restaurantes verificados de Puno, especializado en tres categorías
+propias de la zona: vista al lago Titicaca, peña con show folclórico y
+comida típica puneña.
+
+Del lado del comensal, busca por categoría, distrito, fecha, hora y número
+de personas; elige una mesa específica en un plano visual del restaurante;
+y recibe al instante un código único y un QR descargable para mostrar al
+llegar. Del lado del restaurante, gestiona toda su operación —reservas de
+la plataforma, telefónicas y de mostrador— desde un único panel con agenda
+en vivo, que sigue funcionando aunque se caiga la conexión a internet del
+local. Un tercer panel, de administración, permite verificar restaurantes
+nuevos (licencia municipal y certificado sanitario vigentes) antes de que
+aparezcan públicamente en la plataforma.
+
+El problema que resuelve: elimina la reserva telefónica no confirmada, la
+doble reserva por error de agenda manual, y la imposibilidad de ver la
+disponibilidad real en tiempo real.
 
 ### 2.3 Necesidad que satisface
 
@@ -115,11 +126,16 @@ local como la naturaleza gastronómica del servicio.
 
 ### 2.4 Beneficios
 
-| Tipo de beneficio | Descripción |
-|:---|:---|
-| **Funcionales** | Reserva en tres pasos desde el celular, confirmación inmediata, selección de mesa exacta en un plano, código y QR de llegada, agenda centralizada, funcionamiento sin conexión a internet en el panel del restaurante. |
-| **Emocionales** | Tranquilidad de saber que la mesa está asegurada antes de salir del hotel; sensación de usar una herramienta moderna en un destino que hoy se percibe como "manual" en este aspecto. |
-| **Sociales** | El comensal se suma a la tendencia de planificar su viaje íntegramente desde el celular, igual que reserva vuelos u hospedaje; el restaurante proyecta una imagen de negocio confiable y verificado frente al turista. |
+Los beneficios se dan en tres planos. **Funcionales:** reserva en tres
+pasos desde el celular, confirmación inmediata, selección de mesa exacta
+en un plano, código y QR de llegada, agenda centralizada, y funcionamiento
+sin conexión a internet en el panel del restaurante. **Emocionales:**
+tranquilidad de saber que la mesa está asegurada antes de salir del hotel;
+sensación de usar una herramienta moderna en un destino que hoy se percibe
+como "manual" en este aspecto. **Sociales:** el comensal se suma a la
+tendencia de planificar su viaje íntegramente desde el celular, igual que
+reserva vuelos u hospedaje; el restaurante proyecta una imagen de negocio
+confiable y verificado frente al turista.
 
 ### 2.5 Propuesta de valor
 
@@ -155,10 +171,14 @@ local como la naturaleza gastronómica del servicio.
 
 ### Oportunidades y amenazas
 
-| | Detalle |
-|:---|:---|
-| **Oportunidades principales** | Crecimiento sostenido del turismo receptivo del lago Titicaca; muy baja digitalización actual del sector gastronómico local; posibilidad de alianzas con hoteles, agencias de turismo y el gobierno regional. |
-| **Amenazas principales** | Estacionalidad marcada del turismo; riesgo de bloqueos de vías o inestabilidad social que corten el flujo de visitantes; conectividad limitada en las zonas insulares. |
+Las **oportunidades principales** son el crecimiento sostenido del turismo
+receptivo del lago Titicaca, la muy baja digitalización actual del sector
+gastronómico local, y la posibilidad de alianzas con hoteles, agencias de
+turismo y el gobierno regional.
+
+Las **amenazas principales** son la estacionalidad marcada del turismo, el
+riesgo de bloqueos de vías o inestabilidad social que corten el flujo de
+visitantes, y la conectividad limitada en las zonas insulares.
 
 ---
 
@@ -166,10 +186,15 @@ local como la naturaleza gastronómica del servicio.
 
 ### Mercado
 
-| Nivel | Descripción |
-|:---|:---|
-| **Mercado potencial** | Todos los restaurantes formales de Puno (varios cientos de locales gastronómicos) junto con la totalidad de comensales, turistas y locales, que buscan salir a comer en la región. |
-| **Mercado objetivo** | Restaurantes de las tres categorías del catálogo (vista al lago, peña con show, comida típica) en Puno ciudad, distritos turísticos cercanos (Chulluni, Salcedo, Acora, Platería, Paucarcolla) e islas de mayor flujo turístico (Amantaní, Taquile), junto con los turistas y la población local NSE B/C que los visita. |
+El **mercado potencial** son todos los restaurantes formales de Puno
+(varios cientos de locales gastronómicos) junto con la totalidad de
+comensales, turistas y locales, que buscan salir a comer en la región.
+
+El **mercado objetivo** son los restaurantes de las tres categorías del
+catálogo (vista al lago, peña con show, comida típica) en Puno ciudad,
+distritos turísticos cercanos (Chulluni, Salcedo, Acora, Platería,
+Paucarcolla) e islas de mayor flujo turístico (Amantaní, Taquile), junto
+con los turistas y la población local NSE B/C que los visita.
 
 ### Cliente ideal
 
@@ -183,11 +208,14 @@ local como la naturaleza gastronómica del servicio.
 
 ### Necesidades, deseos y demanda
 
-| Concepto | Descripción |
-|:---|:---|
-| **Necesidades** | Asegurar una mesa sin incertidumbre, en particular en temporada alta o en fechas de alta demanda como la Festividad de la Virgen de la Candelaria. |
-| **Deseos** | Vivir una experiencia gastronómica memorable —vista al lago o show folclórico— sin la fricción de llamar por teléfono o arriesgarse a llegar sin mesa. |
-| **Demanda** | El comensal reserva porque no le representa ningún costo adicional; el restaurante se afilia porque no paga nada por adelantado y solo asume un costo pequeño cuando la reserva realmente trajo un cliente. |
+La **necesidad** es asegurar una mesa sin incertidumbre, en particular en
+temporada alta o en fechas de alta demanda como la Festividad de la Virgen
+de la Candelaria. El **deseo** es vivir una experiencia gastronómica
+memorable —vista al lago o show folclórico— sin la fricción de llamar por
+teléfono o arriesgarse a llegar sin mesa. La **demanda** se explica porque
+el comensal reserva sin que le represente ningún costo adicional, y el
+restaurante se afilia porque no paga nada por adelantado y solo asume un
+costo pequeño cuando la reserva realmente trajo un cliente.
 
 ---
 
@@ -204,11 +232,18 @@ local como la naturaleza gastronómica del servicio.
 
 ### Mercado objetivo, posicionamiento y diferenciación
 
-| Elemento | Descripción |
-|:---|:---|
-| **Mercado objetivo elegido** | El turista de estadía corta en Puno, junto con los restaurantes de las tres categorías del catálogo — es el segmento con mayor urgencia real y mayor disposición a adoptar una herramienta digital nueva. |
-| **Posicionamiento** | "La forma más rápida y segura de asegurar tu mesa en los restaurantes con más encanto de Puno." |
-| **Diferenciación** | Gratuito para el comensal, diseñado para la realidad de Puno (categorías propias de la zona), panel de restaurante que funciona sin conexión a internet, y comisión que no exige nada por adelantado. |
+El **mercado objetivo elegido** es el turista de estadía corta en Puno,
+junto con los restaurantes de las tres categorías del catálogo — es el
+segmento con mayor urgencia real y mayor disposición a adoptar una
+herramienta digital nueva.
+
+El **posicionamiento**: "La forma más rápida y segura de asegurar tu mesa
+en los restaurantes con más encanto de Puno."
+
+La **diferenciación**: gratuito para el comensal, diseñado para la
+realidad de Puno (categorías propias de la zona), panel de restaurante que
+funciona sin conexión a internet, y comisión que no exige nada por
+adelantado.
 
 ---
 
@@ -225,13 +260,18 @@ local como la naturaleza gastronómica del servicio.
 
 ### Proceso de compra
 
-| Etapa | Qué hace el comensal |
-|:---|:---|
-| **1. Reconocimiento de necesidad** | Arma su itinerario y necesita asegurar dónde cenar la noche en que quiere ver un show de peña o disfrutar de una cena con vista al lago. |
-| **2. Búsqueda** | Busca en LlamaEats filtrando por categoría, distrito, fecha y hora, o llega recomendado por su hotel o guía. |
-| **3. Comparación** | Compara los restaurantes disponibles por categoría, distrito, calificación y reseñas dentro de la misma plataforma. |
-| **4. Compra (reserva)** | Elige la mesa exacta en el plano y confirma, sin fricción de pago porque es gratuita para él. |
-| **5. Evaluación posterior** | Puede dejar una reseña; el restaurante registra notas internas sobre el comensal para mejorar su próxima atención. |
+1. **Reconocimiento de necesidad.** Arma su itinerario y necesita asegurar
+   dónde cenar la noche en que quiere ver un show de peña o disfrutar de
+   una cena con vista al lago.
+2. **Búsqueda.** Busca en LlamaEats filtrando por categoría, distrito,
+   fecha y hora, o llega recomendado por su hotel o guía.
+3. **Comparación.** Compara los restaurantes disponibles por categoría,
+   distrito, calificación y reseñas dentro de la misma plataforma.
+4. **Compra (reserva).** Elige la mesa exacta en el plano y confirma, sin
+   fricción de pago porque es gratuita para él.
+5. **Evaluación posterior.** Puede dejar una reseña; el restaurante
+   registra notas internas sobre el comensal para mejorar su próxima
+   atención.
 
 ---
 
@@ -325,14 +365,36 @@ tiempo, apoyada en la campaña "Tu Mesa Te Espera".
 
 ### Cómo se lleva a la práctica
 
-| Táctica | Cómo se ejecuta |
-|:---|:---|
-| **Reclutamiento comercial directo** | Visitas puerta a puerta a restaurantes ancla por categoría, para asegurar oferta atractiva desde el primer día en cada una de las tres categorías del catálogo. |
-| **Alianzas de distribución** | Acuerdos con hoteles y agencias de turismo de Puno para que distribuyan el enlace o el QR de LlamaEats entre los turistas recién llegados. |
-| **Marketing digital dirigido** | Presencia en redes sociales enfocada en viajeros que están planificando su viaje a Puno, antes de que lleguen a la ciudad. |
-| **Reducción de la barrera de entrada** | Período de prueba con límite de reservas simultáneas para restaurantes recién afiliados, ya integrado en la plataforma, que reduce el riesgo percibido de sumarse a un sistema nuevo. |
-| **Verificación de asistencia anti-fraude** | Sustituir el marcado manual de "asistió / no asistió" por el escaneo obligatorio, desde el panel del restaurante, del código QR que recibió el comensal. El escaneo sella la hora exacta y queda como registro; si el restaurante marca inasistencia sin haber escaneado, el comensal puede abrir una disputa dentro de 24 horas. Así el cobro de la comisión (§9) queda atado a un evento verificable, no al autoreporte del restaurante. |
-| **Vigilancia competitiva** | Monitoreo mensual de alternativas (plataformas genéricas, iniciativas locales similares) y aceleración deliberada del efecto de red: cuantos más restaurantes ancla y alianzas con hoteles existan, más alto es el costo de cambio para un competidor que entre después. |
+**Reclutamiento comercial directo.** Visitas puerta a puerta a
+restaurantes ancla por categoría, para asegurar oferta atractiva desde el
+primer día en cada una de las tres categorías del catálogo.
+
+**Alianzas de distribución.** Acuerdos con hoteles y agencias de turismo
+de Puno para que distribuyan el enlace o el QR de LlamaEats entre los
+turistas recién llegados.
+
+**Marketing digital dirigido.** Presencia en redes sociales enfocada en
+viajeros que están planificando su viaje a Puno, antes de que lleguen a la
+ciudad.
+
+**Reducción de la barrera de entrada.** Período de prueba con límite de
+reservas simultáneas para restaurantes recién afiliados, ya integrado en
+la plataforma, que reduce el riesgo percibido de sumarse a un sistema
+nuevo.
+
+**Verificación de asistencia anti-fraude.** Sustituir el marcado manual de
+"asistió / no asistió" por el escaneo obligatorio, desde el panel del
+restaurante, del código QR que recibió el comensal. El escaneo sella la
+hora exacta y queda como registro; si el restaurante marca inasistencia
+sin haber escaneado, el comensal puede abrir una disputa dentro de 24
+horas. Así el cobro de la comisión (§9) queda atado a un evento
+verificable, no al autoreporte del restaurante.
+
+**Vigilancia competitiva.** Monitoreo mensual de alternativas (plataformas
+genéricas, iniciativas locales similares) y aceleración deliberada del
+efecto de red: cuantos más restaurantes ancla y alianzas con hoteles
+existan, más alto es el costo de cambio para un competidor que entre
+después.
 
 ---
 
@@ -340,22 +402,34 @@ tiempo, apoyada en la campaña "Tu Mesa Te Espera".
 
 ### Producto
 
-| Nivel / elemento | Descripción |
-|:---|:---|
-| **Beneficio básico** | Asegurar una mesa. |
-| **Producto real** | Buscador por categoría y distrito, selección de mesa en un plano visual, código y QR de confirmación, panel de gestión con agenda en vivo y modo sin conexión. |
-| **Producto aumentado** | Verificación de restaurantes, lista de espera con notificación automática, ficha del comensal con historial de visitas, reprogramación flexible, cancelación sin costo. |
-| **Propuesta de valor** | Reservar gratis, con confirmación inmediata, en la plataforma pensada para la realidad de Puno. |
-| **Diferenciación** | Gratuito para el comensal, comisión solo por resultado, funcionamiento sin conexión, categorías propias de la región. |
+El **beneficio básico** es asegurar una mesa. El **producto real** es el
+buscador por categoría y distrito, la selección de mesa en un plano
+visual, el código y QR de confirmación, y el panel de gestión con agenda
+en vivo y modo sin conexión. El **producto aumentado** añade verificación
+de restaurantes, lista de espera con notificación automática, ficha del
+comensal con historial de visitas, reprogramación flexible y cancelación
+sin costo.
+
+La **propuesta de valor** es reservar gratis, con confirmación inmediata,
+en la plataforma pensada para la realidad de Puno. La **diferenciación**:
+gratuito para el comensal, comisión solo por resultado, funcionamiento sin
+conexión, y categorías propias de la región.
 
 ### Precio
 
-| Aspecto | Descripción |
-|:---|:---|
-| **Estrategia elegida** | Freemium de doble cara: costo cero de entrada tanto para el comensal como para el restaurante, monetizado con una comisión de éxito que paga el restaurante. |
-| **Escala de la comisión** | S/2 en reservas de 1 a 2 personas · S/3 en reservas de 3 a 4 personas · S/4 en reservas de 5 personas o más. |
-| **Momento del cobro** | Solo cuando la mesa fue efectivamente atendida, no al momento de confirmar la reserva. |
-| **Justificación** | Cobrar por adelantado a cualquiera de los dos lados sería la principal barrera de adopción frente a un mercado que hoy reserva por teléfono sin costo. Cobrar solo por resultado alinea el incentivo de LlamaEats con el del restaurante y elimina el riesgo percibido de "pagar por algo que no sé si va a funcionar". |
+La **estrategia elegida** es un freemium de doble cara: costo cero de
+entrada tanto para el comensal como para el restaurante, monetizado con
+una comisión de éxito que paga el restaurante. La **escala de la
+comisión** es S/2 en reservas de 1 a 2 personas, S/3 en reservas de 3 a 4
+personas, y S/4 en reservas de 5 personas o más. El **momento del cobro**
+es solo cuando la mesa fue efectivamente atendida, no al momento de
+confirmar la reserva.
+
+La justificación: cobrar por adelantado a cualquiera de los dos lados
+sería la principal barrera de adopción frente a un mercado que hoy reserva
+por teléfono sin costo. Cobrar solo por resultado alinea el incentivo de
+LlamaEats con el del restaurante y elimina el riesgo percibido de "pagar
+por algo que no sé si va a funcionar".
 
 > **Mecanismo de conciliación.** Mientras no exista una pasarela de pago
 > integrada (debilidad identificada en el FODA, §7), el cobro sigue este
@@ -376,22 +450,32 @@ tiempo, apoyada en la campaña "Tu Mesa Te Espera".
 
 ### Plaza
 
-| Elemento | Descripción |
-|:---|:---|
-| **Canales** | Plataforma web propia, responsive e instalable como aplicación web progresiva, sin necesidad de tienda de aplicaciones. |
-| **Cobertura** | Puno ciudad, distritos turísticos aledaños al lago Titicaca (Chulluni, Salcedo, Acora, Platería, Paucarcolla) e islas de mayor flujo turístico (Amantaní, Taquile). |
-| **Intermediarios** | Ninguno en el sentido tradicional — modelo directo entre comensal y restaurante. Sí se buscan alianzas de distribución con hoteles y agencias de turismo, sin comisión adicional para ellos en esta etapa. |
-| **Logística** | No existe logística física; la "entrega" del servicio es la confirmación instantánea (código y QR) y la disponibilidad de la plataforma las 24 horas. |
+Los **canales** son la plataforma web propia, responsive e instalable como
+aplicación web progresiva, sin necesidad de tienda de aplicaciones. La
+**cobertura** abarca Puno ciudad, distritos turísticos aledaños al lago
+Titicaca (Chulluni, Salcedo, Acora, Platería, Paucarcolla) e islas de
+mayor flujo turístico (Amantaní, Taquile). No hay **intermediarios** en el
+sentido tradicional — el modelo es directo entre comensal y restaurante;
+sí se buscan alianzas de distribución con hoteles y agencias de turismo,
+sin comisión adicional para ellos en esta etapa. No existe **logística**
+física; la "entrega" del servicio es la confirmación instantánea (código y
+QR) y la disponibilidad de la plataforma las 24 horas.
 
 ### Promoción
 
-| Elemento | Descripción |
-|:---|:---|
-| **Publicidad** | Pauta digital segmentada en redes sociales, dirigida a quienes buscan "qué hacer en Puno" o "dónde comer en Puno", concentrada en temporada alta y previo a la Candelaria. |
-| **Redes sociales** | Instagram y Facebook con contenido de los restaurantes aliados; TikTok con video corto de lo simple que es reservar. |
-| **Promoción** | Campaña de lanzamiento "Tu Mesa Te Espera", sin listas de espera ni contratos largos; código QR físico en cada local aliado. |
-| **Relaciones públicas** | Alianzas con hoteles, hostales y agencias de turismo; posible nota de prensa local sobre digitalización del turismo gastronómico puneño. |
-| **Comunicación** | Canal de soporte directo por WhatsApp Business, con tono cercano y coherente con el mensaje "Tu mesa te espera". |
+La **publicidad** es pauta digital segmentada en redes sociales, dirigida
+a quienes buscan "qué hacer en Puno" o "dónde comer en Puno", concentrada
+en temporada alta y previo a la Candelaria. En **redes sociales**,
+Instagram y Facebook muestran contenido de los restaurantes aliados;
+TikTok, video corto de lo simple que es reservar. La **promoción** central
+es la campaña de lanzamiento "Tu Mesa Te Espera", sin listas de espera ni
+contratos largos, con código QR físico en cada local aliado.
+
+En **relaciones públicas**, se buscan alianzas con hoteles, hostales y
+agencias de turismo, y una posible nota de prensa local sobre
+digitalización del turismo gastronómico puneño. La **comunicación** pasa
+por un canal de soporte directo por WhatsApp Business, con tono cercano y
+coherente con el mensaje "Tu mesa te espera".
 
 ---
 
@@ -405,21 +489,30 @@ tiempo, apoyada en la campaña "Tu Mesa Te Espera".
 
 ### Ficha técnica
 
-| Campo | Detalle |
-|:---|:---|
-| **Objetivo** | Validar si los comensales de Puno perciben como valiosa una reserva gratuita y confirmada al instante, y si los restaurantes se afiliarían a un modelo de comisión por reserva atendida. |
-| **Técnica utilizada** | Encuesta estructurada (preguntas cerradas, escala Likert), aplicada de forma presencial ("intercept") en la Plaza de Armas y el Malecón de Puno, más entrevistas breves a administradores de restaurantes. |
-| **Muestra** | 80 comensales (turistas nacionales, extranjeros y población local) y 5 administradores de restaurantes de las tres categorías del catálogo. |
+El **objetivo** es validar si los comensales de Puno perciben como valiosa
+una reserva gratuita y confirmada al instante, y si los restaurantes se
+afiliarían a un modelo de comisión por reserva atendida. La **técnica
+utilizada** es una encuesta estructurada (preguntas cerradas, escala
+Likert), aplicada de forma presencial ("intercept") en la Plaza de Armas y
+el Malecón de Puno, más entrevistas breves a administradores de
+restaurantes. La **muestra** es de 80 comensales (turistas nacionales,
+extranjeros y población local) y 5 administradores de restaurantes de las
+tres categorías del catálogo.
 
 ### Principales hallazgos
 
-| # | Hallazgo |
-|:---|:---|
-| 1 | El 78% de los encuestados reportó al menos una mala experiencia reservando mesa por teléfono en Puno (línea ocupada, sin confirmación, o llegar y no encontrar mesa). |
-| 2 | El 64% afirmó que reservaría con más frecuencia si pudiera ver la disponibilidad y confirmar al instante desde su celular. |
-| 3 | El 91% valoró positivamente que la reserva no tuviera ningún costo para el comensal. |
-| 4 | Cuatro de cinco administradores mostraron interés en probar la plataforma, con dudas sobre no-shows y sobre la claridad del cobro de la comisión. |
-| 5 | El 55% de los turistas encuestados dijo enterarse de dónde comer por recomendación de su hotel o guía de turismo. |
+1. El 78% de los encuestados reportó al menos una mala experiencia
+   reservando mesa por teléfono en Puno (línea ocupada, sin confirmación,
+   o llegar y no encontrar mesa).
+2. El 64% afirmó que reservaría con más frecuencia si pudiera ver la
+   disponibilidad y confirmar al instante desde su celular.
+3. El 91% valoró positivamente que la reserva no tuviera ningún costo
+   para el comensal.
+4. Cuatro de cinco administradores mostraron interés en probar la
+   plataforma, con dudas sobre no-shows y sobre la claridad del cobro de
+   la comisión.
+5. El 55% de los turistas encuestados dijo enterarse de dónde comer por
+   recomendación de su hotel o guía de turismo.
 
 ### Conclusiones
 
@@ -544,27 +637,55 @@ este cronograma con el modelo de demanda de §7.
 
 ## 16. Conclusiones
 
-| # | Conclusión |
-|:---|:---|
-| 1 | LlamaEats responde a una necesidad real y poco atendida en Puno: la falta de un canal digital confiable para reservar mesa, tanto para el turista con tiempo limitado como para el restaurante que hoy pierde clientes por una gestión manual de su agenda. |
-| 2 | El mercado objetivo elegido —turismo receptivo del lago Titicaca y restaurantes de las tres categorías identificadas— es lo suficientemente específico para lanzar con foco, con potencial de escalar hacia otras ciudades turísticas del sur peruano una vez validado el modelo. |
-| 3 | El modelo de ingresos por comisión sobre reservas efectivamente atendidas, sin costo alguno para el comensal, reduce las principales barreras de adopción de una plataforma nueva en ambos lados del mercado. |
-| 4 | Dado el presupuesto acotado, una estrategia de penetración enfocada en restaurantes ancla y alianzas con el ecosistema turístico resulta más viable en esta etapa que una campaña masiva de publicidad. |
-| 5 | El marketing digital y las herramientas de automatización y analítica ya integradas en el producto no son un complemento, sino la base misma de la propuesta de valor. |
-| 6 | Los objetivos numéricos del plan (reservas, tasa de atención y comisión) están ahora encadenados por un modelo de demanda bottom-up (§7), en vez de ser tres cifras estimadas por separado — esto permite recalibrar todo el plan con una sola fórmula si la ejecución real se desvía, en lugar de reajustar cada número de forma aislada. |
+1. LlamaEats responde a una necesidad real y poco atendida en Puno: la
+   falta de un canal digital confiable para reservar mesa, tanto para el
+   turista con tiempo limitado como para el restaurante que hoy pierde
+   clientes por una gestión manual de su agenda.
+2. El mercado objetivo elegido —turismo receptivo del lago Titicaca y
+   restaurantes de las tres categorías identificadas— es lo
+   suficientemente específico para lanzar con foco, con potencial de
+   escalar hacia otras ciudades turísticas del sur peruano una vez
+   validado el modelo.
+3. El modelo de ingresos por comisión sobre reservas efectivamente
+   atendidas, sin costo alguno para el comensal, reduce las principales
+   barreras de adopción de una plataforma nueva en ambos lados del
+   mercado.
+4. Dado el presupuesto acotado, una estrategia de penetración enfocada en
+   restaurantes ancla y alianzas con el ecosistema turístico resulta más
+   viable en esta etapa que una campaña masiva de publicidad.
+5. El marketing digital y las herramientas de automatización y analítica
+   ya integradas en el producto no son un complemento, sino la base misma
+   de la propuesta de valor.
+6. Los objetivos numéricos del plan (reservas, tasa de atención y
+   comisión) están ahora encadenados por un modelo de demanda bottom-up
+   (§7), en vez de ser tres cifras estimadas por separado — esto permite
+   recalibrar todo el plan con una sola fórmula si la ejecución real se
+   desvía, en lugar de reajustar cada número de forma aislada.
 
 ---
 
 ## 17. Recomendaciones
 
-| # | Recomendación |
-|:---|:---|
-| 1 | Priorizar la afiliación de restaurantes con alta visibilidad turística —vista al lago, peñas con show— como "anclas" que atraigan tanto a turistas como a otros restaurantes interesados en sumarse. |
-| 2 | Formalizar alianzas con al menos 3 a 5 hoteles o agencias de turismo antes del lanzamiento, dado que más de la mitad de los turistas decide dónde comer por recomendación de su alojamiento o guía. |
-| 3 | Comunicar con total claridad, hacia los restaurantes, cómo y cuándo se liquida la comisión, e implementar el escaneo de QR como verificación de asistencia (§8) para reducir la desconfianza inicial identificada en las entrevistas. |
-| 4 | Concentrar el esfuerzo de marketing en las fechas de mayor demanda —Candelaria y temporada alta de mayo a agosto— para captar el mayor volumen posible de nuevos usuarios con el presupuesto disponible. |
-| 5 | Validar con una investigación de mercado real —no hipotética— los supuestos de este plan antes de escalar la inversión en publicidad. |
-| 6 | Ejecutar primero una prueba piloto de pauta digital de S/200–300 (dentro del presupuesto ya asignado, §14) para medir el CAC real antes de comprometer el resto del gasto en publicidad, dado que el supuesto de ≈S/1.00 por usuario registrado aún no está validado con datos propios. |
+1. Priorizar la afiliación de restaurantes con alta visibilidad turística
+   —vista al lago, peñas con show— como "anclas" que atraigan tanto a
+   turistas como a otros restaurantes interesados en sumarse.
+2. Formalizar alianzas con al menos 3 a 5 hoteles o agencias de turismo
+   antes del lanzamiento, dado que más de la mitad de los turistas decide
+   dónde comer por recomendación de su alojamiento o guía.
+3. Comunicar con total claridad, hacia los restaurantes, cómo y cuándo se
+   liquida la comisión, e implementar el escaneo de QR como verificación
+   de asistencia (§8) para reducir la desconfianza inicial identificada
+   en las entrevistas.
+4. Concentrar el esfuerzo de marketing en las fechas de mayor demanda
+   —Candelaria y temporada alta de mayo a agosto— para captar el mayor
+   volumen posible de nuevos usuarios con el presupuesto disponible.
+5. Validar con una investigación de mercado real —no hipotética— los
+   supuestos de este plan antes de escalar la inversión en publicidad.
+6. Ejecutar primero una prueba piloto de pauta digital de S/200–300
+   (dentro del presupuesto ya asignado, §14) para medir el CAC real antes
+   de comprometer el resto del gasto en publicidad, dado que el supuesto
+   de ≈S/1.00 por usuario registrado aún no está validado con datos
+   propios.
 
 ---
 
