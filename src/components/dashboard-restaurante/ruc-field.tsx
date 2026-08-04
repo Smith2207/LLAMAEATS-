@@ -17,7 +17,7 @@ export function RucField<T extends FieldValues & { ruc: string }>({
   errors: FieldErrors<T>;
 }) {
   const [result, setResult] = useState<
-    | { found: true; razonSocial: string; estado: string; condicion: string }
+    | { found: true; razonSocial: string; estado: string; condicion: string; direccion?: string }
     | { found: false }
     | null
   >(null);
@@ -62,9 +62,17 @@ export function RucField<T extends FieldValues & { ruc: string }>({
           <FieldError errors={[errors.ruc as { message?: string } | undefined]} />
 
           {result?.found && (
-            <p className="mt-1 flex items-center gap-1.5 text-sm text-success">
-              <CheckCircle2 className="size-4 shrink-0" />
-              {result.razonSocial} · {result.estado} · {result.condicion}
+            <p className="mt-1 flex items-start gap-1.5 text-sm text-success">
+              <CheckCircle2 className="mt-0.5 size-4 shrink-0" />
+              <span>
+                {result.razonSocial} · {result.estado} · {result.condicion}
+                {result.direccion && (
+                  <>
+                    <br />
+                    {result.direccion}
+                  </>
+                )}
+              </span>
             </p>
           )}
           {result && !result.found && (
