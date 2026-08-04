@@ -34,7 +34,7 @@ export default async function OpengraphImage() {
             textTransform: "uppercase",
           }}
         >
-          Campaña Tu Mesa Te Espera
+          Campaña &quot;Tu Mesa Te Espera&quot;
         </div>
         <div
           style={{

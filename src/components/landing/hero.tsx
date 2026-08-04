@@ -38,7 +38,7 @@ export function Hero({
       <div className="mx-auto grid w-full max-w-6xl items-center gap-12 px-4 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="flex flex-col items-center gap-6 text-center lg:items-start lg:text-left">
           <span className="glass rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-terracota-400">
-            Campaña {CAMPAIGN_NAME}
+            Campaña &quot;{CAMPAIGN_NAME}&quot;
           </span>
 
           <SplitTextReveal
