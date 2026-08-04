@@ -159,7 +159,16 @@ export default async function AdminRestaurantDetailPage({
               }`}
             >
               <FileCheck className="size-4 shrink-0" />
-              Licencia {restaurant.municipalLicenseNumber} — vence {restaurant.municipalLicenseExpiresAt}
+              Licencia {restaurant.municipalLicenseNumber} — vence{" "}
+              {restaurant.municipalLicenseExpiresAt} ·{" "}
+              <a
+                href={restaurant.municipalLicenseUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="underline"
+              >
+                ver documento
+              </a>
             </p>
           ) : (
             <p className="flex items-center gap-1.5 text-muted-foreground">
@@ -176,7 +185,15 @@ export default async function AdminRestaurantDetailPage({
               }`}
             >
               <FileCheck className="size-4 shrink-0" />
-              Certificado sanitario — vence {restaurant.healthCertificateExpiresAt}
+              Certificado sanitario — vence {restaurant.healthCertificateExpiresAt} ·{" "}
+              <a
+                href={restaurant.healthCertificateUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="underline"
+              >
+                ver documento
+              </a>
             </p>
           ) : (
             <p className="flex items-center gap-1.5 text-muted-foreground">
