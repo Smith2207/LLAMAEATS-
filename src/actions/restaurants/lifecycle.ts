@@ -74,6 +74,24 @@ export const deactivateByOwnerAction = roleActionClient("restaurante")
     return { ok: true };
   });
 
+// aprobada → activa antes de que se cumpla el plazo (normalmente lo hace
+// solo el cron `graduateTrials`, §3.4): un admin puede graduar manualmente
+// un restaurante en prueba que ya demostró funcionar bien.
+export const graduateNowAction = roleActionClient("admin")
+  .inputSchema(restaurantIdSchema)
+  .action(async ({ parsedInput }) => {
+    const [updated] = await db
+      .update(restaurants)
+      .set({ status: "activa", updatedAt: new Date() })
+      .where(and(eq(restaurants.id, parsedInput.restaurantId), eq(restaurants.status, "aprobada")))
+      .returning({ id: restaurants.id });
+
+    if (!updated) throw new Error("Solo se puede activar un restaurante que está en período de prueba.");
+
+    revalidatePath("/admin/restaurantes");
+    return { ok: true };
+  });
+
 // Suspensión impuesta por la plataforma (manual o desde vigilancia
 // continua) — distinta de la pausa self-service: solo un admin puede
 // levantarla.

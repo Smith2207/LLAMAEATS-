@@ -22,7 +22,11 @@ import {
   observeApplicationAction,
   rejectApplicationAction,
 } from "@/actions/restaurants/review-application";
-import { reactivateRestaurantAction, suspendRestaurantAction } from "@/actions/restaurants/lifecycle";
+import {
+  graduateNowAction,
+  reactivateRestaurantAction,
+  suspendRestaurantAction,
+} from "@/actions/restaurants/lifecycle";
 
 type Restaurant = {
   id: string;
@@ -86,6 +90,10 @@ export function ModerationActions({
   });
   const suspend = useAction(suspendRestaurantAction, {
     onSuccess: onSuccess("Restaurante suspendido."),
+    onError,
+  });
+  const graduate = useAction(graduateNowAction, {
+    onSuccess: onSuccess("Restaurante activado."),
     onError,
   });
   const reactivate = useAction(reactivateRestaurantAction, {
@@ -194,15 +202,27 @@ export function ModerationActions({
 
   if (["aprobada", "activa", "pausada"].includes(restaurant.status)) {
     return (
-      <Button
-        variant="outline"
-        className="gap-2 text-destructive"
-        disabled={suspend.isExecuting}
-        onClick={() => suspend.execute({ restaurantId: restaurant.id })}
-      >
-        <X className="size-4" />
-        {suspend.isExecuting ? "Suspendiendo..." : "Suspender"}
-      </Button>
+      <div className="flex flex-wrap gap-3">
+        {restaurant.status === "aprobada" && (
+          <Button
+            className="gap-2"
+            disabled={graduate.isExecuting}
+            onClick={() => graduate.execute({ restaurantId: restaurant.id })}
+          >
+            <Check className="size-4" />
+            {graduate.isExecuting ? "Activando..." : "Activar ahora"}
+          </Button>
+        )}
+        <Button
+          variant="outline"
+          className="gap-2 text-destructive"
+          disabled={suspend.isExecuting}
+          onClick={() => suspend.execute({ restaurantId: restaurant.id })}
+        >
+          <X className="size-4" />
+          {suspend.isExecuting ? "Suspendiendo..." : "Suspender"}
+        </Button>
+      </div>
     );
   }
 
