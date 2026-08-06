@@ -8,7 +8,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { getAvailableSlotsAction } from "@/actions/reservations/get-availability";
+import { MAX_BOOKING_LEAD_DAYS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
+
+function maxBookingDate(): string {
+  const d = new Date();
+  d.setDate(d.getDate() + MAX_BOOKING_LEAD_DAYS);
+  return d.toISOString().slice(0, 10);
+}
 
 export function StepDateTimeGuests({
   restaurantId,
@@ -47,6 +54,7 @@ export function StepDateTimeGuests({
             id="date"
             type="date"
             min={new Date().toISOString().slice(0, 10)}
+            max={maxBookingDate()}
             value={date}
             onChange={(e) => {
               setDate(e.target.value);

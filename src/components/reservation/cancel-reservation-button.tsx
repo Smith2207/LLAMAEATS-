@@ -14,11 +14,24 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { cancelReservationAction } from "@/actions/reservations/cancel-reservation";
+import { FREE_CANCELLATION_WINDOW_HOURS } from "@/lib/constants";
+import { reservationInstant } from "@/lib/reservations/time";
 import { useState } from "react";
 
-export function CancelReservationButton({ code }: { code: string }) {
+export function CancelReservationButton({
+  code,
+  date,
+  timeSlot,
+}: {
+  code: string;
+  date: string;
+  timeSlot: string;
+}) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
+
+  const hoursUntil = (reservationInstant(date, timeSlot).getTime() - Date.now()) / (1000 * 60 * 60);
+  const eligibleForRefund = hoursUntil > FREE_CANCELLATION_WINDOW_HOURS;
 
   const { execute, isExecuting } = useAction(cancelReservationAction, {
     onSuccess() {
@@ -40,7 +53,9 @@ export function CancelReservationButton({ code }: { code: string }) {
         <DialogHeader>
           <DialogTitle>¿Cancelar esta reserva?</DialogTitle>
           <DialogDescription>
-            Puedes cancelar sin costo en cualquier momento antes de la hora reservada.
+            {eligibleForRefund
+              ? "Se te reembolsará el pago de la reserva."
+              : `Faltan menos de ${FREE_CANCELLATION_WINDOW_HOURS} horas para tu reserva, así que no aplica reembolso.`}
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>

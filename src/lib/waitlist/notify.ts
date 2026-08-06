@@ -2,6 +2,7 @@ import { and, eq, inArray } from "drizzle-orm";
 import { db } from "@/db";
 import { restaurants, users, waitlistEntries } from "@/db/schema";
 import { hasAvailableTable } from "@/lib/reservations/availability";
+import { isWithinBookingLeadWindow } from "@/lib/reservations/time";
 import { sendWaitlistSlotAvailableEmail } from "@/lib/email/send";
 
 /**
@@ -14,6 +15,11 @@ import { sendWaitlistSlotAvailableEmail } from "@/lib/email/send";
  * el único guardia real contra doble reserva.
  */
 export async function notifyWaitlistIfSlotFreed(restaurantId: string, date: string, timeSlot: string) {
+  // Si ese horario ya no se puede reservar (pasó o está fuera de la
+  // ventana de antelación mínima), avisar solo generaría un email que
+  // termina en error al intentar reservar — mejor no notificar.
+  if (!isWithinBookingLeadWindow(date, timeSlot)) return;
+
   const waiting = await db.query.waitlistEntries.findMany({
     where: and(
       eq(waitlistEntries.restaurantId, restaurantId),

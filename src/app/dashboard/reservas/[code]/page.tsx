@@ -50,7 +50,11 @@ export default async function ReservationDetailPage({
           <Button asChild variant="outline">
             <Link href={`/dashboard/reservas/${reservation.code}/reprogramar`}>Reprogramar</Link>
           </Button>
-          <CancelReservationButton code={reservation.code} />
+          <CancelReservationButton
+            code={reservation.code}
+            date={reservation.date}
+            timeSlot={reservation.timeSlot}
+          />
         </div>
       )}
 

@@ -92,6 +92,7 @@ export function ReservationWizard({
                 guests={state.guests}
                 onBack={() => setStep(1)}
                 onNext={(tableId) => {
+                  if (isExecuting) return;
                   setState((s) => ({ ...s, tableId }));
                   createReservation({
                     restaurantId,
